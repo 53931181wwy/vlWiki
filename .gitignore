@@ -1,0 +1,12 @@
+# 图像文件（测试输出）
+**/*.png 
+
+# Python 编译文件
+**/*.pyc
+**/__pycache__/
+**/*.pyo
+
+# macOS 系统文件
+.DS_Store
+**/.DS_Store
+ 
