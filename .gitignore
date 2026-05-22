@@ -6,6 +6,12 @@
 **/__pycache__/
 **/*.pyo
 
+# 临时工具脚本
+scripts/_inspect.py
+
+# PDF 提取文本（临时/分析用）
+**/*_fulltext.txt
+
 # macOS 系统文件
 .DS_Store
 **/.DS_Store

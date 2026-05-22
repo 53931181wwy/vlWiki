@@ -317,7 +317,16 @@ def generate_vulnerability_page(vuln_type: Dict, output_dir: str, report_date: s
     if cve_list and isinstance(cve_list, list) and len(cve_list) > 0:
         cve_yaml = json.dumps(cve_list, ensure_ascii=False)
     else:
-        cve_yaml = "[]"
+        cve_yaml = "null"
+
+    # 格式化cwe为YAML多行列表
+    cwe_list = vuln_type.get('cwe', [])
+    if not isinstance(cwe_list, list):
+        cwe_list = [cwe_list] if cwe_list else []
+    if cwe_list:
+        cwe_yaml = 'cwe:\n' + '\n'.join([f'  - "{c}"' for c in cwe_list])
+    else:
+        cwe_yaml = 'cwe: null'
 
     # ===== 获取正文字段 =====
     description = vuln_type.get('description', '')
@@ -340,6 +349,18 @@ def generate_vulnerability_page(vuln_type: Dict, output_dir: str, report_date: s
     else:
         revision_section = "[具体可操作的修复方案，包括：\n- 代码层面修复\n- 配置层面修复\n- 架构层面建议]\n"
 
+    # 构建修复方法补充字段（来自修复方法章节）
+    remediation_extra = ''
+    risk_text = vuln_type.get('risk', '')
+    affected_text = vuln_type.get('affected_products', '')
+    refs_text = vuln_type.get('references', '')
+    if risk_text:
+        remediation_extra += f"\n### 风险\n{risk_text}\n"
+    if affected_text:
+        remediation_extra += f"\n### 受影响产品\n{affected_text}\n"
+    if refs_text:
+        remediation_extra += f"\n### 外部引用\n{refs_text}\n"
+
     # 生成Markdown内容
     content = f"""---
 title: {title_yaml}
@@ -350,6 +371,7 @@ date_discovered: "{report_date}"
 type: {type_yaml}
 status: "待修复"
 cve: {cve_yaml}
+{cwe_yaml}
 tags:
 {tags_yaml_lines}
 system:
@@ -362,7 +384,7 @@ vulnerability_category: {category_yaml}
 ## 漏洞描述
 {desc_section}
 ## 修复建议
-{revision_section}
+{revision_section}{remediation_extra}\
 """
 
     # 生成"受影响实例"章节
@@ -376,8 +398,7 @@ vulnerability_category: {category_yaml}
         screenshot_name = f"{vl_id}_p{start_page}.png"
         screenshot_abs_path = screenshots_dir / screenshot_name
 
-        if not screenshot_abs_path.exists():
-            screenshot_page(pdf_path, start_page, str(screenshot_abs_path))
+        screenshot_page(pdf_path, start_page, str(screenshot_abs_path))
 
         if screenshot_abs_path.exists():
             screenshot_path_rel = f"../assets/screenshots/{screenshot_name}"
@@ -424,14 +445,14 @@ vulnerability_category: {category_yaml}
 {raw_section}
 ## 沟通记录
 ### 建设方拒绝修复
-[如建设方拒绝修复，记录：
+如建设方拒绝修复，记录：
 - 拒绝日期
 - 拒绝理由
 - 建设方提供的"替代措施"
 - 风险评估
 
 ### 检测方回复策略
-[我方针对拒绝的回复策略]
+我方针对拒绝的回复策略
 
 ## 状态追踪
 - [x] {report_date} 初次发现
@@ -531,10 +552,16 @@ def import_report(file_path: str, report_type: str = 'appscan',
     # 3. 解析漏洞实例
     
     try:
-        parser = get_parser(report_type)
+        parser = get_parser(report_type, skip_low=skip_low)
         
         full_text = "\n\n".join([f"[VLWIKI_PAGE_SEPARATOR:{page['page']}]\n{page['text']}" for page in pages])
-        
+
+        # 输出 fulltxt.txt 到 PDF 同目录，便于调试
+        pdf_dir = Path(file_path).parent
+        fulltxt_path = pdf_dir / "fulltxt.txt"
+        fulltxt_path.write_text(full_text, encoding='utf-8')
+        print(f"完整文本已输出: {fulltxt_path}")
+
         if hasattr(parser, 'parse'):
             vulnerabilities = parser.parse(full_text, pdf_path=file_path)
         else:

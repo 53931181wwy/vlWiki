@@ -69,6 +69,10 @@ def save_parser_output(vulnerabilities: Dict, output_path: str = None, report_pa
         for field in ['cvss_score', 'cve', 'cause', 'revision']:
             if field in vuln_type and vuln_type[field] is not None:
                 type_info[field] = vuln_type[field]
+        # 添加修复方法补充字段
+        for field in ['risk', 'affected_products', 'cwe', 'references']:
+            if field in vuln_type and vuln_type[field] is not None:
+                type_info[field] = vuln_type[field]
         
         # 处理每个实例（精简输出：只保留实例特有字段）
         for i, instance in enumerate(vuln_type.get('instances', [])):
