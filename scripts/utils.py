@@ -1,100 +1,102 @@
 """
 vlWiki Skill - 工具函数模块
-包含通用工具函数，如文件操作、路径处理、YAML frontmatter解析等。
+包含 YAML frontmatter 解析、文件操作、路径处理等通用工具。
 """
 
 import os
 import re
+import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
+# ---------------------------------------------------------------------------
+# 知识库默认路径
+# ---------------------------------------------------------------------------
 
-def parse_frontmatter_simple(content: str) -> Tuple[Dict, str]:
-    """简单解析Markdown文件的YAML frontmatter（不依赖外部库）
-    
+VAULT_ROOT = r"D:\Users\个人项目\wb\vlWiki"
+WIKI_DIR = VAULT_ROOT                         # 知识库根目录
+WIKI_ROOT = os.path.join(VAULT_ROOT, "wiki")  # wiki 子目录
+VULN_DIR = os.path.join(WIKI_ROOT, "vulnerabilities")
+TYPE_DIR = os.path.join(WIKI_ROOT, "vulnerability-types")
+SYSTEM_DIR = os.path.join(WIKI_ROOT, "systems")
+RAW_DIR = os.path.join(WIKI_ROOT, "raw")
+
+
+# ---------------------------------------------------------------------------
+# YAML frontmatter 解析（支持多行列表格式）
+# ---------------------------------------------------------------------------
+
+def parse_frontmatter(content: str) -> Tuple[Dict, str]:
+    """解析 Markdown 文件的 YAML frontmatter
+
     Args:
-        content: Markdown文件内容
-        
+        content: Markdown 文件内容
+
     Returns:
         (frontmatter_dict, body_text)
     """
     lines = content.split('\n')
-    
     if len(lines) < 3 or lines[0].strip() != '---':
         return {}, content
-    
+
     fm_end = -1
     for i in range(1, len(lines)):
         if lines[i].strip() == '---':
             fm_end = i
             break
-    
     if fm_end == -1:
         return {}, content
-    
-    # 简单解析YAML（支持键值对和简单数组）
-    fm_dict = {}
-    for line in lines[1:fm_end]:
-        line = line.strip()
-        if not line or line.startswith('#'):
+
+    fm_dict: Dict = {}
+    i = 1
+    while i < fm_end:
+        line = lines[i]
+        stripped = line.strip()
+        if not stripped or stripped.startswith('#'):
+            i += 1
             continue
-        
-        if ':' in line:
-            key, value = line.split(':', 1)
+        if ':' in stripped:
+            key, rest = stripped.split(':', 1)
             key = key.strip()
-            value = value.strip()
-            
-            # 处理数组（简单格式）
-            if value.startswith('[') and value.endswith(']'):
-                # 简单解析数组
-                array_str = value[1:-1]
-                array_items = [item.strip().strip('"').strip("'") for item in array_str.split(',')]
-                fm_dict[key] = [item for item in array_items if item]
-            else:
-                # 去除引号
-                value = value.strip('"').strip("'")
-                fm_dict[key] = value
-    
-    body = '\n'.join(lines[fm_end+1:])
-    
+            rest = rest.strip()
+            if rest.startswith('[') and rest.endswith(']'):
+                inner = rest[1:-1]
+                items = [it.strip().strip('"').strip("'") for it in inner.split(',')]
+                fm_dict[key] = [it for it in items if it]
+                i += 1
+                continue
+            if rest == '' and i + 1 < fm_end:
+                next_stripped = lines[i + 1].strip()
+                if next_stripped.startswith('- '):
+                    lst = []
+                    i += 1
+                    while i < fm_end:
+                        item_line = lines[i].strip()
+                        if item_line.startswith('- '):
+                            val = item_line[2:].strip().strip('"').strip("'")
+                            lst.append(val)
+                            i += 1
+                        else:
+                            break
+                    fm_dict[key] = lst
+                    continue
+            fm_dict[key] = rest.strip('"').strip("'")
+            i += 1
+            continue
+        i += 1
+
+    body = '\n'.join(lines[fm_end + 1:])
     return fm_dict, body
 
 
-def write_frontmatter_file(filepath: str, fm_dict: Dict, body: str) -> bool:
-    """写入带YAML frontmatter的Markdown文件
-    
-    Args:
-        filepath: 文件路径
-        fm_dict: frontmatter字典
-        body: 正文内容
-        
-    Returns:
-        是否成功写入
-    """
-    try:
-        # 构建YAML frontmatter
-        fm_lines = []
-        for key, value in fm_dict.items():
-            if isinstance(value, list):
-                # 数组格式
-                array_str = ', '.join([f'"{item}"' for item in value])
-                fm_lines.append(f"{key}: [{array_str}]")
-            else:
-                # 字符串格式
-                fm_lines.append(f'{key}: "{value}"')
-        
-        # 组合文件内容
-        content = '---\n' + '\n'.join(fm_lines) + '\n---\n\n' + body
-        
-        # 写入文件
-        with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(content)
-        
-        return True
-    
-    except Exception as e:
-        print(f"错误：写入文件失败：{e}")
-        return False
+# ---------------------------------------------------------------------------
+# YAML 字符串转义
+# ---------------------------------------------------------------------------
+
+def escape_yaml_string(s: str) -> str:
+    """转义 YAML 字符串 - 使用单引号，内部的单引号转义为两个单引号"""
+    escaped = s.replace("'", "''")
+    return f"'{escaped}'"
 
 
 def find_vl_files(directory: str) -> List[str]:
@@ -142,14 +144,16 @@ def get_next_vl_id(vuln_dir: str) -> str:
     Returns:
         下一个VL编号（如 VL-2026-025）
     """
+    import datetime
     vl_files = find_vl_files(vuln_dir)
     
     if not vl_files:
-        return "VL-2026-001"
+        current_year = str(datetime.datetime.now().year)
+        return f"VL-{current_year}-001"
     
     # 提取所有VL编号中的最大序号
     max_seq = 0
-    current_year = "2026"  # 当前年份
+    current_year = str(datetime.datetime.now().year)
     
     for filepath in vl_files:
         filename = os.path.basename(filepath)

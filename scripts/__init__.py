@@ -1,10 +1,12 @@
 # vlWiki Skill - 脚本模块
-# 包含报告导入、解析器、修复工具等
+# 三阶段工作流：report2json → json2wiki → update_index
 
 from . import parsers
 from . import fix_system_info
 from . import update_index
-from . import import_report
+from . import report2json
+from . import json2wiki
 from . import utils
+from . import query
 
-__all__ = ['parsers', 'fix_system_info', 'update_index', 'import_report', 'utils']
+__all__ = ['parsers', 'fix_system_info', 'update_index', 'report2json', 'json2wiki', 'utils', 'query']

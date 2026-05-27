@@ -1,37 +1,34 @@
 """
-AppScan报告解析器
-重构自: C:\\Users\\stc\\WorkBuddy\\Claw\\parse_appscan_fixed_v3.py
-主要改进：
-1. 封装为类 AppScanParser
-2. 支持从 document-reader 输出读取（而不是直接读PDF）
-3. 保留现有逻辑：严重性解析、实例提取、系统信息提取
-4. 添加 vulnerability_category 字段（默认"应用系统漏洞"）
-5. 记录每个漏洞实例的起始页码（用于截图）
-6. 移除 request/response 解析（不再需要）
+AppScan PDF 报告解析器
+解析 PDF 格式的 AppScan 漏洞报告。
+
+设计说明：
+- 解析器命名：{tool}_{format}_parser.py
+- 输入：通过 document-reader 提取的带页码标签的纯文本
+- 输出：结构化 Python dict（非 JSON 文件）
+- JSON 输出由 report2json.py（阶段1）负责
 """
 
 import re
 import json
-from typing import List, Dict, Optional
+from difflib import SequenceMatcher
+from typing import List, Dict, Optional, Set
 
 
-class AppScanParser:
-    """AppScan报告解析器"""
+class AppScanPDFParser:
+    """AppScan PDF 格式报告解析器"""
 
     def __init__(self, skip_low=True):
         """
-        初始化解析器
-
         Args:
             skip_low: 是否跳过低危漏洞（默认True）
         """
         self.skip_low = skip_low
-        self.vulnerability_category = "应用系统漏洞"  # 默认漏洞大类
+        self.vul_category = "应用系统漏洞"
 
     def extract_system_info_from_text(self, text: str) -> str:
         """从文本中提取系统名称（扫描文件名称）"""
         try:
-            # 查找"扫描文件名称"或"扫描文件"模式
             patterns = [
                 r'扫描文件名称[：:]\s*([^\n]+)',
                 r'扫描文件[：:]\s*([^\n]+)',
@@ -41,7 +38,6 @@ class AppScanParser:
                 match = re.search(pattern, text)
                 if match:
                     system_name = match.group(1).strip()
-                    # 清理可能的多余字符（如日期、页码等）
                     system_name = re.sub(r'\d{4}/\d{1,2}/\d{1,2}.*', '', system_name)
                     system_name = system_name.strip()
                     if system_name:
@@ -50,21 +46,104 @@ class AppScanParser:
         except Exception as e:
             print(f"警告: 提取系统信息失败: {e}")
 
-        # 默认返回未知系统
         return "未知系统"
 
-    def parse_vulnerability_instances(self, text: str) -> List[Dict]:
-        """解析漏洞实例 - 支持多行格式，正确处理"紧急"严重性"""
+    def extract_scan_start_time(self, text: str) -> str:
+        """从 PDF 第一页提取「扫描开始时间」完整日期+时间字符串。
+
+        典型输入：「扫描开始时间： 2026/3/17 10:11:30」
+        返回格式：YYYY-MM-DD HH:MM:SS
+        """
+        m = re.search(
+            r'扫描开始时间[：:]\s*(\d{4})/(\d{1,2})/(\d{1,2})\s+(\d{2}):(\d{2}):(\d{2})',
+            text
+        )
+        if m:
+            return f"{m.group(1)}-{m.group(2).zfill(2)}-{m.group(3).zfill(2)} {m.group(4)}:{m.group(5)}:{m.group(6)}"
+        return ""
+
+    def extract_vuln_types_from_toc(self, text: str) -> Set[str]:
+        """从目录提取合法漏洞类型名集合。
+
+        目录区段位于「按问题类型分组的问题」到「修复方法」之间（首次出现）。
+        每行为「漏洞类型名 + 可选实例数」，提取名称部分去重返回。
+        """
+        toc_start = text.find('按问题类型分组的问题')
+        if toc_start == -1:
+            return set()
+
+        toc_end = text.find('修复方法', toc_start)
+        if toc_end == -1:
+            return set()
+
+        toc_chunk = text[toc_start:toc_end]
+        toc_clean = re.sub(r'\[VLWIKI_PAGE_SEPARATOR:\d+\]', '\n', toc_chunk)
+        lines = toc_clean.strip().split('\n')
+
+        valid_types: Set[str] = set()
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            if line.upper() == 'TOC':
+                continue
+            if re.match(r'^\d+$', line):
+                continue
+            if re.match(r'^\d{4}/\d{1,2}/\d{1,2}', line):
+                continue
+            if line == '按问题类型分组的问题':
+                continue
+            # 去掉末尾的实例个数
+            name = re.sub(r'\s+\d+\s*$', '', line).strip()
+            if name and re.search(r'[\u4e00-\u9fff]', name):
+                valid_types.add(name)
+
+        return valid_types
+
+    @staticmethod
+    def _fuzzy_match_type(candidate: str, valid_types: Set[str], threshold: float = 0.7) -> Optional[str]:
+        """候选文本与合法类型名的模糊匹配，返回匹配到的类型名或 None。"""
+        if not candidate or not valid_types:
+            return None
+
+        # 1. 精确匹配
+        if candidate in valid_types:
+            return candidate
+
+        # 2. candidate 包含某个合法类型名
+        for vt in valid_types:
+            if vt in candidate:
+                return vt
+
+        # 3. 合法类型名包含 candidate
+        for vt in valid_types:
+            if candidate in vt:
+                return vt
+
+        # 4. 序列相似度匹配
+        for vt in valid_types:
+            if SequenceMatcher(None, candidate, vt).ratio() >= threshold:
+                return vt
+
+        return None
+
+    def parse_vulnerability_instances(self, text: str,
+                                       valid_types: Optional[Set[str]] = None) -> List[Dict]:
+        """解析漏洞实例。
+
+        Args:
+            text: PDF 提取的纯文本
+            valid_types: 从目录提取的合法漏洞类型名集合，用于校验 type 字段
+        """
         instances = []
 
-        # 使用 finditer 保留分页符中的页码
         page_sep_re = re.compile(
             r'\[VLWIKI_PAGE_SEPARATOR:(\d+)\]\n(.*?)(?=\[VLWIKI_PAGE_SEPARATOR:\d+\]|\Z)',
             re.DOTALL
         )
 
         current_instance = None
-        current_field = None  # 当前正在解析的字段（多行格式）
+        current_field = None
         expecting_vuln_type = False
         current_page = 0
 
@@ -80,9 +159,7 @@ class AppScanParser:
             while i < len(lines):
                 line = lines[i].strip()
 
-                # 检测新的漏洞实例（格式：问题   X   /   Y）
                 if re.match(r'问题\s+\d+\s+/\s+\d+', line):
-                    # 保存上一个实例
                     if current_instance:
                         if self.skip_low:
                             if current_instance.get('severity') not in ['低', '信息', '提示']:
@@ -90,60 +167,63 @@ class AppScanParser:
                         else:
                             instances.append(current_instance)
 
-                    # 开始新实例，记录起始页码
                     current_instance = {
                         'type': None,
                         'severity': None,
                         'cvss_score': None,
-                        'url': [],  # 改为列表，支持多个URL
+                        'url': [],
                         'cause': None,
                         'revision': None,
-                        'cve': [],  # 改为列表，支持多个CVE
+                        'cve': [],
                         'wasc': None,
-                        'start_page': current_page,  # 记录该实例所在的PDF页码
+                        'start_page': current_page,
                     }
                     current_field = None
                     expecting_vuln_type = True
                     i += 1
                     continue
 
-                # 期望漏洞类型名称（"问题"行的下一非空白行）
                 if expecting_vuln_type and line:
-                    # 检查是否是日期行（如"2026/3/17"），如果是则跳过
+                    # 跳过噪声行
                     if re.match(r'\d{4}/\d{1,2}/\d{1,2}', line):
                         i += 1
                         continue
-                    # 检查是否是纯数字行，如果是则跳过
                     if re.match(r'^\d+$', line):
                         i += 1
                         continue
-                    # 检查是否是"TOC"（目录），如果是则跳过
                     if line.upper() == 'TOC':
                         i += 1
                         continue
-                    # 检查是否是页码行（如"16 页 ---"），如果是则跳过
                     if re.match(r'^\d+\s*页\s*---$', line):
                         i += 1
                         continue
-                    # 检查是否包含中文字符或英文字母（漏洞类型名称应该包含这些）
-                    if re.search(r'[\u4e00-\u9fff]', line) or re.search(r'[a-zA-Z]', line):
-                        current_instance['type'] = line
-                        expecting_vuln_type = False
+
+                    # 有合法类型列表时，用 TOC 类型做校验
+                    if valid_types:
+                        matched = self._fuzzy_match_type(line, valid_types)
+                        if matched:
+                            current_instance['type'] = matched
+                            expecting_vuln_type = False
+                        else:
+                            # 不匹配任何合法类型 → 噪声，继续找
+                            i += 1
+                            continue
                     else:
-                        # 不是漏洞类型名称，跳过
-                        i += 1
-                        continue
+                        # 无 TOC 列表时回退到旧启发式
+                        if re.search(r'[\u4e00-\u9fff]', line) or re.search(r'[a-zA-Z]', line):
+                            current_instance['type'] = line
+                            expecting_vuln_type = False
+                        else:
+                            i += 1
+                            continue
                     i += 1
                     continue
 
-                # 检测字段标签（支持同行值和跨行值两种格式）
                 if line.startswith('严重性') or line.startswith('严重性：'):
-                    # 只有在漏洞实例内部才处理字段标签
                     if not current_instance:
                         i += 1
                         continue
                     current_field = 'severity'
-                    # 检查是否在同一行有值（兼容中文冒号 ： 和英文冒号 :）
                     value_extracted = False
                     for sep in ['：', ':']:
                         if sep in line:
@@ -162,17 +242,14 @@ class AppScanParser:
                                     current_instance['severity'] = value
                                 current_field = None
                                 value_extracted = True
-                            break  # 找到冒号就停止尝试
+                            break
                     if value_extracted:
                         i += 1
                         continue
-                    # 同行无值 → current_field 保持为 'severity'
-                    # 下一行进入多行收集逻辑（第 234 行起）
                     i += 1
                     continue
 
                 elif line.startswith('CVSS 分数') or line.startswith('CVSS 分数：'):
-                    # 只有在漏洞实例内部才处理字段标签
                     if not current_instance:
                         i += 1
                         continue
@@ -188,7 +265,6 @@ class AppScanParser:
                     continue
 
                 elif line.startswith('URL') or line.startswith('URL：'):
-                    # 只有在漏洞实例内部才处理字段标签
                     if not current_instance:
                         i += 1
                         continue
@@ -197,7 +273,6 @@ class AppScanParser:
                         if sep in line:
                             parts = line.split(sep, 1)
                             if len(parts) > 1 and parts[1].strip():
-                                # 改为追加到列表，支持多个URL
                                 if not isinstance(current_instance['url'], list):
                                     current_instance['url'] = []
                                 current_instance['url'].append(parts[1].strip())
@@ -207,7 +282,6 @@ class AppScanParser:
                     continue
 
                 elif line.startswith('原因') or line.startswith('原因：'):
-                    # 只有在漏洞实例内部才处理字段标签
                     if not current_instance:
                         i += 1
                         continue
@@ -223,7 +297,6 @@ class AppScanParser:
                     continue
 
                 elif line.startswith('固定值') or line.startswith('修订建议') or line.startswith('固定值：') or line.startswith('修订建议：'):
-                    # 只有在漏洞实例内部才处理字段标签
                     if not current_instance:
                         i += 1
                         continue
@@ -238,7 +311,6 @@ class AppScanParser:
                     i += 1
                     continue
 
-                # 处理当前字段的值（多行格式的下一行）
                 if current_field and line:
                     if current_field == 'severity':
                         if not current_instance:
@@ -292,7 +364,6 @@ class AppScanParser:
                     i += 1
                     continue
 
-                # 提取CVE（支持多个CVE）
                 if 'CVE-' in line:
                     cve_matches = re.finditer(r'CVE-\d+-\d+', line)
                     for cve_match in cve_matches:
@@ -300,7 +371,6 @@ class AppScanParser:
                             current_instance['cve'] = []
                         current_instance['cve'].append(cve_match.group(0))
 
-                # 提取WASC
                 if 'WASC-' in line:
                     wasc_match = re.search(r'WASC-\d+', line)
                     if wasc_match:
@@ -308,7 +378,6 @@ class AppScanParser:
 
                 i += 1
 
-        # 保存最后一个实例
         if current_instance:
             if self.skip_low:
                 if current_instance.get('severity') not in ['低', '信息', '提示']:
@@ -319,17 +388,7 @@ class AppScanParser:
         return instances
 
     def _extract_remediation_section(self, text: str, type_names: List[str]) -> List[Dict]:
-        """提取修复方法章节（计数驱动，通用）
-
-        Args:
-            text: 去除分页符后的完整文本
-            type_names: 前面章节的漏洞类型名列表（有序，高→低）
-
-        Returns:
-            [{cause, risk, affected_products, revision, cwe, references}, ...]
-            长度 = len(type_names)，与 type_names 按位置对应
-        """
-        # 1. 定位修复方法章节：用 rfind 取最后一次出现
+        """提取修复方法章节（计数驱动，通用）"""
         anchor = text.rfind('修复方法')
         if anchor == -1:
             return [{}] * len(type_names)
@@ -337,7 +396,6 @@ class AppScanParser:
         remaining = text[anchor:]
         clean = re.sub(r'\[VLWIKI_PAGE_SEPARATOR:\d+\]', '\n', remaining)
 
-        # 2. 按类型名分块
         results = []
         cur_pos = 0
         for idx, name in enumerate(type_names):
@@ -371,21 +429,12 @@ class AppScanParser:
         return results
 
     def _clean_cwe_field(self, text: str) -> List[str]:
-        """清洗 CWE 字段：保留有效 CWE 编号，剔除页码等噪声
-
-        可靠策略（不依赖数字大小，避免误删两位数 CWE）：
-        1. 在原始文本中检测页脚模式：日期行（\d{4}/\d{1,2}/\d{1,2}）后紧跟的数字行=页码，标记剔除
-        2. 其余纯数字行在 CWE 范围（1-1999）内的保留，去重输出
-
-        Returns:
-            CWE 编号列表（字符串），如 ["1275", "284", "923"]
-        """
+        """清洗 CWE 字段：保留有效 CWE 编号，剔除页码等噪声"""
         if not text:
             return []
 
         lines = text.split('\n')
 
-        # Pass 1: 检测页脚模式，标记紧跟日期后的数字为页码
         page_numbers = set()
         prev_was_date = False
         for line in lines:
@@ -402,7 +451,6 @@ class AppScanParser:
                 continue
             prev_was_date = False
 
-        # Pass 2: 提取有效 CWE 编号
         cwe_nums = []
         for line in lines:
             stripped = line.strip()
@@ -414,7 +462,6 @@ class AppScanParser:
             if 1 <= num <= 1999:
                 cwe_nums.append(stripped)
 
-        # 去重后输出（保持原始出现顺序）
         seen = set()
         result = []
         for n in cwe_nums:
@@ -425,11 +472,7 @@ class AppScanParser:
         return result
 
     def _parse_field_block(self, block: str, type_names: List[str]) -> Dict:
-        """解析修复方法中的一个字段块
-
-        字段标签在 PDF 中严格固定，按出现顺序提取
-        type_names: 所有已知类型名，用于剔除尾部混入的下一个类型名
-        """
+        """解析修复方法中的一个字段块"""
         result = {}
         lines = block.strip().split('\n')
 
@@ -448,26 +491,21 @@ class AppScanParser:
         def save_field():
             if current_field and field_content:
                 content = '\n'.join(field_content).strip()
-                # CWE 字段：传入原始文本（含日期行），由 _clean_cwe_field 统一处理
                 if current_field == 'cwe' and content:
                     content = self._clean_cwe_field(content)
-                    # cwe 已转为列表，直接保存后返回（无需后续字符串清理）
                     if content:
                         result[current_field] = content
                     return
                 else:
-                    # 去 TOC、日期行干扰（用 \n 替换，防止相邻内容粘合）
                     content = re.sub(r'\n?TOC\n?', '\n', content).strip()
                     content = re.sub(r'\n?\d{4}/\d{1,2}/\d{1,2}\n?', '\n', content).strip()
-                    # 去尾部孤立的页码（1-999）
                     content = re.sub(r'\n\d{1,3}$', '', content).strip()
-                # 去尾部混入的下一个类型名（与已知类型名精确匹配）
-                lines = content.split('\n')
-                if lines:
-                    last = lines[-1].strip()
+                lines_ = content.split('\n')
+                if lines_:
+                    last = lines_[-1].strip()
                     if last in type_names:
-                        lines = lines[:-1]
-                        content = '\n'.join(lines).strip()
+                        lines_ = lines_[:-1]
+                        content = '\n'.join(lines_).strip()
                 if content:
                     result[current_field] = content
 
@@ -478,22 +516,18 @@ class AppScanParser:
                 continue
             if s == 'TOC':
                 continue
-            # 遇到新章节立即停止
             if s in section_boundaries:
                 save_field()
                 break
-            # 遇到"原因："且已有字段输出 → 新类型开始，停止
             if s.startswith('原因') and current_field and current_field != 'cause':
                 save_field()
                 break
 
-            # 检测字段标签（必须标签+冒号才算新字段开始）
             matched = False
             for field_name, labels in field_defs:
                 for label in labels:
                     if s.startswith(label):
                         rest = s[len(label):].strip()
-                        # 标签后紧跟冒号才是字段开始
                         if rest.startswith('：') or rest.startswith(':'):
                             save_field()
                             current_field = field_name
@@ -513,15 +547,10 @@ class AppScanParser:
         return result
 
     def _extract_type_details(self, text: str) -> Dict[str, Dict]:
-        """从文本中提取每个漏洞类型的描述
-
-        AppScan 报告中，每个漏洞类型章节在实例列表之前包含：
-        - 描述/Description: 漏洞原理解释
-        """
+        """从文本中提取每个漏洞类型的描述"""
         type_details = {}
         combined = re.sub(r'\[VLWIKI_PAGE_SEPARATOR:\d+\]', '\n', text)
 
-        # 按"问题 X / Y"分割文本，每段对应一个漏洞类型的信息块
         sections = re.split(r'问题\s+\d+\s+/\s+\d+', combined)
 
         for section in sections:
@@ -529,7 +558,6 @@ class AppScanParser:
             if not lines:
                 continue
 
-            # 找类型名：第一个非空、非页码、非TOC、非字段标签的中文行
             type_name = None
             skip_labels = {'严重性', 'CVSS', 'URL', '原因', '固定值', '修订建议',
                            '描述', 'WASC'}
@@ -548,7 +576,6 @@ class AppScanParser:
             if not type_name:
                 continue
 
-            # 提取描述
             current_field = None
             field_content = []
 
@@ -563,7 +590,6 @@ class AppScanParser:
                 if not s:
                     continue
 
-                # 检测描述字段开始
                 if re.match(r'^描述[：:]', s) or s.upper().startswith('DESCRIPTION'):
                     save_field(current_field, field_content)
                     current_field = 'description'
@@ -573,7 +599,6 @@ class AppScanParser:
                         field_content.append(rest[1].strip())
                     continue
 
-                # 其他字段标签终止当前收集
                 if any(s.startswith(p) for p in ['严重性', 'CVSS', 'URL', '原因',
                                                   '固定值', '修订建议',
                                                   '修订建议：', 'WASC']):
@@ -582,30 +607,31 @@ class AppScanParser:
                     field_content = []
                     continue
 
-                # 积累字段内容
                 if current_field:
                     field_content.append(s)
 
-            # 保存最后一个字段
             save_field(current_field, field_content)
 
-            # 确保类型名始终记录（即使无描述，也需要用于尾部剔除匹配）
             if type_name not in type_details:
                 type_details[type_name] = {}
 
         return type_details
 
     def parse(self, text: str, pdf_path: Optional[str] = None) -> Dict:
-        """解析AppScan报告，返回结构化数据"""
-        # 提取系统信息
+        """解析 AppScan PDF 报告，返回结构化数据"""
         system_name = self.extract_system_info_from_text(text)
         print(f"系统: {system_name}")
 
-        # 解析漏洞实例
-        instances = self.parse_vulnerability_instances(text)
+        report_date = self.extract_scan_start_time(text)
+        print(f"扫描开始时间: {report_date or '未识别'}")
+
+        valid_types = self.extract_vuln_types_from_toc(text)
+        if valid_types:
+            print(f"从目录提取到 {len(valid_types)} 个合法漏洞类型: {valid_types}")
+
+        instances = self.parse_vulnerability_instances(text, valid_types=valid_types)
         print(f"找到 {len(instances)} 个实例（已过滤低危）")
 
-        # 按漏洞类型分组
         vuln_types = {}
         for instance in instances:
             vuln_type = instance.get('type', '未知')
@@ -617,78 +643,54 @@ class AppScanParser:
                 }
             vuln_types[vuln_type]['instances'].append(instance)
 
-        # 类型级过滤：跳过低危及以下漏洞类型（双重保险）
         if self.skip_low:
             vuln_types = {
                 k: v for k, v in vuln_types.items()
                 if v.get('severity') not in ['低', '信息', '提示', None, '未知']
             }
-            if vuln_types:
-                skipped = len(set(v.get('type') for v in instances if v.get('severity') in ['低', '信息', '提示'])) \
-                    if instances else 0
-            else:
-                skipped = 0
 
-        # 为每个漏洞类型添加 title 字段（格式：类型名 (实例数个零件)）
         for vuln_type_name, vuln_type_data in vuln_types.items():
             instance_count = len(vuln_type_data['instances'])
             vuln_type_data['title'] = f"{vuln_type_name} ({instance_count}个实例)"
             vuln_type_data['instance_count'] = instance_count
 
-        # 智能字段提升：将instances中重复的字段提升到types层级
-        # 目的：消除数据冗余，types包含通用信息，instances只保留实例特有信息
         for vuln_type_name, vuln_type_data in vuln_types.items():
             type_instances = vuln_type_data.get('instances', [])
             if not type_instances:
                 continue
 
-            # 步骤1：始终删除instances中的type和severity（types层级已包含）
-            # 这些字段在所有实例中与types层级完全重复
             for instance in type_instances:
                 instance.pop('type', None)
                 instance.pop('severity', None)
 
-            # 步骤2：检测哪些字段在所有实例中值完全相同，相同则提升到types
-            # cvss_score 和 cve 需要动态检测
-            # cause 和 revision 通常是漏洞类型的通用属性（所有实例相同）
-            # start_page 是实例特有的，不提升
             fields_to_check = ['cvss_score', 'cve', 'cause', 'revision']
 
             for field in fields_to_check:
-                # 收集所有实例的该字段值（转为JSON字符串以便比较）
                 field_values = []
                 for instance in type_instances:
                     if field in instance and instance[field] is not None:
                         val = instance[field]
-                        # 空列表和空字符串视为相同（空值统一为__EMPTY__）
                         if isinstance(val, (list, str)) and len(val) == 0:
                             field_values.append('__EMPTY__')
                         else:
                             field_values.append(json.dumps(val, sort_keys=True, ensure_ascii=False))
                     else:
-                        # 实例中没有该字段，标记为缺失
                         field_values.append('__MISSING__')
 
-                # 如果所有实例都有该字段且值完全相同，则提升到types层级
                 unique_values = set(field_values)
                 if len(unique_values) == 1:
-                    # 提升到types层级（保留第一个实例的值作为代表）
                     vuln_type_data[field] = type_instances[0].get(field)
-                    # 从所有实例中删除该字段（消除冗余）
                     for instance in type_instances:
                         instance.pop(field, None)
                 elif field == 'cvss_score' and len(unique_values) > 1:
-                    # cvss_score 不统一时，types 层级标记"详情见实例"
                     vuln_type_data['cvss_score'] = '详情见实例'
 
-        # 提取每个漏洞类型的描述
         type_details = self._extract_type_details(text)
         for vuln_type_data in vuln_types.values():
             type_name = vuln_type_data.get('type', '')
             if type_name in type_details:
                 vuln_type_data.update(type_details[type_name])
 
-        # 提取修复方法（type_details 含全部类型名，过滤出在修复方法中真实出现的）
         anchor = text.rfind('修复方法')
         clean_remediation = re.sub(r'\[VLWIKI_PAGE_SEPARATOR:\d+\]', '\n', text[anchor:]) if anchor != -1 else ''
         all_type_names = [n for n in type_details if n in clean_remediation]
@@ -696,7 +698,6 @@ class AppScanParser:
         for vuln_type_data, remediation in zip(vuln_types.values(), remediation_list):
             if not remediation:
                 continue
-            # 同名字段拼接
             for field in ['cause', 'revision']:
                 if field in remediation:
                     existing = vuln_type_data.get(field, '')
@@ -704,17 +705,16 @@ class AppScanParser:
                         vuln_type_data[field] = existing + '\n' + remediation[field]
                     else:
                         vuln_type_data[field] = remediation[field]
-            # 新字段直接写入
             for field in ['risk', 'affected_products', 'cwe', 'references']:
                 if field in remediation:
                     vuln_type_data[field] = remediation[field]
 
-        # 构建输出
         output = {
             'total_instances': len(instances),
             'vulnerability_types': len(vuln_types),
             'system': system_name,
-            'vulnerability_category': self.vulnerability_category,
+            'vul_category': self.vul_category,
+            'report_date': report_date,
             'types': list(vuln_types.values())
         }
 
@@ -723,7 +723,6 @@ class AppScanParser:
 
 def main():
     """测试函数"""
-    # 测试用例：模拟document-reader输出
     test_text = """
 --- 第 9 页 ---
 问题 1 / 6
@@ -744,13 +743,13 @@ URL：http://example.com/api
 修订建议：使用参数化查询
 """
 
-    parser = AppScanParser(skip_low=True)
+    parser = AppScanPDFParser(skip_low=True)
     result = parser.parse(test_text)
 
     print(f"实例数: {result['total_instances']}")
     print(f"类型数: {result['vulnerability_types']}")
     print(f"系统: {result['system']}")
-    print(f"大类: {result['vulnerability_category']}")
+    print(f"大类: {result['vul_category']}")
 
     for vuln_type in result['types']:
         print(f"  类型: {vuln_type['type']}, 实例数: {len(vuln_type['instances'])}")

@@ -50,7 +50,7 @@ def save_parser_output(vulnerabilities: Dict, output_path: str = None, report_pa
             'total_instances': vulnerabilities.get('total_instances', 0),
             'vulnerability_types': vulnerabilities.get('vulnerability_types', 0),
             'system': vulnerabilities.get('system', '未知'),
-            'vulnerability_category': vulnerabilities.get('vulnerability_category', '应用系统漏洞')
+            'vul_category': vulnerabilities.get('vul_category', '应用系统漏洞')
         },
         'types': []
     }

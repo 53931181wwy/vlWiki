@@ -3,14 +3,12 @@
 功能：
 1. 扫描 `wiki/vulnerabilities/` 目录
 2. 解析每个页面的YAML frontmatter（支持多行数组格式）
-3. 按多维度更新 `index.md`：
-   - 按漏洞类型索引（按等级排列）
-   - 按漏洞大类索引
-   - 按系统索引
-   - 按状态索引
-   - 按发现日期索引
-4. 更新统计信息
-5. 更新 `log.md`
+3. 生成 `index.md`：
+   - 仪表盘：等级分布+状态概览（置顶）
+   - 完整漏洞列表表格（按严重性→CVSS排序，含大类/系统/实例数/状态）
+   - 按系统/状态/日期索引（紧凑表格）
+   - Dataview 动态查询块（可选）
+4. 更新 `log.md`（含自动轮转）
 """
 
 import os
@@ -22,73 +20,7 @@ from typing import Dict, List, Tuple, Optional
 from collections import defaultdict
 import datetime
 
-
-# ---------------------------------------------------------------------------
-# YAML frontmatter 解析（支持多行列表格式）
-# ---------------------------------------------------------------------------
-
-def parse_frontmatter(content: str) -> Tuple[Dict, str]:
-    """解析 Markdown 文件的 YAML frontmatter
-
-    Returns:
-        (frontmatter_dict, body_text)
-    """
-    lines = content.split('\n')
-    if len(lines) < 3 or lines[0].strip() != '---':
-        return {}, content
-
-    # 找 closing ---
-    fm_end = -1
-    for i in range(1, len(lines)):
-        if lines[i].strip() == '---':
-            fm_end = i
-            break
-    if fm_end == -1:
-        return {}, content
-
-    fm_dict: Dict = {}
-    i = 1
-    while i < fm_end:
-        line = lines[i]
-        stripped = line.strip()
-        if not stripped or stripped.startswith('#'):
-            i += 1
-            continue
-        if ':' in stripped:
-            key, rest = stripped.split(':', 1)
-            key = key.strip()
-            rest = rest.strip()
-            # 行内 YAML 数组: ["a", "b"]
-            if rest.startswith('[') and rest.endswith(']'):
-                inner = rest[1:-1]
-                items = [it.strip().strip('"').strip("'") for it in inner.split(',')]
-                fm_dict[key] = [it for it in items if it]
-                i += 1
-                continue
-            # 多行列表: 下一行开始以 "- " 开头
-            if rest == '' and i + 1 < fm_end:
-                next_stripped = lines[i + 1].strip()
-                if next_stripped.startswith('- '):
-                    lst = []
-                    i += 1
-                    while i < fm_end:
-                        item_line = lines[i].strip()
-                        if item_line.startswith('- '):
-                            val = item_line[2:].strip().strip('"').strip("'")
-                            lst.append(val)
-                            i += 1
-                        else:
-                            break
-                    fm_dict[key] = lst
-                    continue
-            # 普通标量
-            fm_dict[key] = rest.strip('"').strip("'")
-            i += 1
-            continue
-        i += 1
-
-    body = '\n'.join(lines[fm_end + 1:])
-    return fm_dict, body
+from utils import parse_frontmatter, VULN_DIR
 
 
 # ---------------------------------------------------------------------------
@@ -119,7 +51,18 @@ def count_instances_from_body(body: str) -> int:
 # 扫描
 # ---------------------------------------------------------------------------
 
-SEVERITY_RANK = {'紧急': 0, '高': 1, '中': 2, '低': 3, '信息': 4, '提示': 4, '未知': 5}
+SEVERITY_RANK = {'紧急': 0, '高危': 1, '中危': 2, '低危': 3, '信息': 4, '提示': 4, '未知': 5}
+
+SEVERITY_ALIAS = {
+    '紧急': '紧急', '严重': '紧急',
+    '高危': '高危', '高': '高危',
+    '中危': '中危', '中': '中危', 
+}
+
+
+def _normalize_severity(severity: str) -> str:
+    """标准化 severity，兼容 中/中危 等缩写写法"""
+    return SEVERITY_ALIAS.get(severity, severity)
 
 
 def scan_vulnerabilities(vuln_dir: str) -> List[Dict]:
@@ -153,10 +96,11 @@ def scan_vulnerabilities(vuln_dir: str) -> List[Dict]:
                 'vl_id': filename.replace('.md', ''),
                 'title': fm.get('title', '未知标题'),
                 'date_discovered': fm.get('date_discovered', ''),
-                'vulnerability_category': fm.get('vulnerability_category', '应用系统漏洞'),
+                'vul_category': fm.get('vul_category', '应用系统漏洞'),
                 'system': system,
                 'type': fm.get('type', '未知类型'),
-                'severity': fm.get('severity', '中'),
+                'severity': _normalize_severity(fm.get('severity', '中')),
+                'severity_order': fm.get('severity_order', 0),
                 'status': fm.get('status', '待修复'),
                 'cve': fm.get('cve', []),
                 'cwe': fm.get('cwe', []),
@@ -185,7 +129,7 @@ def group_by_severity(vulns: List[Dict]) -> Dict[str, List[Dict]]:
 def group_by_category(vulns: List[Dict]) -> Dict[str, List[Dict]]:
     g = defaultdict(list)
     for v in vulns:
-        g[v['vulnerability_category']].append(v)
+        g[v['vul_category']].append(v)
     return dict(g)
 
 
@@ -204,14 +148,10 @@ def group_by_status(vulns: List[Dict]) -> Dict[str, List[Dict]]:
     return dict(g)
 
 
-def group_by_date(vulns: List[Dict]) -> Dict[str, List[Dict]]:
-    g = defaultdict(list)
-    for v in vulns:
-        d = v['date_discovered']
-        if d:
-            key = d[:7] if len(d) >= 7 else d
-            g[key].append(v)
-    return dict(g)
+def _bar(count: int, max_count: int, width: int = 10) -> str:
+    """生成简易进度条"""
+    filled = round(count / max(max_count, 1) * width)
+    return '█' * filled + '░' * (width - filled)
 
 
 # ---------------------------------------------------------------------------
@@ -221,120 +161,144 @@ def group_by_date(vulns: List[Dict]) -> Dict[str, List[Dict]]:
 def generate_index_content(vulnerabilities: List[Dict]) -> str:
     now = datetime.datetime.now().strftime("%Y-%m-%d")
     now_full = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+
     severity_groups = group_by_severity(vulnerabilities)
+    cat_g = group_by_category(vulnerabilities)
+    sta_g = group_by_status(vulnerabilities)
+    sys_g = group_by_system(vulnerabilities)
 
-    sorted_severities = sorted(
-        severity_groups.keys(),
-        key=lambda s: SEVERITY_RANK.get(s, 99)
-    )
-
-    # ---- 按类型索引 ----
-    type_index_lines = []
-    for sev in sorted_severities:
-        vulns = severity_groups[sev]
-        type_index_lines.append(f"### {sev}\n\n")
-        type_groups = defaultdict(list)
-        for v in vulns:
-            type_groups[v['type']].append(v)
-        for vuln_type in sorted(type_groups.keys()):
-            items = type_groups[vuln_type]
-            type_index_lines.append(f"#### {vuln_type}\n")
-            for v in items:
-                sys_str = '、'.join(f"[[{s}]]" for s in v['system'])
-                suffix = f"（{v['instance_count']}个实例）" if v['instance_count'] > 1 else ""
-                type_index_lines.append(
-                    f"- [[{v['vl_id']}]] - 影响：{sys_str} - {sev}{suffix}\n"
-                )
-            type_index_lines.append("\n")
-        type_index_lines.append("---\n\n")
-
-    # ---- 按大类索引 ----
-    category_lines = ["## 按漏洞大类索引\n\n"]
-    category_groups = group_by_category(vulnerabilities)
-    for cat in ['应用系统漏洞', '主机漏洞', '渗透测试漏洞']:
-        items = category_groups.get(cat, [])
-        category_lines.append(f"### {cat}\n")
-        if not items:
-            category_lines.append("- （暂无）\n\n")
-            continue
-        for v in items:
-            category_lines.append(f"- [[{v['vl_id']}]] - {v['type']} - {v['severity']}\n")
-        category_lines.append("\n")
-
-    # ---- 按系统索引 ----
-    system_lines = ["## 按系统索引\n\n"]
-    system_groups = group_by_system(vulnerabilities)
-    for sys_name in sorted(system_groups.keys()):
-        items = system_groups[sys_name]
-        system_lines.append(f"### [[{sys_name}]]\n")
-        for v in items:
-            system_lines.append(f"- [[{v['vl_id']}]] - {v['type']} - {v['severity']}\n")
-        system_lines.append("\n")
-
-    # ---- 按状态索引 ----
-    status_lines = ["## 按状态索引\n\n"]
-    status_groups = group_by_status(vulnerabilities)
-    for st in ['待修复', '修复中', '已修复', '已拒绝']:
-        items = status_groups.get(st, [])
-        status_lines.append(f"### {st}\n")
-        if not items:
-            status_lines.append("- （暂无）\n\n")
-            continue
-        for v in items:
-            status_lines.append(f"- [[{v['vl_id']}]] - {v['type']}\n")
-        status_lines.append("\n")
-
-    # ---- 按日期索引 ----
-    date_lines = ["## 按发现日期索引\n\n"]
-    date_groups = group_by_date(vulnerabilities)
-    for d in sorted(date_groups.keys()):
-        items = date_groups[d]
-        date_lines.append(f"### {d} 报告\n")
-        for v in items:
-            date_lines.append(f"- [[{v['vl_id']}]] - {v['type']}\n")
-        date_lines.append("\n")
-
-    # ---- 统计 ----
     total_vulns = len(vulnerabilities)
     total_instances = sum(v['instance_count'] for v in vulnerabilities)
 
     def _count(sev: str) -> int:
         return len(severity_groups.get(sev, []))
 
-    cat_g = group_by_category(vulnerabilities)
-    sta_g = group_by_status(vulnerabilities)
-    sys_g = group_by_system(vulnerabilities)
+    # ---- 排序：severity_order 降序 → CVSS 降序 ----
+    sorted_vulns = sorted(vulnerabilities, key=lambda v: (
+        -_parse_severity_order(v.get('severity_order', 0)),
+        -_parse_cvss(v.get('cvss_score', ''))
+    ))
 
-    stats_lines = [
-        "## 统计信息\n\n",
-        f"- **总漏洞数**：**{total_instances}个实例**（{total_vulns}个VL编号）\n",
-        "- **按等级**：\n",
-        f"  - 紧急：{_count('紧急')}个\n",
-        f"  - 高危：{_count('高')}个\n",
-        f"  - 中危：{_count('中')}个\n",
-        f"  - 低危：{_count('低')}个\n",
-        "- **按漏洞大类**：\n",
-        f"  - 应用系统漏洞：{len(cat_g.get('应用系统漏洞', []))}个\n",
-        f"  - 主机漏洞：{len(cat_g.get('主机漏洞', []))}个\n",
-        f"  - 渗透测试漏洞：{len(cat_g.get('渗透测试漏洞', []))}个\n",
-        "- **按状态**：\n",
-        f"  - 待修复：{len(sta_g.get('待修复', []))}个\n",
-        f"  - 修复中：{len(sta_g.get('修复中', []))}个\n",
-        f"  - 已修复：{len(sta_g.get('已修复', []))}个\n",
-        f"  - 已拒绝：{len(sta_g.get('已拒绝', []))}个\n",
-        "- **按系统**：\n",
+    # =========================================================================
+    # 1. 仪表盘（置顶）
+    # =========================================================================
+    sev_order = ['紧急', '高危', '中危']
+    sev_cells = []
+    max_sev = max((_count(s) for s in sev_order), default=1)
+    for s in sev_order:
+        cnt = _count(s)
+        bar = _bar(cnt, max_sev)
+        sev_cells.append(f"**{s}** {cnt}  {bar}")
+
+    status_summary = []
+    for st in ['待修复', '修复中', '已修复', '已拒绝']:
+        cnt = len(sta_g.get(st, []))
+        if cnt > 0:
+            status_summary.append(f"**{st}** {cnt}")
+        else:
+            status_summary.append(f"_{st}_ 0")
+
+    dashboard = f"""> **总览**：{total_vulns} 个漏洞类型 · {total_instances} 个实例
+>
+> {' | '.join(sev_cells)}
+>
+> {' · '.join(status_summary)}
+>
+> 涉及 **{len(sys_g)}** 个系统 · 最后更新 {now_full}"""
+
+    # =========================================================================
+    # 2. 完整漏洞列表（表格）
+    # =========================================================================
+    table_lines = [
+        "## 完整漏洞列表",
+        "> 按严重性排序，同类严重性按 CVSS 降序",
+        "",
+        "| VL编号 | 漏洞类型 | 等级 | CVSS | 大类 | 影响系统 | 实例 | 状态 |",
+        "|--------|---------|------|------|------|---------|------|------|",
     ]
+    for v in sorted_vulns:
+        cvss = v.get('cvss_score', '') or '-'
+        category = v.get('vul_category', '应用系统漏洞')
+        sys_str = '、'.join(f"[[{s}]]" for s in v['system'])
+        instances = v['instance_count']
+
+        table_lines.append(
+            f"| [[{v['vl_id']}]] | {v['type']} | {v['severity']} | {cvss} | {category} | {sys_str} | {instances} | {v['status']} |"
+        )
+    table_lines.append("")
+
+    # =========================================================================
+    # 3. 按类型索引（表格 + CVSS 排序）
+    # =========================================================================
+    type_section = ["## 按类型索引", ""]
+    for cat in sorted(cat_g.keys()):
+        items = cat_g[cat]
+        type_section.append(f"### {cat}（{len(items)}）")
+        type_section.append("")
+        sorted_items = sorted(
+            items,
+            key=lambda v: (-_parse_severity_order(v.get('severity_order', 0)), -_parse_cvss(v.get('cvss_score', '')))
+        )
+        type_section.append("| VL编号 | 漏洞类型 | 等级 | CVSS | 影响系统 | 状态 |")
+        type_section.append("|--------|---------|------|------|---------|------|")
+        for v in sorted_items:
+            cvss = v.get('cvss_score', '') or '-'
+            sys_str = '、'.join(f"[[{s}]]" for s in v['system'])
+            type_section.append(
+                f"| [[{v['vl_id']}]] | {v['type']} | {v['severity']} | {cvss} | {sys_str} | {v['status']} |"
+            )
+        type_section.append("")
+
+    # =========================================================================
+    # 4. 按系统索引
+    # =========================================================================
+    system_section = ["## 按系统索引", ""]
     for sys_name in sorted(sys_g.keys()):
-        stats_lines.append(f"  - [[{sys_name}]]：{len(sys_g[sys_name])}个\n")
-    stats_lines.append("\n---\n\n")
-    stats_lines.append("## 使用说明\n\n")
-    stats_lines.append("1. **浏览索引**：点击上述链接查看详细信息\n")
-    stats_lines.append("2. **搜索漏洞**：使用Obsidian搜索功能\n")
-    stats_lines.append("3. **添加新报告**：运行 `import_report.py`\n")
-    stats_lines.append("4. **建设方反馈**：更新对应VL页面的「沟通记录」节\n")
-    stats_lines.append("\n---\n\n")
-    stats_lines.append(f"**最后更新**：{now_full}\n")
-    stats_lines.append("**维护者**：LLM Agent\n")
+        items = sys_g[sys_name]
+        system_section.append(f"### [[{sys_name}]] ({len(items)})")
+        system_section.append("")
+        # 用紧凑表格
+        system_section.append("| VL编号 | 漏洞类型 | 等级 | 状态 |")
+        system_section.append("|--------|---------|------|------|")
+        for v in items:
+            system_section.append(
+                f"| [[{v['vl_id']}]] | {v['type']} | {v['severity']} | {v['status']} |"
+            )
+        system_section.append("")
+
+    # =========================================================================
+    # 5. Dataview 动态视图（如果用户启用了 Dataview 插件）
+    # =========================================================================
+    dataview_section = [
+        "## 动态视图",
+        "",
+        "> 如果安装了 [Dataview](https://github.com/blacksmithgu/obsidian-dataview) 插件，以下代码块会自动更新。",
+        "",
+        "### 高危待修复",
+        "",
+        "```dataview",
+        "TABLE severity, cvss_score, system, date_discovered",
+        'FROM "wiki/vulnerabilities"',
+        'WHERE severity_order >= 4 AND status = "待修复"',
+        "SORT severity_order DESC, cvss_score DESC",
+        "```",
+        "",
+        "### 全部漏洞",
+        "",
+        "```dataview",
+        "TABLE severity, cvss_score, status, date_discovered",
+        'FROM "wiki/vulnerabilities"',
+        "SORT severity_order DESC, cvss_score DESC",
+        "```",
+        "",
+    ]
+
+    # =========================================================================
+    # 组装（统一用 '\n'.join，确保表格每行正确换行）
+    # =========================================================================
+    def _clean(lines: list) -> list:
+        """去掉每个元素末尾多余的换行符，统一由 join 控制"""
+        return [l.rstrip('\n') for l in lines]
 
     frontmatter = (
         "---\n"
@@ -342,27 +306,49 @@ def generate_index_content(vulnerabilities: List[Dict]) -> str:
         f"type: index\n"
         f"tags: [index, wiki, 漏洞管理]\n"
         f"last_updated: {now}\n"
-        "---\n\n"
+        "---\n"
     )
 
-    full = (
-        frontmatter
-        + "# 安全漏洞Wiki - 多维度索引\n\n"
-        "本索引提供按**类型（按等级排列）、漏洞大类、系统、状态、日期**的多维度检索。\n\n"
-        "---\n\n"
-        "## 按漏洞类型索引（按等级排列）\n\n"
-        + ''.join(type_index_lines)
-        + ''.join(category_lines)
-        + "---\n\n"
-        + ''.join(system_lines)
-        + "---\n\n"
-        + ''.join(status_lines)
-        + "---\n\n"
-        + ''.join(date_lines)
-        + "---\n\n"
-        + ''.join(stats_lines)
-    )
+    parts = [
+        frontmatter,
+        "# 安全漏洞",
+        "",
+        dashboard.rstrip("\n"),
+        "本索引提供按类型（按等级排列）、漏洞大类、系统的多维度检索。",
+       
+        "---",
+        "\n".join(_clean(table_lines)),
+        "---",
+        "\n".join(_clean(type_section)),
+        "---",
+        "\n".join(_clean(system_section)),
+        "---",
+        "\n".join(_clean(dataview_section)),
+        f"> **最后更新**：{now_full} · **维护者**：LLM Agent",
+    ]
+
+    full = "\n".join(parts) + "\n"
     return full
+
+
+def _parse_severity_order(value) -> int:
+    """解析 severity_order 为整数，兼容 YAML 字符串类型"""
+    if value is None:
+        return 0
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return 0
+
+
+def _parse_cvss(cvss_str: str) -> float:
+    """解析 CVSS 字符串为浮点数，用于排序"""
+    if not cvss_str:
+        return 0.0
+    try:
+        return float(cvss_str)
+    except (ValueError, TypeError):
+        return 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -461,16 +447,10 @@ def main():
 
     vuln_dir = args.vuln_dir
     if not vuln_dir:
-        possible_paths = [
-            "D:/Users/个人项目/wb/vlWiki/wiki/vulnerabilities",
-            str(Path.home() / "vlWiki/wiki/vulnerabilities")
-        ]
-        for path in possible_paths:
-            if Path(path).exists():
-                vuln_dir = path
-                break
+        if Path(VULN_DIR).exists():
+            vuln_dir = VULN_DIR
         else:
-            print("错误：无法自动检测VL页面目录，请使用 --vuln-dir 参数指定")
+            print(f"错误：默认VL页面目录不存在 ({VULN_DIR})，请使用 --vuln-dir 参数指定")
             parser.print_help()
             return
 

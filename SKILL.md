@@ -1,203 +1,310 @@
 ---
 name: vlWiki
-description: 漏洞知识库管理技能，用于导入漏扫报告、生成漏洞页面、维护vlWiki系统。支持AppScan报告（后续将支持Nessus、OpenVAS、AWVS等）。当用户提到"vlWiki"、"漏洞知识库"、"导入漏扫报告"、"生成漏洞页面"、"修复系统信息"、"更新vlWiki索引"时触发。
+description: 漏洞知识库管理技能，用于导入漏扫报告、生成漏洞页面、维护vlWiki系统。支持AppScan报告。当用户提到"vlWiki"、"漏洞知识库"、"导入漏扫报告"、"生成漏洞页面"、"更新vlWiki索引"时触发。
 ---
 
 ## 功能概述
 
-本技能用于管理安全漏洞知识库（vlWiki），支持：
-1. **导入漏扫报告**：解析AppScan等报告，提取漏洞实例，生成标准化vlWiki页面
-2. **修复系统信息**：批量修复VL页面中系统信息不一致的问题
-3. **更新索引**：按多维度（类型、系统、状态、日期、漏洞大类）更新索引
-4. **扩展支持**（后续）：主机漏洞、渗透测试漏洞、多报告格式
+| 功能 | 说明 | 对应脚本 |
+|------|------|----------|
+| 一键流程 | PDF 报告 → VL 页面（阶段1+2 串联） | `report2wiki.py` |
+| 阶段1：报告→JSON | AppScan PDF → 标准中间 JSON | `appscanpdf2json.py` |
+| 阶段2：JSON→实体 | 中间 JSON → VL 页面 `.md` + 系统页面 | `json2wiki.py` |
+| 阶段3：索引/链接 | 重建 `index.md` + 自动轮转 `log.md` | `update_index.py` |
+| 修复系统信息 | 批量修复 frontmatter 与正文不一致的 system/vul_category | `fix_system_info.py` |
+| 查询漏洞 | 按等级/状态/系统/类型/CVE/日期过滤，终端表格或 MD 输出 | `query.py` |
 
 ---
 
-## 依赖关系
+## 目录结构
 
-### 与 document-reader 的关系
-- **document-reader**：底层通用文档提取技能（PDF/DOCX文字层+OCR双方案、智能分批）
-- **vlWiki**：上层专用漏洞处理技能（解析报告结构、提取漏洞实例、生成页面）
-- **集成方式**：vlWiki 调用 document-reader 的 `batch_process.py` 获取提取文本
+| 目录 | 路径 | 说明 |
+|------|------|------|
+| Skill 代码目录 | `c:\Users\stc\.codebuddy\skills\vlWiki` | 脚本和模板存放处 |
+| 知识库目录 | `D:\Users\个人项目\wb\vlWiki` | Obsidian Vault，漏洞页面和索引 Markdown |
+| 原始报告目录 | `D:\Users\个人项目\wb\vlWiki\wiki\raw` | 导入的原始报告和中间 JSON |
+
+三者不同，脚本处理完后输出到知识库目录。
+
+---
+
+## 脚本结构
+
+```
+scripts/
+├── appscanpdf2json.py   # 阶段1：AppScan PDF → 标准中间 JSON
+├── report2wiki.py       # 一键流程：PDF → VL 页面（内部调用阶段1+2）
+├── json2wiki.py         # 阶段2：中间 JSON → VL 页面 .md
+├── update_index.py      # 阶段3：独立索引更新（index.md + log.md）
+├── vl_exporter.py       # VL 页面导出核心模块（被 json2wiki 调用）
+├── fix_system_info.py   # 批量修复系统信息/漏洞大类字段
+├── query.py             # 漏洞查询：按多条件过滤 + 终端/Markdown 输出
+├── utils.py             # 工具函数：frontmatter 解析、VL 编号、格式清理
+└── parsers/
+    ├── __init__.py           # 解析器工厂（PARSER_MAP）
+    └── appscan_pdf_parser.py # AppScan PDF 报告解析器
+
+templates/
+└── vulnerability.md     # VL 页面模板（手动创建参考）
+```
+
+---
+
+## 工作流
+
+```
+report2wiki (一键)        appscanpdf2json (阶段1)    json2wiki (阶段2)        update_index (阶段3)
+─────────────────        ────────────────────      ─────────────────       ────────────────────
+PDF 报告 → VL 页面        AppScan PDF → 中间 JSON   中间 JSON → 知识库实体    知识库实体 → 索引/链接
+    ↓                         ↓                         ↓
+appscanpdf2json         fulltxt.txt (调试用)       vl_exporter.py           index.md + log.md
+  + json2wiki
+```
+
+三个阶段**完全独立**，可单独调试或重跑任一阶段：
+
+| 阶段 | 脚本 | 输入 | 输出 |
+|------|------|------|------|
+| 一键流程 | `report2wiki` | AppScan PDF | VL页面 + JSON |
+| 阶段1 | `appscanpdf2json` | AppScan PDF | `wiki/raw/{name}_{time}.json` |
+| 阶段2 | `json2wiki` | 标准中间 JSON | `wiki/vulnerabilities/VL-*.md` |
+| 阶段3 | `update_index` | `vulnerabilities/` 目录 | `wiki/index.md`, `wiki/log.md` |
 
 ---
 
 ## 使用方法
 
-### 1. 导入AppScan报告
+### 1. 一键流程：PDF → VL 页面（推荐）
+
+内部串联阶段1+2，一条命令完成：
+
 ```bash
-python <skill_dir>/scripts/import_report.py "<pdf_path>" --type appscan
+python scripts/report2wiki.py "<报告.pdf>" [--no-skip-low] [--vl-start <n>]
 ```
 
-**示例**：
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `<file_path>` | （必填） | AppScan PDF 报告路径 |
+| `--skip-low` | `True` | 跳过低危漏洞 |
+| `--no-skip-low` | — | 包含低危漏洞 |
+| `--vl-start` | 自动递增 | VL 起始编号 |
+
+### 2. 阶段1：AppScan PDF → 中间 JSON
+
 ```bash
-python C:/Users/stc/.workbuddy/skills/vlWiki/scripts/import_report.py "D:/Users/个人项目/wb/vlWiki/raw/reports/qukuailian1.pdf" --type appscan
+python scripts/appscanpdf2json.py "<报告.pdf>" [--no-skip-low] [--output-dir <dir>]
 ```
 
-**功能**：
-1. 调用 document-reader 提取PDF文本（智能分批）
-2. 解析AppScan报告结构（漏洞类型、实例、严重性、系统信息）
-3. 生成/更新vlWiki页面（Markdown + YAML frontmatter）
-4. 更新索引文件（index.md）和处理日志（log.md）
+**执行流程**：调用 document-reader 提取 PDF 文本 → AppScan 解析器 → 输出标准 JSON 到 `wiki/raw/`
+额外输出 `_fulltxt.txt` 到报告同目录，便于调试原始提取文本。
 
-**参数**：
-- `--type`：报告类型（当前仅支持 `appscan`，后续将支持 `nessus`、`openvas`、`awvs`）
-- `--skip-low`：跳过低危漏洞（默认：True）
-- `--output-dir`：vlWiki目录路径（默认：自动检测）
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `<file_path>` | （必填） | AppScan PDF 报告路径 |
+| `--skip-low` | `True` | 跳过低危/信息/提示级别 |
+| `--no-skip-low` | — | 包含低危漏洞 |
+| `--output-dir` | `wiki/raw/` | JSON 输出目录 |
 
-### 2. 修复系统信息不一致
+### 3. 阶段2：中间 JSON → 知识库实体
+
 ```bash
-python <skill_dir>/scripts/fix_system_info.py --dir "<vulnerabilities_dir>"
+python scripts/json2wiki.py "<json路径>" [--vl-start <n>]
 ```
 
-**示例**：
+**执行流程**：读取 JSON → 调用 `vl_exporter` 生成每个 VL 页面（含截图、表格、YAML frontmatter）
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `<json_path>` | （必填） | 阶段1 生成的标准中间 JSON |
+| `--output-dir` | 自动检测 | VL 页面输出目录 |
+| `--wiki-dir` | 自动检测 | wiki 根目录（截图/报告路径计算用） |
+| `--vl-start` | 自动递增 | VL 起始编号（如 `25` → `VL-2026-025`） |
+
+**自动检测的默认路径**：
+- `output_dir`：`D:/Users/个人项目/wb/vlWiki/wiki/vulnerabilities` 或 `~/vlWiki/wiki/vulnerabilities`
+- `wiki_dir`：`D:/Users/个人项目/wb/vlWiki/wiki` 或 `~/vlWiki/wiki`
+
+### 4. 阶段3：更新索引
+
 ```bash
-python C:/Users/stc/.workbuddy/skills/vlWiki/scripts/fix_system_info.py --dir "D:/Users/个人项目/wb/vlWiki/wiki/vulnerabilities"
+python scripts/update_index.py [--vuln-dir "<目录>"] [--output "<输出>"] [--skip-log]
 ```
 
-**功能**：
-1. 扫描所有VL页面
-2. 对比YAML frontmatter的`system:`字段与正文中的`**影响系统**:`字段
-3. 修复不一致（以YAML为准）
-4. 支持漏洞大类字段的修复
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--vuln-dir` | 自动检测 | VL 页面目录 |
+| `--output` | `<wiki_dir>/index.md` | 索引输出路径 |
+| `--skip-log` | `False` | 跳过 log.md 更新 |
 
-**参数**：
-- `--dir`：VL页面目录路径
-- `--dry-run`：仅显示将要修改的内容，不实际修改
-- `--category`：修复漏洞大类字段（可选）
+**生成内容**：
+- `index.md` — 六维索引（类型按等级/漏洞大类/系统/状态/日期/统计）
+- `log.md` — 本次更新记录，超 800 行自动轮转保留最近 500 行
 
-### 3. 更新vlWiki索引
+### 5. 分步完整流程
+
 ```bash
-python <skill_dir>/scripts/update_index.py --wiki-dir "<wiki_dir>"
+# 三步串联（适合需要中间 JSON 调试的场景）
+JSON_FILE=$(python scripts/appscanpdf2json.py "报告.pdf" | tail -1)
+python scripts/json2wiki.py "$JSON_FILE"
+python scripts/update_index.py
 ```
 
-**示例**：
+### 6. 修复系统信息
+
 ```bash
-python C:/Users/stc/.workbuddy/skills/vlWiki/scripts/update_index.py --wiki-dir "D:/Users/个人项目/wb/vlWiki/wiki"
+# 批量修复目录下所有 VL 页面
+python scripts/fix_system_info.py --dir "<vuln_dir>" [--dry-run] [--fix-category]
+
+# 修复单个文件
+python scripts/fix_system_info.py --file "<VL页面>" [--dry-run] [--fix-category]
 ```
 
-**功能**：
-1. 扫描 `vulnerabilities/` 目录
-2. 解析每个页面的YAML frontmatter
-3. 按多维度更新 `index.md`：
-   - 按漏洞类型索引（按等级排列）
-   - 按漏洞大类索引（应用系统漏洞、主机漏洞、渗透测试漏洞）
-   - 按系统索引
-   - 按状态索引
-   - 按发现日期索引
-4. 更新统计信息
-5. 更新 `log.md`
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--dir` | — | 批量处理目录（与 `--file` 二选一） |
+| `--file` | — | 单个文件路径 |
+| `--dry-run` | `False` | 仅预览不写入 |
+| `--fix-category` | `False` | 同时修复漏洞大类字段 |
+| `--category` | `应用系统漏洞` | 指定漏洞大类 |
 
-**参数**：
-- `--wiki-dir`：vlWiki的wiki目录路径
-- `--skip-log`：跳过更新log.md（默认：False）
+### 7. 查询漏洞
+
+```bash
+python scripts/query.py [过滤条件] [--output <路径>]
+```
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `--severity, -s` | 等级过滤（精确匹配） | `紧急` `高` `中` `低` |
+| `--status` | 状态过滤（精确匹配） | `待修复` `修复中` `已修复` `已拒绝` |
+| `--system` | 系统名模糊匹配 | `"前海"` |
+| `--type` | 漏洞类型模糊匹配 | `"注入"` `"XSS"` |
+| `--cve` | CVE 编号匹配 | `CVE-2024-1234` |
+| `--cve-has` | 仅列出有 CVE 的漏洞 | （无值） |
+| `--date-after` | 发现日期之后 | `2026-05-01` |
+| `--date-before` | 发现日期之前 | `2026-05-01` |
+| `--output, -o` | 输出到 Markdown 文件 | `wiki/query-result.md` |
+| `--dir` | VL 页面目录 | 默认自动检测 |
+
+**用法示例**：
+
+```bash
+# 终端表格输出
+python scripts/query.py --severity 紧急 --status 待修复
+python scripts/query.py --system "前海" --date-after 2026-05-01
+python scripts/query.py --type "XSS" --cve-has
+
+# 生成 Obsidian 可点击的 Markdown 报告
+python scripts/query.py --severity 高 --output wiki/query-result.md
+```
+
+多种过滤条件之间为 **AND** 关系。默认按等级（紧急→高→中→低）排序。
 
 ---
 
-## 漏洞大类扩展
+## 依赖
 
-### 现有漏洞大类
-- **应用系统漏洞**（默认）：Web应用、API等应用层漏洞
-
-### 新增漏洞大类（计划中）
-- **主机漏洞**：操作系统、数据库、中间件等主机层漏洞（来自Nessus、OpenVAS等主机漏扫）
-- **渗透测试漏洞**：人工渗透测试发现的漏洞
-
-### 对现有系统的影响
-1. **模板扩展**：`templates/vulnerability.md` 添加 `vulnerability_category:` 字段
-2. **索引扩展**：`index.md` 添加"按漏洞大类索引" section
-3. **批量更新**：所有现有VL页面需要添加 `vulnerability_category: "应用系统漏洞"` 字段
+| 依赖 | 用途 |
+|------|------|
+| `document-reader` skill | PDF 文本提取（PyMuPDF） |
+| `pymupdf`（PyMuPDF） | PDF 文本/截图 |
+| `Pillow` | 截图裁剪 |
+| `utils.py` | 自实现 YAML frontmatter 解析（无外部库依赖） |
 
 ---
 
-## 多报告格式支持（后续实现）
+## 中间 JSON Schema
 
-### 支持的报告格式
-1. **AppScan**（已实现）：IBM Security AppScan，PDF格式
-2. **Nessus**（计划中）：Tenable Nessus，通常是XML或CSV格式
-3. **OpenVAS**（计划中）：OpenVAS，XML格式
-4. **AWVS**（计划中）：Acunetix Web Vulnerability Scanner，JSON或XML格式
+阶段1 输出的标准 JSON 结构：
 
-### 解析器设计模式
-使用**策略模式**设计解析器：
-```python
-# scripts/parsers/__init__.py
-from .appscan_parser import AppScanParser
-# from .nessus_parser import NessusParser  # 后续实现
-
-PARSER_MAP = {
-    'appscan': AppScanParser,
-    # 'nessus': NessusParser,
+```json
+{
+  "meta": {
+    "source_file": "报告.pdf",
+    "source_path": "/abs/path/to/报告.pdf",
+    "parser": "appscan_pdf",
+    "parse_date": "2026-05-26T16:00:00",
+    "total_instances": 10,
+    "vulnerability_types": 3,
+    "system": "系统名",
+    "vul_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "跨站脚本",
+      "title": "跨站脚本 (3个实例)",
+      "severity": "高危",
+      "instance_count": 3,
+      "cvss_score": "7.5",
+      "cve": ["CVE-2024-xxx"],
+      "cwe": ["79"],
+      "cause": "未过滤用户输入",
+      "revision": "输出编码",
+      "description": "...",
+      "risk": "...",
+      "affected_products": "...",
+      "references": "...",
+      "instances": [
+        {"index": 1, "url": ["http://..."], "start_page": 10},
+        {"index": 2, "url": ["http://..."], "start_page": 12}
+      ]
+    }
+  ]
 }
-
-def get_parser(report_type):
-    parser_class = PARSER_MAP.get(report_type)
-    if not parser_class:
-        raise ValueError(f"不支持的报告类型: {report_type}")
-    return parser_class()
 ```
 
 ---
 
-## 安装依赖
+## VL 页面格式
 
-### 必需依赖
-```bash
-pip install pymupdf rapidocr-onnxruntime numpy  # document-reader依赖
-pip install python-docx olefile                      # DOCX/DOC处理
-pip install pyyaml frontmatter                      # YAML frontmatter处理
-```
+每页 MD 文件由 YAML frontmatter 和 Markdown 正文组成，模板见 `templates/vulnerability.md`。
 
-### 可选依赖（后续实现）
-```bash
-pip install lxml requests  # XML解析和API请求（Nessus等）
-```
+**frontmatter 字段**：
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `title` | str | 漏洞标题 |
+| `severity` | str | 严重性：紧急/高危/中危/低危 |
+| `cvss_score` | str | CVSS 评分 |
+| `date_discovered` | str | 发现日期 `YYYY-MM-DD` |
+| `type` | str | 漏洞类型名 |
+| `status` | str | 待修复/修复中/已修复/已拒绝 |
+| `cve` | list/null | CVE 编号列表 |
+| `cwe` | list/null | CWE 编号列表 |
+| `tags` | list | 标签（类型名 + CVE） |
+| `system` | list | 受影响系统（至少 1 个） |
+| `vul_category` | str | 漏洞大类（应用系统漏洞/主机漏洞/渗透测试漏洞） |
+
+**正文固定章节**：漏洞描述 → 修复建议 → 受影响实例（自生成表格）→ 扫描原始数据（报告链接+截图）→ 沟通记录 → 状态追踪 → 相关链接
+
+---
+
+## 添加新报告格式
+
+1. 在 `scripts/parsers/` 下创建新解析器，命名遵循 `{tool}_{format}_parser.py`
+2. 实现 `parse(text: str, pdf_path: str | None) → dict` 方法
+3. 在 `parsers/__init__.py` 的 `PARSER_MAP` 中注册
+4. 新建专用入口脚本（参考 `appscanpdf2json.py`），或复用 `report2wiki.py` 添加新分支
+
+**当前支持格式**：
+
+| 工具 | PDF |
+|------|-----|
+| AppScan | ✅ |
 
 ---
 
 ## 常见问题
 
-### 1. 报错："document-reader skill not found"
-**原因**：vlWiki依赖document-reader skill，但未安装或路径错误
-**解决**：
-1. 确保document-reader skill已安装：检查 `C:\Users\stc\.workbuddy\skills\document-reader` 目录是否存在
-2. 如不存在，先安装document-reader skill
+### document-reader skill not found
+确保 `.codebuddy/skills/document-reader/` 目录存在且已安装。
 
-### 2. 报错："No module named 'frontmatter'"
-**原因**：缺少frontmatter库
-**解决**：`pip install python-frontmatter`
+### 中间 JSON 找不到原始报告（截图无法生成）
+`json2wiki.py` 会先尝试 `meta.source_path` 记录的绝对路径，再回退到 `wiki/raw/` 目录查找。确保 PDF 原始报告在阶段2 运行时仍可访问。
 
-### 3. 如何添加新的报告格式支持？
-**步骤**：
-1. 研究报告格式（获取样本、分析结构）
-2. 在 `scripts/parsers/` 目录下创建新的解析器（如 `nessus_parser.py`）
-3. 实现 `parse()` 方法，返回标准化的漏洞实例列表
-4. 在 `scripts/parsers/__init__.py` 中注册新解析器
-5. 更新 `SKILL.md` 中的使用示例
+### 索引未自动更新
+三个阶段完全独立，报告导入后需手动运行 `update_index.py` 更新索引。
 
 ---
 
-## 后续开发计划
-
-### 高优先级（必须先完成）
-1. 创建技能结构 + 编写SKILL.md（当前步骤）
-2. 重构AppScan解析器（基于现有`parse_appscan_fixed_v3.py`）
-3. 实现 `import_report.py`（主入口）
-4. 修复现有VL页面（添加 `vulnerability_category` 字段）
-
-### 中优先级（核心功能）
-5. 实现 `fix_system_info.py`（优化版）
-6. 实现 `update_index.py`
-7. 集成测试
-
-### 低优先级（扩展功能）
-8. 研究并实现Nessus解析器
-9. 研究并实现OpenVAS解析器
-10. 研究并实现AWVS解析器
-11. 部署与文档完善
-
----
-
-**最后更新**：2026-05-18
-**维护者**：LLM Agent
-**版本**：1.0.0
+**版本**：3.1.0 | **最后更新**：2026-05-26
