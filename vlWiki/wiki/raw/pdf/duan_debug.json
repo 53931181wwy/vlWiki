@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "total_instances": 2,
+    "vulnerability_types": 1,
+    "system": "智慧统战“鹏小友”数字人系统-26-3-3",
+    "vul_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "易受攻击的组件",
+      "title": "易受攻击的组件 (2个实例)",
+      "severity": "高",
+      "instance_count": 2,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "http://10.76.44.110/zh.json"
+          ],
+          "cvss_score": "7.1",
+          "cve": [
+            "CVE-2022-41742"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "http://10.76.44.110/zh.json"
+          ],
+          "cvss_score": "7.0",
+          "cve": [
+            "CVE-2022-41741"
+          ]
+        }
+      ],
+      "cvss_score": "详情见实例",
+      "cause": "未安装第三方产品的最新补丁或最新修补程序",
+      "revision": "将组件升级到最新稳定版本\n常规\n升级到组件的最新版本。如果该组件已到达其生命周期结束（EOL），请用最近支持的替代品替换该组件。我们强烈建议联系该产品的供应商，看看是否最近有补丁或修复程序可用。",
+      "risk": "易受攻击的组件可能会给应用程序带来各种形式的漏洞",
+      "cwe": [
+        "1395"
+      ],
+      "references": "CERT 协调中心\n常见漏洞和暴露 (CVE)"
+    }
+  ]
+}

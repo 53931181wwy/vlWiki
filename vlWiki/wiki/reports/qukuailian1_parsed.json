@@ -1,0 +1,820 @@
+{
+  "total_instances": 73,
+  "vulnerability_types": 14,
+  "types": [
+    {
+      "type": "NoSQL 注入",
+      "severity": "",
+      "instances": [
+        {
+          "type": "NoSQL 注入",
+          "severity": "",
+          "cvss_score": "9.4",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "",
+          "cvss_score": "9.4",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "",
+          "cvss_score": "9.4",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "",
+          "cvss_score": "9.4",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "API 成批分配",
+      "severity": "",
+      "instances": [
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "2026/3/17",
+      "severity": "",
+      "instances": [
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "7.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "5.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "5.3",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "2026/3/17",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": "",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "severity": "",
+      "instances": [
+        {
+          "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+          "severity": "",
+          "cvss_score": "4.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "severity": "",
+      "instances": [
+        {
+          "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+          "severity": "",
+          "cvss_score": "6.5",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "跨站点请求伪造",
+      "severity": "",
+      "instances": [
+        {
+          "type": "跨站点请求伪造",
+          "severity": "",
+          "cvss_score": "6.5",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "跨站点请求伪造",
+          "severity": "",
+          "cvss_score": "6.5",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "HTTP Strict-Transport-Security 头缺失或不安全",
+      "severity": "",
+      "instances": [
+        {
+          "type": "HTTP Strict-Transport-Security 头缺失或不安全",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "Spring Boot Actuator 端点已公开",
+      "severity": "",
+      "instances": [
+        {
+          "type": "Spring Boot Actuator 端点已公开",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "Spring Boot Actuator 端点已公开",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "Spring Boot Actuator 端点已公开",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "“X-Content-Type-Options”头缺失或不安全",
+      "severity": "",
+      "instances": [
+        {
+          "type": "“X-Content-Type-Options”头缺失或不安全",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "会话 cookie 中缺少 HttpOnly 属性",
+      "severity": "",
+      "instances": [
+        {
+          "type": "会话 cookie 中缺少 HttpOnly 属性",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "发现可高速缓存的 SSL 页面",
+      "severity": "",
+      "instances": [
+        {
+          "type": "发现可高速缓存的 SSL 页面",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "发现可高速缓存的 SSL 页面",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "发现可高速缓存的 SSL 页面",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "发现可高速缓存的 SSL 页面",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "发现可高速缓存的 SSL 页面",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "在应用程序中发现不必要的 Http 响应头",
+      "severity": "",
+      "instances": [
+        {
+          "type": "在应用程序中发现不必要的 Http 响应头",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "检测到隐藏目录",
+      "severity": "",
+      "instances": [
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "检测到隐藏目录",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "过度许可的 CORS 访问测试",
+      "severity": "",
+      "instances": [
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "过度许可的 CORS 访问测试",
+          "severity": "",
+          "cvss_score": "3.7",
+          "url": "",
+          "cause": "",
+          "revision": null,
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    }
+  ]
+}

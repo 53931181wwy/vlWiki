@@ -1,0 +1,275 @@
+{
+  "main": {
+    "id": "6fd18b1f3a2b8d03",
+    "type": "split",
+    "children": [
+      {
+        "id": "5834e1806ac9b901",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9f71bdae7d833141",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "nousSave碎片-DeepSeek-28msg.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "nousSave碎片-DeepSeek-28msg"
+            }
+          }
+        ]
+      },
+      {
+        "id": "4b70241719c0fe61",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a05060725d0b7b29",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/vulnerabilities/VL-2026-023.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "VL-2026-023"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d64ffb3ff6d0533d",
+    "type": "split",
+    "children": [
+      {
+        "id": "a96feeba74ab7fd9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "249eac98487d70ac",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "e741e94e288e4704",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "ef0ed27011d965a0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5a1b20ddeae905c8",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb0b00585f7529d6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "864ce38f3cd59c3d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "wiki/vulnerabilities/VL-2026-100.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "VL-2026-100 的反向链接列表"
+            }
+          },
+          {
+            "id": "83da3095076c25a5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "wiki/vulnerabilities/VL-2026-021.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "VL-2026-021 的出链列表"
+            }
+          },
+          {
+            "id": "39e251ba3e5332e7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "87bdb53c6c46d7cc",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "815ca0c878110c4a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "wiki/vulnerabilities/VL-2026-021.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "VL-2026-021 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "a05060725d0b7b29",
+  "lastOpenFiles": [
+    "nousSave碎片-DeepSeek-28msg.md",
+    "wiki/vulnerability-types/SRI (Subresource Integrity) 的检查.md",
+    "wiki/vulnerabilities/VL-2026-008.md",
+    "wiki/vulnerabilities/VL-2026-023.md",
+    "wiki/systems/前海工程建设管理数字化智慧大屏-26-5-13.md",
+    "wiki/vulnerability-types/OAuth 隐式授权类型缺陷.md",
+    "wiki/vulnerability-types/NoSQL 注入.md",
+    "wiki/vulnerability-types/CORS 策略根据任意初始头进行设置.md",
+    "wiki/vulnerabilities/VL-2026-003.md",
+    "wiki/vulnerability-types/发现目录列表模式.md",
+    "wiki/vulnerability-types/不安全的第三方链接 (target=-_blank-).md",
+    "wiki/vulnerability-types/查询中的密码参数.md",
+    "SCHEMA.md",
+    "目录泄露问题-DeepSeek-ob转笔记.md",
+    "do-DeepSeek -ob转笔记.md",
+    "noussave-助动词do解释-DeepSeek-10msg.md",
+    "wiki/raw/pdf/26-5-13 安全报告.pdf",
+    "wiki/vulnerabilities/VL-2026-019.md",
+    "wiki/raw/pdf/2026-04-16-安全报告.pdf",
+    "wiki/query-result.md",
+    "wiki/SKILL.md",
+    "wiki/systems/区块链+刑罚执行监督系统.md",
+    "wiki/systems/数据加密服务系统-26-3-3.md",
+    "wiki/systems/全流程工程管理数字化系统-26-4-16.md",
+    "wiki/vulnerabilities/VL-2026-010.md",
+    "wiki/vulnerabilities/VL-2026-009.md",
+    "wiki/vulnerabilities/VL-2026-007.md",
+    "wiki/vulnerabilities/VL-2026-006.md",
+    "wiki/wiki",
+    "wiki/raw/pdf/3-17_appscan_pdf_20260527_111638.json",
+    "wiki/assets/screenshots/VL-2026-035_p40.png",
+    "wiki/assets/screenshots/VL-2026-034_p38.png",
+    "wiki/assets/screenshots/VL-2026-033_p37.png",
+    "wiki/assets/screenshots/VL-2026-032_p37.png",
+    "wiki/assets/screenshots/VL-2026-031_p36.png",
+    "wiki/assets/screenshots/VL-2026-030_p16.png",
+    "wiki/assets/screenshots/VL-2026-029_p9.png",
+    "wiki/raw/pdf/3-17_appscan_pdf_20260527_105611.json",
+    "wiki/assets/screenshots/VL-2026-028_p305.png",
+    "wiki/assets/screenshots/VL-2026-027_p241.png",
+    "wiki/assets/screenshots/VL-2026-026_p225.png",
+    "wiki/raw/pdf/26-5-13 安全报告_appscan_pdf_20260526_181731.json",
+    "wiki/raw/pdf/26-3-3 安全报告_appscan_pdf_20260526_181114.json",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260526_180943.json",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260526_173503.json",
+    "wiki/raw/pdf/26-5-13 安全报告_appscan_pdf_20260526_173132.json"
+  ]
+}

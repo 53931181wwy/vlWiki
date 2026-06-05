@@ -1,0 +1,1000 @@
+[VLWIKI_PAGE_SEPARATOR:1]
+Web Application Report
+This report includes important security information about your web application.
+安全报告
+该报告由 HCL AppScan Standard 创建 10.9.0
+扫描开始时间： 2026/3/3 上午11:08:59
+
+[VLWIKI_PAGE_SEPARATOR:2]
+目录
+介绍
+常规信息
+登陆设置
+摘要
+问题类型
+有漏洞的 URL
+修订建议
+安全风险
+原因
+WASC 威胁分类
+按问题类型分组的问题
+易受攻击的组件
+2
+“Content-Security-Policy”头缺失
+1
+“X-Content-Type-Options”头缺失或不安全
+1
+在应用程序中发现不必要的 Http 响应头
+1
+检测到隐藏目录
+1
+修复方法
+易受攻击的组件
+“Content-Security-Policy”头缺失
+“X-Content-Type-Options”头缺失或不安全
+在应用程序中发现不必要的 Http 响应头
+检测到隐藏目录
+应用程序数据
+cookie
+JavaScript
+参数
+注释
+已访问的 URL
+失败的请求
+2026/3/3
+1
+
+[VLWIKI_PAGE_SEPARATOR:3]
+已过滤的 URL
+组件
+2026/3/3
+2
+
+[VLWIKI_PAGE_SEPARATOR:4]
+介绍
+该报告包含由 HCL AppScan Standard 执行的 Web 应用程序安全性扫描的结果。
+高严重性问题：
+2
+低严重性问题：
+4
+报告中包含的严重性问题总数：6
+扫描中发现的严重性问题总数：10
+常规信息
+扫描文件名称：智慧统战“鹏小友”数字人系统-26-3-3
+扫描开始时间：2026/3/3 上午11:08:59
+测试策略：
+Default
+CVSS 版本：
+3.1
+测试优化级别：快
+主机
+10.76.44.110
+端口
+80
+操作系统：
+未知
+Web 服务器：
+未知
+应用程序服务器：任何
+登陆设置
+登陆方法：无
+2026/3/3
+3
+
+[VLWIKI_PAGE_SEPARATOR:5]
+TOC
+TOC
+TOC
+TOC
+TOC
+摘要
+问题类型   5
+问题类型
+问题的数量
+高易受攻击的组件
+2
+低“Content-Security-Policy”头缺失
+1
+低“X-Content-Type-Options”头缺失或不安全
+1
+低在应用程序中发现不必要的 Http 响应头
+1
+低检测到隐藏目录
+1
+有漏洞的 URL   2
+URL
+问题的数量
+高http://10.76.44.110/zh.json
+3
+低http://10.76.44.110/
+3
+修订建议   5
+修复任务
+问题的数量
+高将组件升级到最新稳定版本
+2
+低对禁止的资源发布“404 - Not Found”响应状态代码，或者将其完全除去
+1
+低将服务器配置为使用值为“nosniff”的“X-Content-Type-Options”头
+1
+低将服务器配置为使用安全策略的“Content-Security-Policy”头
+1
+低请勿允许敏感信息泄漏。
+1
+安全风险4
+风险
+问题的数量
+高攻击者可能会使用 Web 服务器攻击其他站点，这将增加他（或她）的匿名性
+2
+低可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+3
+低可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息
+2
+低可能会检索有关站点文件系统结构的信息，这可能会帮助攻击者映射此 Web 站点
+1
+原因   5
+2026/3/3
+4
+
+[VLWIKI_PAGE_SEPARATOR:6]
+TOC
+原因
+问题的数量
+高未安装第三方产品的最新补丁或最新修补程序
+2
+低Web 应用程序编程或配置不安全
+3
+低Web 服务器或应用程序服务器是以不安全的方式配置的
+1
+WASC 威胁分类
+威胁
+问题的数量
+功能滥用
+2
+信息泄露
+4
+2026/3/3
+5
+
+[VLWIKI_PAGE_SEPARATOR:7]
+TOC
+按问题类型分组的问题
+高
+易受攻击的组件   2
+TOC
+问题   1   /   2
+易受攻击的组件
+严重性：
+高
+CVSS 分数：7.1
+CVSS 向量：AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+CVE:
+CVE-2022-41742
+URL：
+http://10.76.44.110/zh.json
+实体：
+Nginx 1.21.5 (Component)
+风险：
+攻击者可能会使用 Web 服务器攻击其他站点，这将增加他（或她）的匿名性
+原因：
+未安装第三方产品的最新补丁或最新修补程序
+固定值：
+将组件升级到最新稳定版本
+差异：
+推理：AppScan 发现易受攻击的组件
+测试请求和响应：
+GET /zh.json HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Referer: http://10.76.44.110/dialogue
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 200 OK
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:11:21 GMT
+Content-Type: application/json
+Content-Length: 2026
+Connection: keep-alive
+Last-Modified: Wed, 03 Dec 2025 03:11:36 GMT
+Vary: Accept-Encoding
+ETag: "692faa68-7ea"
+Accept-Ranges: bytes
+{
+"dialogue": {
+"creation": "快来与统战部的AI智能体聊天吧！",
+"btn": "立即开始",
+"placeholder": "输入聊天内容",
+"newTip": "新聊天",
+"speakTip": "点击说话",
+"sendTip": "发送",
+2026/3/3
+6
+
+[VLWIKI_PAGE_SEPARATOR:8]
+TOC
+"voiceTip": "文本未识别",
+"notReply": "网络异常，请重新提问",
+"await": "正在输入...",
+"crash": "由于您超过1分钟没有任何操作，此聊天已关闭。如果你打算继续 对话，只需点击“开始新的聊天”，重新开始我们的对话",
+"crashBtn": "开始新的聊天",
+"recordLimit": "发送语音不能超过一分钟",
+"wordLimit": "超过字数限制：500字。",
+"tips1": "恭喜你已获得",
+"tips2": "10分钟",
+"tips3": "免费体验时长，仅在当天内有效",
+"tips4": "您当天的免费时长还剩余 ",
+"tips5": "仅在当天内有效",
+"break": "终止生成",
+"timeTitle": "对话时长包剩余时长不足",
+"timeEnd": "对话时长已用完",
+"timeInfo1": "您当前的对话时长包剩余时长仅：",
+"timeInfo2": "如需续费时长，请扫码联系客户经理",
+"timeInfo3": "您当天的免费体验时长已用完,可开通定制会员",
+"timeInfo4": "享受定制数字人和更多对话时长包权益!",
+"timeInfo5": "您当前的对话时长包剩余时长：",
+"timeInfo6": "您的对话时长包已用完，请联系您的客户经理进行对话时长续费，享受定制数字人和更多对话时长包权益！",
+"minute": "分钟",
+"second": "秒",
+"breakMsg": "已终止当前答案的生成, 您可重新发起新的聊天内容",
+"qrcode": "扫码咨询客户经理",
+"reminder": "温馨提示",
+"tips": "分享人当天的免费体验时长已用完，建议告知分享人开通定制会员，享受定制数字人和更多对话时长包权益！",
+"remaining": "剩余时长:"
+},
+"lineup": {
+"hint": "抱歉，当前使用的人数较多，请在几分钟后再尝试"
+}
+}
+问题   2   /   2
+2026/3/3
+7
+
+[VLWIKI_PAGE_SEPARATOR:9]
+易受攻击的组件
+严重性：
+高
+CVSS 分数：7.0
+CVSS 向量：AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+CVE:
+CVE-2022-41741
+URL：
+http://10.76.44.110/zh.json
+实体：
+Nginx 1.21.5 (Component)
+风险：
+攻击者可能会使用 Web 服务器攻击其他站点，这将增加他（或她）的匿名性
+原因：
+未安装第三方产品的最新补丁或最新修补程序
+固定值：
+将组件升级到最新稳定版本
+差异：
+推理：AppScan 发现易受攻击的组件
+测试请求和响应：
+GET /zh.json HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Referer: http://10.76.44.110/dialogue
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 200 OK
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:11:21 GMT
+Content-Type: application/json
+Content-Length: 2026
+Connection: keep-alive
+Last-Modified: Wed, 03 Dec 2025 03:11:36 GMT
+Vary: Accept-Encoding
+ETag: "692faa68-7ea"
+Accept-Ranges: bytes
+{
+"dialogue": {
+"creation": "快来与统战部的AI智能体聊天吧！",
+"btn": "立即开始",
+"placeholder": "输入聊天内容",
+"newTip": "新聊天",
+"speakTip": "点击说话",
+"sendTip": "发送",
+"voiceTip": "文本未识别",
+"notReply": "网络异常，请重新提问",
+"await": "正在输入...",
+"crash": "由于您超过1分钟没有任何操作，此聊天已关闭。如果你打算继续 对话，只需点击“开始新的聊天”，重新开始我们的对话",
+"crashBtn": "开始新的聊天",
+"recordLimit": "发送语音不能超过一分钟",
+"wordLimit": "超过字数限制：500字。",
+"tips1": "恭喜你已获得",
+"tips2": "10分钟",
+"tips3": "免费体验时长，仅在当天内有效",
+"tips4": "您当天的免费时长还剩余 ",
+"tips5": "仅在当天内有效",
+"break": "终止生成",
+"timeTitle": "对话时长包剩余时长不足",
+2026/3/3
+8
+
+[VLWIKI_PAGE_SEPARATOR:10]
+"timeEnd": "对话时长已用完",
+"timeInfo1": "您当前的对话时长包剩余时长仅：",
+"timeInfo2": "如需续费时长，请扫码联系客户经理",
+"timeInfo3": "您当天的免费体验时长已用完,可开通定制会员",
+"timeInfo4": "享受定制数字人和更多对话时长包权益!",
+"timeInfo5": "您当前的对话时长包剩余时长：",
+"timeInfo6": "您的对话时长包已用完，请联系您的客户经理进行对话时长续费，享受定制数字人和更多对话时长包权益！",
+"minute": "分钟",
+"second": "秒",
+"breakMsg": "已终止当前答案的生成, 您可重新发起新的聊天内容",
+"qrcode": "扫码咨询客户经理",
+"reminder": "温馨提示",
+"tips": "分享人当天的免费体验时长已用完，建议告知分享人开通定制会员，享受定制数字人和更多对话时长包权益！",
+"remaining": "剩余时长:"
+},
+"lineup": {
+"hint": "抱歉，当前使用的人数较多，请在几分钟后再尝试"
+}
+}
+2026/3/3
+9
+
+[VLWIKI_PAGE_SEPARATOR:11]
+TOC
+低
+“Content-Security-Policy”头缺失   1
+TOC
+问题   1   /   1
+“Content-Security-Policy”头缺失
+严重性：
+低
+CVSS 分数：3.7
+CVSS 向量：AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+URL：
+http://10.76.44.110/
+实体：
+10.76.44.110 (Page)
+风险：
+可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息
+原因：
+Web 应用程序编程或配置不安全
+固定值：
+将服务器配置为使用安全策略的“Content-Security-Policy”头
+差异：
+推理：AppScan 检测到 Content-Security-Policy 响应头缺失或具有不安全策略，这可能会更大程度地暴露于各种跨站点注入攻击之下
+测试请求和响应：
+GET /assets/index-y2wN8vvU.js HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Origin: http://10.76.44.110
+Accept: */*
+Referer: http://10.76.44.110/
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 200 OK
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:09:26 GMT
+Content-Type: application/javascript
+Content-Length: 157316
+Connection: keep-alive
+Last-Modified: Wed, 03 Dec 2025 03:11:44 GMT
+ETag: "692faa70-26684"
+Expires: Wed, 03 Mar 2027 03:08:47 GMT
+Cache-Control: max-age=31536000
+Cache-Control: public, immutable
+Accept-Ranges: bytes
+function __vite__mapDeps(indexes) {
+if (!__vite__mapDeps.viteFileDeps) {
+__vite__mapDeps.viteFileDeps = ["./AppWebview-CzrU32Z7.js","./Initialization-CjO1sv3y.js","./Initialization-CnnJJWiD.css","./AppWebview-GBttMozH.css","./Dialogue-
+BnWavag0.js","./Dialogue-LsWhEpI1.css"]
+}
+return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
+}
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const l of
+document.querySelectorAll('link[rel="modulepreload"]'))r(l);new MutationObserver(l=>{for(const s of l)if(s.type==="childList")for(const o of
+s.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&r(o)}).observe(document,{childList:!0,subtree:!0});function n(l){const s={};return l.integrity&&
+(s.integrity=l.integrity),l.referrerPolicy&&(s.referrerPolicy=l.referrerPolicy),l.crossOrigin==="use-credentials"?s.credentials="include":l.crossOrigin==="anonymous"?
+s.credentials="omit":s.credentials="same-origin",s}function r(l){if(l.ep)return;l.ep=!0;const s=n(l);fetch(l.href,s)}})();/**
+* @vue/shared v3.4.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/function Is(e,t){const n=new Set(e.split(","));return t?r=>n.has(r.toLowerCase()):r=>n.has(r)}const _e={},rn=[],Ye=()=>{},Ya=
+()=>!1,pr=e=>e.charCodeAt(0)===111&&e.charCodeAt(1)===110&&(e.charCodeAt(2)>122||e.charCodeAt(2)<97),Ns=e=>e.startsWith("onUpdate:"),Se=Object.assign,Os=(e,t)=>{const
+n=e.indexOf(t);n>-1&&e.splice(n,1)},Xa=Object.prototype.hasOwnProperty,ae=(e,t)=>Xa.call(e,t),J=Array.isArray,sn=e=>gr(e)==="[object Map]",Zo=e=>gr(e)==="[object
+Set]",ne=e=>typeof e=="function",ve=e=>typeof e=="string",_n=e=>typeof e=="symbol",me=e=>e!==null&&typeof e=="object",zo=e=>
+(me(e)||ne(e))&&ne(e.then)&&ne(e.catch),ei=Object.prototype.toString,gr=e=>ei.call(e),qa=e=>gr(e).slice(8,-1),ti=e=>gr(e)==="[object
+Object]",Ss=e=>ve(e)&&e!=="NaN"&&e[0]!=="-
+"&&""+parseInt(e,10)===e,Ln=Is(",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"),Er=e=>
+{const t=Object.create(null);return n=>t[n]||(t[n]=e(n))},Ja=/-(\w)/g,ft=Er(e=>e.replace(Ja,(t,n)=>n?n.toUpperCase():"")),Qa=/\B([A-Z])/g,qt=Er(e=>e.replace(Qa,"-
+2026/3/3
+10
+
+[VLWIKI_PAGE_SEPARATOR:12]
+TOC
+$1").toLowerCase()),br=Er(e=>e.charAt(0).toUpperCase()+e.slice(1)),Fr=Er(e=>e?`on${br(e)}`:""),kt=(e,t)=>!Object.is(e,t),Dr=(e,t)=>{for(let n=0;n<e.length;n++)e[n](t)},or=
+(e,t,n)=>{Object.defineProperty(e,t,{configurable:!0,enumerable:!1,value:n})},Za=e=>{const t=parseFloat(e);return isNaN(t)?e:t},za=e=>{const t=ve(e)?Number(e):NaN;return
+isNaN(t)?e:t};let fl;const ni=()=>fl||(fl=typeof globalThis<"u"?globalThis:typeof self<"u"?self:typeof window<"u"?window:typeof global<"u"?global:{});function As(e){if(J(e))
+{const t={};for(let n=0;n<e.length;n++){const r=e[n],l=ve(r)?rc(r):As(r);if(l)for(const s in l)t[s]=l[s]}return t}else if(ve(e)||me(e))return e}const ec=/;(?![^(]*\))/g,tc=/:
+([^]+)/,nc=/\/\*[^]*?\*\//g;function rc(e){const t={};return e.replace(nc,"").split(ec).forEach(n=>{if(n){const r=n.split(tc);r.length>1&&
+(t[r[0].trim()]=r[1].trim())}}),t}function Ps(e){let t="";if(ve(e))t=e;else if(J(e))for(let n=0;n<e.length;n++){const r=Ps(e[n]);r&&(t+=r+" ")}else if(me(e))for(const n in
+e)e[n]&&(t+=n+" ");return t.trim()}const sc="itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly",lc=Is(sc);function ri(e){return!!e||e===""}const
+$m=e=>ve(e)?e:e==null?"":J(e)||me(e)&&(e.toString===ei||!ne(e.toString))?JSON.stringify(e,si,2):String(e),si=(e,t)=>t&&t.__v_isRef?si(e,t.value):sn(t)?{[`Map(${t.size})`]:
+[...t.entries()].reduce((n,[r,l],s)=>(n[xr(r,s)+" =>"]=l,n),{})}:Zo(t)?{[`Set(${t.size})`]:[...t.values()].map(n=>xr(n))}:_n(t)?xr(t):me(t)&&!J(t)&&!ti(t)?String(t):t,xr=
+(e,t="")=>{var n;return _n(e)?`Symbol(${(n=e.description)!=null?n:t})`:e};/**
+* @vue/reactivity v3.4.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/let Ge;class li{constructor(t=!1){this.detached=t,this._active=!0,this.effects=[],this.cleanups=[],this.parent=Ge,!t&&Ge&&(this.index=(Ge.scopes||(Ge.scopes=
+[])).push(this)-1)}get active(){return this._active}run(t){if(this._active){const n=Ge;try{return Ge=this,t()}finally{Ge=n}}}on(){Ge=this}off(){Ge=this.parent}stop(t){
+...
+...
+...
+低
+“X-Content-Type-Options”头缺失或不安全   1
+TOC
+问题   1   /   1
+“X-Content-Type-Options”头缺失或不安全
+严重性：
+低
+CVSS 分数：3.7
+CVSS 向量：AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+URL：
+http://10.76.44.110/
+实体：
+10.76.44.110 (Page)
+风险：
+可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息
+原因：
+Web 应用程序编程或配置不安全
+固定值：
+将服务器配置为使用值为“nosniff”的“X-Content-Type-Options”头
+差异：
+推理：AppScan 检测到“X-Content-Type-Options”响应头缺失或具有不安全值，这可能会更大程度地暴露于偷渡式下载攻击之下
+测试请求和响应：
+GET /zh.json HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Referer: http://10.76.44.110/dialogue
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 200 OK
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:11:21 GMT
+Content-Type: application/json
+Content-Length: 2026
+Connection: keep-alive
+Last-Modified: Wed, 03 Dec 2025 03:11:36 GMT
+Vary: Accept-Encoding
+ETag: "692faa68-7ea"
+Accept-Ranges: bytes
+{
+"dialogue": {
+"creation": "快来与统战部的AI智能体聊天吧！",
+"btn": "立即开始",
+2026/3/3
+11
+
+[VLWIKI_PAGE_SEPARATOR:13]
+TOC
+"placeholder": "输入聊天内容",
+"newTip": "新聊天",
+"speakTip": "点击说话",
+"sendTip": "发送",
+"voiceTip": "文本未识别",
+"notReply": "网络异常，请重新提问",
+"await": "正在输入...",
+"crash": "由于您超过1分钟没有任何操作，此聊天已关闭。如果你打算继续 对话，只需点击“开始新的聊天”，重新开始我们的对话",
+"crashBtn": "开始新的聊天",
+"recordLimit": "发送语音不能超过一分钟",
+"wordLimit": "超过字数限制：500字。",
+"tips1": "恭喜你已获得",
+"tips2": "10分钟",
+"tips3": "免费体验时长，仅在当天内有效",
+"tips4": "您当天的免费时长还剩余 ",
+"tips5": "仅在当天内有效",
+"break": "终止生成",
+"timeTitle": "对话时长包剩余时长不足",
+"timeEnd": "对话时长已用完",
+"timeInfo1": "您当前的对话时长包剩余时长仅：",
+"timeInfo2": "如需续费时长，请扫码联系客户经理",
+"timeInfo3": "您当天的免费体验时长已用完,可开通定制会员",
+"timeInfo4": "享受定制数字人和更多对话时长包权益!",
+"timeInfo5": "您当前的对话时长包剩余时长：",
+"timeInfo6": "您的对话时长包已用完，请联系您的客户经理进行对话时长续费，享受定制数字人和更多对话时长包权益！",
+"minute": "分钟",
+"second": "秒",
+"breakMsg": "已终止当前答案的生成, 您可重新发起新的聊天内容",
+"qrcode": "扫码咨询客户经理",
+"reminder": "温馨提示",
+"tips": "分享人当天的免费体验时长已用完，建议告知分享人开通定制会员，享受定制数字人和更多对话时长包权益！",
+"remaining": "剩余时长:"
+},
+"lineup": {
+"hint": "抱歉，当前使用的人数较多，请在几分钟后再尝试"
+}
+}
+低
+在应用程序中发现不必要的 Http 响应头   1
+TOC
+问题   1   /   1
+2026/3/3
+12
+
+[VLWIKI_PAGE_SEPARATOR:14]
+在应用程序中发现不必要的 Http 响应头
+严重性：
+低
+CVSS 分数：3.7
+CVSS 向量：AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+URL：
+http://10.76.44.110/zh.json
+实体：
+10.76.44.110 (Page)
+风险：
+可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+原因：
+Web 应用程序编程或配置不安全
+固定值：
+请勿允许敏感信息泄漏。
+差异：
+推理：响应包含不必要的头，这可能会帮助攻击者计划进一步攻击。
+测试请求和响应：
+GET /zh.json HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Referer: http://10.76.44.110/dialogue
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 200 OK
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:11:21 GMT
+Content-Type: application/json
+Content-Length: 2026
+Connection: keep-alive
+Last-Modified: Wed, 03 Dec 2025 03:11:36 GMT
+Vary: Accept-Encoding
+ETag: "692faa68-7ea"
+Accept-Ranges: bytes
+{
+"dialogue": {
+"creation": "快来与统战部的AI智能体聊天吧！",
+"btn": "立即开始",
+"placeholder": "输入聊天内容",
+"newTip": "新聊天",
+"speakTip": "点击说话",
+"sendTip": "发送",
+"voiceTip": "文本未识别",
+"notReply": "网络异常，请重新提问",
+"await": "正在输入...",
+"crash": "由于您超过1分钟没有任何操作，此聊天已关闭。如果你打算继续 对话，只需点击“开始新的聊天”，重新开始我们的对话",
+"crashBtn": "开始新的聊天",
+"recordLimit": "发送语音不能超过一分钟",
+"wordLimit": "超过字数限制：500字。",
+"tips1": "恭喜你已获得",
+"tips2": "10分钟",
+"tips3": "免费体验时长，仅在当天内有效",
+"tips4": "您当天的免费时长还剩余 ",
+"tips5": "仅在当天内有效",
+"break": "终止生成",
+"timeTitle": "对话时长包剩余时长不足",
+"timeEnd": "对话时长已用完",
+2026/3/3
+13
+
+[VLWIKI_PAGE_SEPARATOR:15]
+TOC
+"timeInfo1": "您当前的对话时长包剩余时长仅：",
+"timeInfo2": "如需续费时长，请扫码联系客户经理",
+"timeInfo3": "您当天的免费体验时长已用完,可开通定制会员",
+"timeInfo4": "享受定制数字人和更多对话时长包权益!",
+"timeInfo5": "您当前的对话时长包剩余时长：",
+"timeInfo6": "您的对话时长包已用完，请联系您的客户经理进行对话时长续费，享受定制数字人和更多对话时长包权益！",
+"minute": "分钟",
+"second": "秒",
+"breakMsg": "已终止当前答案的生成, 您可重新发起新的聊天内容",
+"qrcode": "扫码咨询客户经理",
+"reminder": "温馨提示",
+"tips": "分享人当天的免费体验时长已用完，建议告知分享人开通定制会员，享受定制数字人和更多对话时长包权益！",
+"remaining": "剩余时长:"
+},
+"lineup": {
+"hint": "抱歉，当前使用的人数较多，请在几分钟后再尝试"
+}
+}
+低
+检测到隐藏目录   1
+TOC
+问题   1   /   1
+检测到隐藏目录
+严重性：
+低
+CVSS 分数：3.7
+CVSS 向量：AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X
+URL：
+http://10.76.44.110/
+实体：
+assets/ (Page)
+风险：
+可能会检索有关站点文件系统结构的信息，这可能会帮助攻击者映射此 Web 站点
+原因：
+Web 服务器或应用程序服务器是以不安全的方式配置的
+固定值：
+对禁止的资源发布“404 - Not Found”响应状态代码，或者将其完全除去
+差异：路径  从以下位置进行控制：
+/zh.json  至：
+/assets/
+推理：测试尝试检测服务器上的隐藏目录/文件。响应状态为 200 OK 或 403 Forbidden。状态 200 表示测试成功检索了所请求目录/文件的内容。状态 403 表明它确实存
+在，尽管不允许访问。
+测试请求和响应：
+GET /assets/ HTTP/1.1
+Host: 10.76.44.110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/137.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Referer: http://10.76.44.110/dialogue
+Accept-Language: en-US
+Connection: keep-alive
+Content-Length: 0
+HTTP/1.1 403 Forbidden
+2026/3/3
+14
+
+[VLWIKI_PAGE_SEPARATOR:16]
+Server: nginx/1.21.5
+Date: Tue, 03 Mar 2026 03:10:20 GMT
+Content-Type: text/html
+Content-Length: 555
+Connection: keep-alive
+<html>
+<head><title>403 Forbidden</title></head>
+<body>
+<center><h1>403 Forbidden</h1></center>
+<hr><center>nginx/1.21.5</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+2026/3/3
+15
+
+[VLWIKI_PAGE_SEPARATOR:17]
+TOC
+TOC
+修复方法
+易受攻击的组件
+原因：
+测试的应用程序中使用了易受攻击的组件。
+风险：
+易受攻击的组件可能会给应用程序带来各种形式的漏洞
+修订建议：
+常规
+升级到组件的最新版本。如果该组件已到达其生命周期结束（EOL），请用最近支持的替代品替换该组件。我们强烈建议联系该产品的供应商，看看是否最近有补丁或修复程序可用。
+CWE:
+1395
+外部引用：
+CERT 协调中心
+常见漏洞和暴露 (CVE)
+“Content-Security-Policy”头缺失
+原因：
+Web 应用程序编程或配置不安全
+风险：
+可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息
+CSP 值缺失或不当会导致 Web 应用程序容易受到 XSS、点击劫持等的攻击。
+“Content-Security-Policy”头旨在修改浏览器呈现页面的方式，从而防止各种跨站点注入，包括跨站点脚本编制。以不会妨碍 Web 站点正常运行的方式正确设置头值非常重要。例如，
+如果头设置为阻止执行内联 JavaScript，则 Web 站点不得在其页面中使用内联 JavaScript。
+要防止跨站点脚本编制攻击、跨框架脚本编制攻击和点击劫持，请务必使用正确的值设置以下策略：
+“default-src”和“frame-ancestors”策略*或*“script-src”、“object-src”和“frame-ancestors”策略
+对于“default-src”、“script-src”和“object-src”，应避免使用不安全的值，例如“*”、“data:”、“unsafe-inline”或“unsafe-eval”。
+对于“frame-ancestors”，应避免使用不安全的值，例如“*”或“data:”。
+此外，对于“script-src”和“default-src”（“script-src”的备用指令），“self”被认为是不安全的，应该避免使用。
+请参考以下链接以获取更多信息。
+请注意，“Content-Security-Policy” 包括四个不同的测试。常规测试用于验证是否正在使用“Content-Security-Policy”标头，另外三个测试用于检查“Frame-Ancestors”、“Object-
+Src”和“Script-Src”是否配置正确。
+受影响产品：
+此问题可能影响不同类型的产品
+2026/3/3
+16
+
+[VLWIKI_PAGE_SEPARATOR:18]
+TOC
+修订建议：
+常规
+配置服务器以发送“Content-Security-Policy”头。
+建议将 Content-Security-Policy 头配置为其指令的安全值，如下所示：
+对于“default-src”和“script-src”，需要使用诸如“none”或 https://any.example.com 之类的安全值。
+对于“frame-ancestors”和“object-src”，需要使用诸如“self”、“none”或 https://any.example.com 之类的安全值。
+在任何情况下都不得使用“unsafe-inline”和“unsafe-eval”。使用 nonce/hash 只会被视为短期解决方法。
+关于 Apache，请参阅：
+http://httpd.apache.org/docs/2.2/mod/mod_headers.html
+关于 IIS，请参阅：
+https://technet.microsoft.com/pl-pl/library/cc753133%28v=ws.10%29.aspx
+关于 nginx，请参阅：
+http://nginx.org/en/docs/http/ngx_http_headers_module.html
+CWE:
+1032
+79
+693
+830
+1021
+外部引用：
+一些安全头的列表
+内容安全策略简介
+MDN Web 文档 - 内容安全策略
+“X-Content-Type-Options”头缺失或不安全
+原因：
+Web 应用程序编程或配置不安全
+风险：
+可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置
+可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息。
+“X-Content-Type-Options”头（具有“nosniff”值）防止 IE 和 Chrome 忽略响应的内容类型。
+此操作可能防止不可信内容（例如，用户上载内容）在用户浏览器上执行（例如，在恶意命名之后）。
+受影响产品：
+此问题可能影响不同类型的产品
+修订建议：
+常规
+将服务器配置为针对所有外发请求发送具有值“nosniff”的“X-Content-Type-Options”头。
+关于 Apache，请参阅：
+http://httpd.apache.org/docs/2.2/mod/mod_headers.html
+关于 IIS，请参阅：
+https://technet.microsoft.com/pl-pl/library/cc753133%28v=ws.10%29.aspx
+关于 nginx，请参阅：
+http://nginx.org/en/docs/http/ngx_http_headers_module.html
+CWE:
+200
+693
+2026/3/3
+17
+
+[VLWIKI_PAGE_SEPARATOR:19]
+TOC
+TOC
+外部引用：
+有用 HTTP 头列表
+减少 MIME 类型安全风险
+在应用程序中发现不必要的 Http 响应头
+原因：
+不安全的 Web 应用程序编程或配置
+风险：
+可能会收集有关 Web 服务器类型、版本、操作系统等的敏感信息。
+AppScan 检测到不必要的 Http 响应头。
+出于安全和隐私方面的原因，“Server”、“X-Powered-By”、“X-AspNetMvc-Version”和“X-AspNet-Version”等 Http 响应头不应出现在网页中。
+“Server”头是每当服务器向客户机发送响应时通常会缺省添加的头。
+“X-Powered-By”头是每当服务器向客户机发送响应时可能会缺省添加的头。
+这些添加的头可能会泄露有关内部服务器软件版本和类型的敏感信息，从而使攻击者能够对其进行指纹识别并有针对性地利用漏洞进行攻击。此外，当一个新的漏洞为公众所知时，
+服务器很可能会受到利用该漏洞发起的攻击。
+受影响产品：
+此问题可能会影响不同类型的产品。
+修订建议：
+常规
+配置服务器以除去向所有外发请求发送的缺省“Server”头。
+关于 IIS，请参阅：
+https://techcommunity.microsoft.com/t5/iis-support-blog/remove-unwanted-http-response-headers/ba-p/369710
+关于 nginx，请参阅：
+https://www.getpagespeed.com/server-setup/nginx/how-to-remove-the-server-header-in-nginx
+关于 Weblogic，请参阅：
+https://docs.oracle.com/cd/E13222_01/wls/docs81/adminguide/web_server.html
+关于 Apache，请参阅：
+https://techglimpse.com/set-modify-response-headers-http-tip/
+CWE:
+200
+668
+497
+外部引用：
+指纹
+防止信息泄露
+检测到隐藏目录
+原因：
+Web 服务器或应用程序服务器是以不安全的方式配置的
+风险：
+可能会检索有关站点文件系统结构的信息，这可能会帮助攻击者映射此 Web 站点
+Web 应用程序显现了站点中的目录。虽然目录并没有列出其内容，但此信息可以帮助攻击者发展对站点进一步的攻击。例如，知道目录名称之后，攻击者便可以猜测它的内容类型，
+也许还能猜出其中的文件名或子目录，并尝试访问它们。
+内容的敏感度越高，此问题也可能越严重。
+2026/3/3
+18
+
+[VLWIKI_PAGE_SEPARATOR:20]
+受影响产品：
+该问题可能会影响各种类型的产品。
+修订建议：
+常规
+如果不需要禁止的资源，请将其从站点中除去。
+可能的话，请发出改用“404 － 找不到”响应状态代码，而不是“403 － 禁止”。这项更改会将站点的目录模糊化，可以防止泄漏站点结构。
+CWE:
+200
+497
+2026/3/3
+19
+
+[VLWIKI_PAGE_SEPARATOR:21]
+TOC
+TOC
+TOC
+TOC
+TOC
+应用程序数据
+已访问的 URL 13
+URL
+http://10.76.44.110/
+http://10.76.44.110/assets/index-y2wN8vvU.js
+http://10.76.44.110/assets/Dialogue-BnWavag0.js
+http://10.76.44.110/assets/Initialization-CjO1sv3y.js
+http://10.76.44.110/zh.json
+http://10.76.44.110/assets/OneHandedIntroduction-Bpm7m6u7.json
+http://10.76.44.110/assets/IntroductionToHands-DdUCrezP.json
+http://10.76.44.110/assets/Proud-CyH-O1_i.json
+http://10.76.44.110/assets/Like-C6B-pj_A.json
+http://10.76.44.110/assets/Think-okU8t7ra.json
+http://10.76.44.110/assets/Greet-BvFrOIHN.json
+http://10.76.44.110/assets/Speak-BQeL-cOM.json
+http://10.76.44.110/assets/NoSpeak-D0MQLJoK.json
+参数0
+名称
+值
+URL
+类型
+失败的请求1
+URL
+原因
+http://10.76.44.110/assets/
+响应状态“403” － 禁止
+已过滤的 URL 2
+URL
+原因
+http://10.76.44.110/assets/logo-D4Y1DV54.ico
+文件扩展名
+http://10.76.44.110/assets/index-BuJMuS2k.css
+文件扩展名
+注释1
+2026/3/3
+20
+
+[VLWIKI_PAGE_SEPARATOR:22]
+TOC
+URL
+注释
+http://10.76.44.110/
+<!doctype html>
+JavaScript 3
+URL / 代码
+http://10.76.44.110/assets/index-y2wN8vvU.js
+function __vite__mapDeps(indexes) {
+if (!__vite__mapDeps.viteFileDeps) {
+__vite__mapDeps.viteFileDeps = ["./AppWebview-CzrU32Z7.js","./Initialization-CjO1sv3y.js","./Initialization-CnnJJWiD.css","./AppWebview-GBttMozH.css","./Dialogue-
+BnWavag0.js","./Dialogue-LsWhEpI1.css"]
+}
+return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
+}
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const l of
+document.querySelectorAll('link[rel="modulepreload"]'))r(l);new MutationObserver(l=>{for(const s of l)if(s.type==="childList")for(const o of
+s.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&r(o)}).observe(document,{childList:!0,subtree:!0});function n(l){const s={};return l.integrity&&
+(s.integrity=l.integrity),l.referrerPolicy&&(s.referrerPolicy=l.referrerPolicy),l.crossOrigin==="use-credentials"?s.credentials="include":l.crossOrigin==="anonymous"?
+s.credentials="omit":s.credentials="same-origin",s}function r(l){if(l.ep)return;l.ep=!0;const s=n(l);fetch(l.href,s)}})();/**
+* @vue/shared v3.4.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/function Is(e,t){const n=new Set(e.split(","));return t?r=>n.has(r.toLowerCase()):r=>n.has(r)}const _e={},rn=[],Ye=()=>{},Ya=()=>!1,pr=e=>e.charCodeAt(0)===111&&e.charCodeAt(1)===110&&
+(e.charCodeAt(2)>122||e.charCodeAt(2)<97),Ns=e=>e.startsWith("onUpdate:"),Se=Object.assign,Os=(e,t)=>{const n=e.indexOf(t);n>-1&&e.splice(n,1)},Xa=Object.prototype.hasOwnProperty,ae=
+(e,t)=>Xa.call(e,t),J=Array.isArray,sn=e=>gr(e)==="[object Map]",Zo=e=>gr(e)==="[object Set]",ne=e=>typeof e=="function",ve=e=>typeof e=="string",_n=e=>typeof
+e=="symbol",me=e=>e!==null&&typeof e=="object",zo=e=>(me(e)||ne(e))&&ne(e.then)&&ne(e.catch),ei=Object.prototype.toString,gr=e=>ei.call(e),qa=e=>gr(e).slice(8,-1),ti=e=>gr(e)==="[object
+Object]",Ss=e=>ve(e)&&e!=="NaN"&&e[0]!=="-
+"&&""+parseInt(e,10)===e,Ln=Is(",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"),Er=e=>{const
+t=Object.create(null);return n=>t[n]||(t[n]=e(n))},Ja=/-(\w)/g,ft=Er(e=>e.replace(Ja,(t,n)=>n?n.toUpperCase():"")),Qa=/\B([A-Z])/g,qt=Er(e=>e.replace(Qa,"-
+$1").toLowerCase()),br=Er(e=>e.charAt(0).toUpperCase()+e.slice(1)),Fr=Er(e=>e?`on${br(e)}`:""),kt=(e,t)=>!Object.is(e,t),Dr=(e,t)=>{for(let n=0;n<e.length;n++)e[n](t)},or=(e,t,n)=>
+{Object.defineProperty(e,t,{configurable:!0,enumerable:!1,value:n})},Za=e=>{const t=parseFloat(e);return isNaN(t)?e:t},za=e=>{const t=ve(e)?Number(e):NaN;return isNaN(t)?e:t};let fl;const
+ni=()=>fl||(fl=typeof globalThis<"u"?globalThis:typeof self<"u"?self:typeof window<"u"?window:typeof global<"u"?global:{});function As(e){if(J(e)){const t={};for(let n=0;n<e.length;n++)
+{const r=e[n],l=ve(r)?rc(r):As(r);if(l)for(const s in l)t[s]=l[s]}return t}else if(ve(e)||me(e))return e}const ec=/;(?![^(]*\))/g,tc=/:([^]+)/,nc=/\/\*[^]*?\*\//g;function rc(e){const t=
+{};return e.replace(nc,"").split(ec).forEach(n=>{if(n){const r=n.split(tc);r.length>1&&(t[r[0].trim()]=r[1].trim())}}),t}function Ps(e){let t="";if(ve(e))t=e;else if(J(e))for(let
+n=0;n<e.length;n++){const r=Ps(e[n]);r&&(t+=r+" ")}else if(me(e))for(const n in e)e[n]&&(t+=n+" ");return t.trim()}const
+sc="itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly",lc=Is(sc);function ri(e){return!!e||e===""}const $m=e=>ve(e)?e:e==null?"":J(e)||me(e)&&
+(e.toString===ei||!ne(e.toString))?JSON.stringify(e,si,2):String(e),si=(e,t)=>t&&t.__v_isRef?si(e,t.value):sn(t)?{[`Map(${t.size})`]:[...t.entries()].reduce((n,[r,l],s)=>(n[xr(r,s)+"
+=>"]=l,n),{})}:Zo(t)?{[`Set(${t.size})`]:[...t.values()].map(n=>xr(n))}:_n(t)?xr(t):me(t)&&!J(t)&&!ti(t)?String(t):t,xr=(e,t="")=>{var n;return _n(e)?`Symbol(${(n=e.description)!=null?
+n:t})`:e};/**
+* @vue/reactivity v3.4.21
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/let Ge;class li{constructor(t=!1){this.detached=t,this._active=!0,this.effects=[],this.cleanups=[],this.parent=Ge,!t&&Ge&&(this.index=(Ge.scopes||(Ge.scopes=[])).push(this)-1)}get
+active(){return this._active}run(t){if(this._active){const n=Ge;try{return Ge=this,t()}finally{Ge=n}}}on(){Ge=this}off(){Ge=this.parent}stop(t){if(this._active){let
+n,r;for(n=0,r=this.effects.length;n<r;n++)this.effects[n].stop();for(n=0,r=this.cleanups.length;n<r;n++)this.cleanups[n]
+();if(this.scopes)for(n=0,r=this.scopes.length;n<r;n++)this.scopes[n].stop(!0);if(!this.detached&&this.parent&&!t){const l=this.parent.scopes.pop();l&&l!==this&&
+(this.parent.scopes[this.index]=l,l.index=this.index)}this.parent=void 0,this._active=!1}}}function Rs(e){return new li(e)}function oc(e,t=Ge){t&&t.active&&t.effects.push(e)}function oi()
+{return Ge}function ic(e){Ge&&Ge.cleanups.push(e)}let Gt;class ws{constructor(t,n,r,l){this.fn=t,this.trigger=n,this.scheduler=r,this.active=!0,this.deps=
+[],this._dirtyLevel=4,this._trackId=0,this._runnings=0,this._shouldSchedule=!1,this._depsLength=0,oc...
+http://10.76.44.110/assets/Dialogue-BnWavag0.js
+var ky=Object.defineProperty;var Ly=(o,i,n)=>i in o?ky(o,i,{enumerable:!0,configurable:!0,writable:!0,value:n}):o[i]=n;var ke=(o,i,n)=>(Ly(o,typeof i!="symbol"?i+"":i,n),n);import{s as
+un,t as na,v as ra,d as Xt,x as uc,y as Cy,z as By,B as Oy,F as zc,G as $e,H as ua,J as Fy,K as Kc,L as _i,b as Wt,c as po,N as Py,O as My,P as qc,Q as ho,R as Dy,V as Uy,S as Ny,T as
+$y,u as Wy,E as tr,U as Hy,_ as Jt,w as yo,W as Vc,X as bi,Y as Gc,Z as zy,$ as Yc,a0 as Ky,k as qy,a1 as Qs,e as Vy,a2 as Gy,a3 as Yy,a4 as cc,l as Qy,C as Qc,D as Xc,I as Ai,a5 as Nn,a6
+as Xy,a7 as Jy,o as Ut,M as Jc,a8 as oa,m as lo,a9 as Zy,n as ki,p as jy,q as ew,aa as tw}from"./Initialization-CjO1sv3y.js";import{I as Dr,c as J,g as Kr,w as Pe,a as p,o as Bt,J as nw,b
+as Hn,K as Li,L as rw,M as ow,s as uo,r as G,N as mr,C as It,O as iw,p as ir,P as $n,E as Zc,d as yi,e as We,Q as sw,u as ca,H as wt,f as N,h as ee,x as fe,F as vt,n as Re,y as je,m as
+X,j as Ye,k as Ke,R as nr,S as or,t as Rt,q as fa,B as dt,z as gt,U as ia,l as qe,V as aw,W as jc,X as lw,Y as uw,v as Ge,T as ef,Z as tf,_ as cw,$ as fw,D as da,a0 as dw,a1 as pw,G as
+Ci,a2 as pa,A as Ur,a3 as nf,a4 as Si,a5 as ha,a6 as ga,a7 as va}from"./index-y2wN8vvU.js";const Un=(o,i,{checkForDefaultPrevented:n=!0}={})=>u=>{const c=o==null?void
+0:o(u);if(n===!1||!c)return i==null?void 0:i(u)},hw=()=>un&&/firefox/i.test(window.navigator.userAgent);function Bi(o){return o==null}function rf(o){return o===void 0}class gw extends
+Error{constructor(i){super(i),this.name="ElementPlusError"}}function vw(o,i){throw new gw(`[${o}] ${i}`)}let fi;const mw=o=>{var i;if(!un)return 0;if(fi!==void 0)return fi;const
+n=document.createElement("div");n.className=`${o}-scrollbar__wrap`,n.style.visibility="hidden",n.style.width="100px",n.style.position="absolute",n.style.top="-
+9999px",document.body.appendChild(n);const a=n.offsetWidth;n.style.overflow="scroll";const u=document.createElement("div");u.style.width="100%",n.appendChild(u);const
+c=u.offsetWidth;return(i=n.parentNode)==null||i.removeChild(n),fi=a-c,fi},yw=(...o)=>i=>{o.forEach(n=>{Dr(n)?n(i):n.value=i})},go="update:modelValue",ww=o=>/([\uAC00-\uD7AF\u3130-
+\u318F])+/gi.test(o),_w=["class","style"],bw=/^on[A-Z]/,Aw=(o={})=>{const{excludeListeners:i=!1,excludeKeys:n}=o,a=J(()=>((n==null?void 0:n.value)||[]).concat(_w)),u=Kr();return u?J(()=>
+{var c;return na(Object.entries((c=u.proxy)==null?void 0:c.$attrs).filter(([f])=>!a.value.includes(f)&&!(i&&bw.test(f))))}):J(()=>({}))},of=
+({from:o,replacement:i,scope:n,version:a,ref:u,type:c="API"},f)=>{Pe(()=>p(f),v=>{},{immediate:!0})},Sw=(o,i,n,a)=>{let u={offsetX:0,offsetY:0};const c=w=>{const b=w.clientX,g=w.clientY,
+{offsetX:E,offsetY:A}=u,C=o.value.getBoundingClientRect(),R=C.left,I=C.top,U=C.width,k=C.height,$=document.documentElement.clientWidth,m=document.documentElement.clientHeight,x=-R+E,q=-
+I+A,V=$-R-U+E,H=m-I-k+A,Y=te=>{let se=E+te.clientX-b,ae=A+te.clientY-g;a!=null&&a.value||(se=Math.min(Math.max(se,x),V),ae=Math.min(Math.max(ae,q),H)),u={offsetX:se,offsetY:ae},o.value&&
+(o.value.style.transform=`translate(${ra(se)}, ${ra(ae)})`)},pe=()=>
+{document.removeEventListener("mousemove",Y),document.removeEventListener("mouseup",pe)};document.addEventListener("mousemove",Y),document.addEventListener("mouseup",pe)},f=()=>
+{i.value&&o.value&&i.value.addEventListener("mousedown",c)},v=()=>{i.value&&o.value&&i.value.removeEventListener("mousedown",c)};Bt(()=>{nw(()=>{n.value?f():v()})}),Hn(()=>{v()})},xw=
+(o,i={})=>{Li(o)||vw("[useLockscreen]","You need to pass a ref param to this function");const
+n=i.ns||Xt("popup"),a=rw(()=>n.bm("parent","hidden"));if(!un||uc(document.body,a.value))return;let u=0,c=!1,f="0";const v=()=>{setTimeout(()=>{Oy(document==null?void
+0:document.body,a.value),c&&document&&(document.body.style.width=f)},200)};Pe(o,w=>{if(!w){v();return}c=!uc(document.body,a.value),c&&
+(f=document.body.style.width),u=mw(n.namespace.value);const b=document.documentElement.clientHeight<document.body.scrollHeight,g=Cy(document.body,"overflowY");u>0&&(b||g==="scroll")&&c&&
+(document.body.style.width=`calc(100% - ${u}px)`),By(document.body,a.value)}),ow(()=>v())},Tw=zc({type:$e(Boolean),default:null}),Ew=zc({type:$e(Function)}),sf=o=>{const
+2026/3/3
+21
+
+[VLWIKI_PAGE_SEPARATOR:23]
+TOC
+TOC
+i=`update:${o}`,n=`onUpdate:${o}`,a=[i],u={[o]:Tw,[n]:Ew};return{useModelToggle:({indicator:f,toggleReason:v,shouldHideWhenRouteChanges:w,shouldProceed:b,onShow:g,onHide:E})=>{const
+A=Kr(),{emit:C}=A,R=A.props,I=J(()=>Dr(R[n])),U=J(()=>R[o]===null),k=H=>{f.value!==!0&&(f.value=!0,v&&(v.value=H),Dr(g)&&g(H))},$=H=>{f.value!==!1&&(f.value=!1,v&&
+(v.value=H),Dr(E)&&E(H))},m=H=>{if(R.disabled===!0||Dr(b)&&!b())return;const Y=I.value&&un;Y&&C(i,!0),(U.value||!Y)&&k(H)},x=H=>{if(R.disabled===!0||!un)return;const
+Y=I.value&&un;Y&&C(i,!1),(U.value||!Y)&&$(H)},q=H=>{ua(H)&&(R.disabled&&H?I.value&&C(i,!1):f.value!==H&&(H?k():$()))},V=()=>{f.value?x():m()};return
+Pe(()=>R[o],q),w&&A.appContext.config.globalProperties.$route!==void 0&&Pe(()=>({...A.proxy.$route}),()=>{w.value&&f.value&&x()}),...
+http://10.76.44.110/assets/Initialization-CjO1sv3y.js
+var $s=Object.defineProperty;var Ns=(e,r,o)=>r in e?$s(e,r,{enumerable:!0,configurable:!0,writable:!0,value:o}):e[r]=o;var _e=(e,r,o)=>(Ns(e,typeof r!="symbol"?r+"":r,o),o);import{c as
+computed,r as ref,a8 as getCurrentScope,M as onScopeDispose,a as unref,g as getCurrentInstance,o as onMounted,H as nextTick$3,_ as readonly,w as watch,d as isString$5,a9 as camelize,e as
+defineComponent,f as openBlock,h as createElementBlock,m as createBaseVNode,U as isObject$4,aa as hasOwn,ab as warn,N as NOOP,Y as isArray$4,i as isVNode,C as inject,K as isRef,p as
+provide,y as renderSlot,S as mergeProps,t as createVNode,k as withCtx,l as withDirectives,n as normalizeClass,z as normalizeStyle,B as toDisplayString,v as vShow,T as Transition,ac as
+shallowReactive,j as createBlock,x as createCommentVNode,R as resolveDynamicComponent,F as Fragment,q as withModifiers,I as isFunction$5,ad as render,ae as defineStore,G as
+useI18n}from"./index-y2wN8vvU.js";var _a$2;const isClient=typeof window<"u",isFunction$4=e=>typeof e=="function",isString$4=e=>typeof e=="string",noop$3=()=>{},isIOS=isClient&&
+((_a$2=window==null?void 0:window.navigator)==null?void 0:_a$2.userAgent)&&/iP(ad|hone|od)/.test(window.navigator.userAgent);function resolveUnref(e){return typeof e=="function"?
+e():unref(e)}function identity(e){return e}function tryOnScopeDispose(e){return getCurrentScope()?(onScopeDispose(e),!0):!1}function resolveRef(e){return typeof e=="function"?
+computed(e):ref(e)}function tryOnMounted(e,r=!0){getCurrentInstance()?onMounted(e):r?e():nextTick$3(e)}function useTimeoutFn(e,r,o={}){const{immediate:a=!0}=o,c=ref(!1);let
+l=null;function u(){l&&(clearTimeout(l),l=null)}function f(){c.value=!1,u()}function p(...v){u(),c.value=!0,l=setTimeout(()=>{c.value=!1,l=null,e(...v)},resolveUnref(r))}return a&&
+(c.value=!0,isClient&&p()),tryOnScopeDispose(f),{isPending:readonly(c),start:p,stop:f}}function unrefElement(e){var r;const o=resolveUnref(e);return(r=o==null?void 0:o.$el)!=null?
+r:o}const defaultWindow=isClient?window:void 0,defaultDocument=isClient?window.document:void 0;function useEventListener(...e){let r,o,a,c;if(isString$4(e[0])||Array.isArray(e[0])?
+([o,a,c]=e,r=defaultWindow):[r,o,a,c]=e,!r)return noop$3;Array.isArray(o)||(o=[o]),Array.isArray(a)||(a=[a]);const l=[],u=()=>{l.forEach(g=>g()),l.length=0},f=(g,E,S,k)=>
+(g.addEventListener(E,S,k),()=>g.removeEventListener(E,S,k)),p=watch(()=>[unrefElement(r),resolveUnref(c)],([g,E])=>{u(),g&&l.push(...o.flatMap(S=>a.map(k=>f(g,S,k,E))))},
+{immediate:!0,flush:"post"}),v=()=>{p(),u()};return tryOnScopeDispose(v),v}let _iOSWorkaround=!1;function onClickOutside(e,r,o={}){const{window:a=defaultWindow,ignore:c=
+[],capture:l=!0,detectIframe:u=!1}=o;if(!a)return;isIOS&&!_iOSWorkaround&&(_iOSWorkaround=!0,Array.from(a.document.body.children).forEach(S=>S.addEventListener("click",noop$3)));let
+f=!0;const p=S=>c.some(k=>{if(typeof k=="string")return Array.from(a.document.querySelectorAll(k)).some(A=>A===S.target||S.composedPath().includes(A));{const A=unrefElement(k);return A&&
+(S.target===A||S.composedPath().includes(A))}}),g=[useEventListener(a,"click",S=>{const k=unrefElement(e);if(!(!k||k===S.target||S.composedPath().includes(k))){if(S.detail===0&&
+(f=!p(S)),!f){f=!0;return}r(S)}},{passive:!0,capture:l}),useEventListener(a,"pointerdown",S=>{const k=unrefElement(e);k&&(f=!S.composedPath().includes(k)&&!p(S))},
+{passive:!0}),u&&useEventListener(a,"blur",S=>{var k;const A=unrefElement(e);((k=a.document.activeElement)==null?void 0:k.tagName)==="IFRAME"&&!
+(A!=null&&A.contains(a.document.activeElement))&&r(S)})].filter(Boolean);return()=>g.forEach(S=>S())}function useSupported(e,r=!1){const o=ref(),a=()=>o.value=!!e();return
+a(),tryOnMounted(a,r),o}const _global$2=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:
+{},globalKey="__vueuse_ssr_handlers__";_global$2[globalKey]=_global$2[globalKey]||{};var
+__getOwnPropSymbols$g=Object.getOwnPropertySymbols,__hasOwnProp$g=Object.prototype.hasOwnProperty,__propIsEnum$g=Object.prototype.propertyIsEnumerable,__objRest$2=(e,r)=>{var o={};for(var
+a in e)__hasOwnProp$g.call(e,a)&&r.indexOf(a)<0&&(o[a]=e[a]);if(e!=null&&__getOwnPropSymbols$g)for(var a of __getOwnPropSymbols$g(e))r.indexOf(a)<0&&__propIsEnum$g.call(e,a)&&
+(o[a]=e[a]);return o};function useResizeObserver(e,r,o={}){const a=o,{window:c=defaultWindow}=a,l=__objRest$2(a,["window"]);let u;const f=useSupported(()=>c&&"ResizeObserver"in c),p=()=>
+{u&&(u.disconnect(),u=void 0)},v=watch(()=>unrefElement(e),E=>{p(),f.value&&c&&E&&(u=new ResizeObserver(r),u.observe(E,l))},{immediate:!0,flush:"post"}),g=()=>{p(),v()};return
+tryOnScopeDispose(g),{isSupported:f,stop:g}}var
+__getOwnPropSymbols$8=Object.getOwnPropertySymbols,__hasOwnProp$8=Object.prototype.hasOwnProperty,__propIsEnum$8=Object.prototype.propertyIsEnumerable,__objRest$1=(e,r)=>{var o={};for(var
+a in e)__hasOwnProp$8.call(e,a)&&r.indexOf(a)<0&&(o[a]=e[a]);if(e!=null&&__getOwnPropSymbols$8)for(var a of __getOwnProp...
+cookie 0
+名称
+首先设置
+域
+安全
+仅 HTTP
+同一站点
+JS 堆栈跟踪
+值
+请求的 URL
+到期
+组件1
+名称
+版本
+URL
+Nginx
+1.21.5
+http://10.76.44.110/zh.json
+2026/3/3
+22

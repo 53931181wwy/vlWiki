@@ -1,0 +1,1647 @@
+{
+  "meta": {
+    "total_instances": 244,
+    "vulnerability_types": 12,
+    "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+    "vulnerability_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "整数溢出",
+      "title": "整数溢出 (66个实例)",
+      "severity": "高",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 66,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/pub/03011407/topNav/getMessageCount"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/42000101/assistant/getAssistants"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Message.AppServices.MessageAppService/GetTaskWakeCountByUser"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Message.AppServices.MessageAppService/GetTaskWakeCountByUser"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Param.ParamAppService/GetParamValue"
+          ]
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 25,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/multipleTemplate/SetMultiTenant"
+          ]
+        },
+        {
+          "index": 26,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/ProjectListColumn/GetProjectListColumns"
+          ]
+        },
+        {
+          "index": 27,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/ProjectListColumn/GetProjectListColumns"
+          ]
+        },
+        {
+          "index": 28,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ]
+        },
+        {
+          "index": 29,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ]
+        },
+        {
+          "index": 30,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ]
+        },
+        {
+          "index": 31,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ]
+        },
+        {
+          "index": 32,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ]
+        },
+        {
+          "index": 33,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ]
+        },
+        {
+          "index": 34,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Handlers.Log.UserBehaviorHandler/WriteLog"
+          ]
+        },
+        {
+          "index": 35,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 36,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 37,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 38,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/project/IsExistTzsyStagePhase"
+          ]
+        },
+        {
+          "index": 39,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/project/IsExistTzsyStagePhase"
+          ]
+        },
+        {
+          "index": 40,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/param/InitRegisterSystems"
+          ]
+        },
+        {
+          "index": 41,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/param/InitRegisterSystems"
+          ]
+        },
+        {
+          "index": 42,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/param/InitRegisterSystems"
+          ]
+        },
+        {
+          "index": 43,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 44,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 45,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 46,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 47,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 48,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011101/provider/IsTestUser"
+          ]
+        },
+        {
+          "index": 49,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011102/providerUser/IsBindProviderUser"
+          ]
+        },
+        {
+          "index": 50,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011102/providerUser/IsBindProviderUser"
+          ]
+        },
+        {
+          "index": 51,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011401/layout/getTemplate"
+          ]
+        },
+        {
+          "index": 52,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011102/providerUser/IsBindProviderUser"
+          ]
+        },
+        {
+          "index": 53,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011401/layout/getTemplate"
+          ]
+        },
+        {
+          "index": 54,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 55,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 56,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 57,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 58,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 59,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 60,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 61,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 62,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 63,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 64,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 65,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/appPage/getPageInfo"
+          ]
+        },
+        {
+          "index": 66,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/appPage/getPageInfo"
+          ]
+        }
+      ],
+      "cvss_score": "8.6",
+      "cve": [],
+      "cause": "未对入局参数值执行适当的边界检查",
+      "revision": "验证参数值是否在其预计范围和类型内。不要输出调试错误消息和异常"
+    },
+    {
+      "type": "易受攻击的组件",
+      "title": "易受攻击的组件 (2个实例)",
+      "severity": "高",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 2,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/bpm/public/3rd/3rd.js"
+          ],
+          "cve": [
+            "CVE-2021-3749"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/bpm/public/3rd/3rd.js"
+          ],
+          "cve": [
+            "CVE-2019-10742"
+          ]
+        }
+      ],
+      "cvss_score": "7.5",
+      "cause": "未安装第三方产品的最新补丁或最新修补程序",
+      "revision": "将组件升级到最新稳定版本"
+    },
+    {
+      "type": "查询中的密码参数",
+      "title": "查询中的密码参数 (4个实例)",
+      "severity": "高",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 4,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/api/user/superportal/dashboard"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/api/user/superportal/dashboard"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/app_preview/pc_portal"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/app_preview/pc_portal"
+          ]
+        }
+      ],
+      "cvss_score": "8.2",
+      "cve": [],
+      "cause": "查询字符串中传递了敏感输入字段（例如用户名、密码和信用卡号）",
+      "revision": "发送敏感信息时，始终使用 SSL 和 POST（主体）参数。"
+    },
+    {
+      "type": "缺少必需的CSP指令",
+      "title": "缺少必需的CSP指令 (68个实例)",
+      "severity": "高",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 68,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/login"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.PubPlatform.Nav.Handlers.WorkBenchLoginHandler/DoLogin"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/version.json"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/pub/03011407/topNav/getMessageCount"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03011401/08dc5cec-6593-4af6-8de4-8bf200fca00a"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/notice/manifest.json"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/functionList/manifest.json"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/messageCenter/manifest.json"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/news/manifest.json"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/notice/i18n/zh-CN.json"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/messageCenter/i18n/zh-CN.json"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/functionList/i18n/zh-CN.json"
+          ]
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PO/widgets/news/i18n/zh-CN.json"
+          ]
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Nav.AppServices.ExternalWebResourceAppService/GetResources"
+          ]
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Log.PerformanceAppService/WriteLog"
+          ]
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Handlers.Log.UserBehaviorHandler/WriteLog"
+          ]
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/x_32012004/08de4f2c-c23d-444c-8ba8-3fd17b90eec7"
+          ]
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/00002307/7964fd1c-df8f-e811-9716-309c23364322"
+          ]
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/42000101/assistant/getAssistants"
+          ]
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Message.AppServices.MessageAppService/GetTaskWakeCountByUser"
+          ]
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ]
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PubPlatform/Organization/M00002302/RoleManage"
+          ]
+        },
+        {
+          "index": 25,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IsSyncProviderUser2MyUser"
+          ]
+        },
+        {
+          "index": 26,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/CurrentUserExistsDataMaskingRights"
+          ]
+        },
+        {
+          "index": 27,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/BusinessModeIsOP"
+          ]
+        },
+        {
+          "index": 28,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.PublicServices.OrganizationUserImpAppService/GetIntegratedLicenseUserKindTitle"
+          ]
+        },
+        {
+          "index": 29,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IntegrationCategoryManager"
+          ]
+        },
+        {
+          "index": 30,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/CoreErpUserKindIntegrated"
+          ]
+        },
+        {
+          "index": 31,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/GetSaaSUserKindInfo"
+          ]
+        },
+        {
+          "index": 32,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Nav.AppServices.NavAppService/GetUserContext"
+          ]
+        },
+        {
+          "index": 33,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 34,
+          "url": [
+            "https://emdstest.sqemc.com:7443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ]
+        },
+        {
+          "index": 35,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Param.ParamAppService/GetParamValue"
+          ]
+        },
+        {
+          "index": 36,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PubPlatform/Organization/M00002305/SearchAutoByUser"
+          ]
+        },
+        {
+          "index": 37,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PubPlatform/Organization/M00002305/SearchRightsByUser"
+          ]
+        },
+        {
+          "index": 38,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010301/9c31a2a8-c7dc-8230-4d81-39f10ed6908c"
+          ]
+        },
+        {
+          "index": 39,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/ProjectListColumn/GetProjectListColumns"
+          ]
+        },
+        {
+          "index": 40,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010317/08db96f4-63ff-4c22-8447-9e29bfc95a18"
+          ]
+        },
+        {
+          "index": 41,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/multipleTemplate/SetMultiTenant"
+          ]
+        },
+        {
+          "index": 42,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ]
+        },
+        {
+          "index": 43,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ]
+        },
+        {
+          "index": 44,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010309/999c7cf1-9aad-a699-5a65-39f16b60a049"
+          ]
+        },
+        {
+          "index": 45,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010301/project/IsExistTzsyStagePhase"
+          ]
+        },
+        {
+          "index": 46,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03010202/param/InitRegisterSystems"
+          ]
+        },
+        {
+          "index": 47,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010204/cf533bb5-978d-4f11-9900-6002b78cec9c"
+          ]
+        },
+        {
+          "index": 48,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011101/provider/IsTestUser"
+          ]
+        },
+        {
+          "index": 49,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010313/62b40a19-d842-4651-8e50-08da315cb51e"
+          ]
+        },
+        {
+          "index": 50,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011102/providerUser/IsBindProviderUser"
+          ]
+        },
+        {
+          "index": 51,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011407/setting/globalCss"
+          ]
+        },
+        {
+          "index": 52,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011401/layout/getTemplate"
+          ]
+        },
+        {
+          "index": 53,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/widgetApi/proxy"
+          ]
+        },
+        {
+          "index": 54,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011601/appPage/getPageInfo"
+          ]
+        },
+        {
+          "index": 55,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Nav.AppServices.ThemeSettingsAppService/GetCustomizeThemeBySiteId"
+          ]
+        },
+        {
+          "index": 56,
+          "url": [
+            "https://emdstest.sqemc.com:7443/_frontend/sea-config.js"
+          ]
+        },
+        {
+          "index": 57,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/08de4f2c-a7be-4835-8aa7-42f9cb92b85b/page/08de4f2c-c23d-4448-8402-d228321b830d.js"
+          ]
+        },
+        {
+          "index": 58,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/03011407/setting/getCustomServiceSetting"
+          ]
+        },
+        {
+          "index": 59,
+          "url": [
+            "https://emdstest.sqemc.com:7443/_frontend/templates/pages/treegrid/template.js"
+          ]
+        },
+        {
+          "index": 60,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/02200201/8713a59f-0b9a-e911-aa80-54e1adee7d63"
+          ]
+        },
+        {
+          "index": 61,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/3bd687fd-1b4c-4684-995b-1d910cdaf6d2/vuetemplate/9cef50f1-5729-e711-8b75-4437e6d4bcfd.js"
+          ]
+        },
+        {
+          "index": 62,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/00002302/411a8445-47d7-11e6-9c38-28d244358daf"
+          ]
+        },
+        {
+          "index": 63,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010309/a94e4125-ccf4-eb11-aa9b-54e1adbf0d49"
+          ]
+        },
+        {
+          "index": 64,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PubPlatform/Organization/M00002305/SearchUsersByRight"
+          ]
+        },
+        {
+          "index": 65,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/08dc4e04-a714-4971-86ae-2cd2852308c4/codingpage/08dc5cec-6593-4ad7-84fc-b29a58a47bd8.js"
+          ]
+        },
+        {
+          "index": 66,
+          "url": [
+            "https://emdstest.sqemc.com:7443/PubPlatform/Organization/M00002305/SearchUserProject"
+          ]
+        },
+        {
+          "index": 67,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010317/08db9711-d452-477e-8567-a97ac8873107"
+          ]
+        },
+        {
+          "index": 68,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/08dc4e04-a714-4971-86ae-2cd2852308c4/codingpage/08dc8f66-c2e5-437b-806d-775a1d5e0174.js"
+          ]
+        }
+      ],
+      "cvss_score": "8.2",
+      "cve": [],
+      "cause": "Web 应用程序编程或配置不安全",
+      "revision": "配置具有适当值的Content-Security-Policy"
+    },
+    {
+      "type": "CORS 策略根据任意初始头进行设置",
+      "title": "CORS 策略根据任意初始头进行设置 (1个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "Web 应用程序编程或配置不安全",
+      "revision": "修改“Access-Control-Allow-Origin”头以仅获取允许的站点"
+    },
+    {
+      "type": "OAuth 隐式授权类型缺陷",
+      "title": "OAuth 隐式授权类型缺陷 (9个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 9,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/3bd687fd-1b4c-4684-995b-1d910cdaf6d2/vuetemplate/9cef50f1-5729-e711-8b75-4437e6d4bcfd.js"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/00002302/411a8445-47d7-11e6-9c38-28d244358daf"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010309/a94e4125-ccf4-eb11-aa9b-54e1adbf0d49"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/api/Mysoft.PubPlatform.Nav.AppServices.ThemeSettingsAppService/GetCustomizeThemeBySiteId"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/08dc4e04-a714-4971-86ae-2cd2852308c4/codingpage/08dc5cec-6593-4ad7-84fc-b29a58a47bd8.js"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010317/08db9711-d452-477e-8567-a97ac8873107"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/std/03010313/62b40a19-d842-4651-8e50-08da315cb51e"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/static/08dc4e04-a714-4971-86ae-2cd2852308c4/codingpage/08dc8f66-c2e5-437b-806d-775a1d5e0174.js"
+          ]
+        }
+      ],
+      "cvss_score": "6.5",
+      "cve": [],
+      "cause": "应用程序使用的认证方法不充分",
+      "revision": "添加代码交换证明密钥 (PKCE)"
+    },
+    {
+      "type": "SRI (Subresource Integrity) 的检查",
+      "title": "SRI (Subresource Integrity) 的检查 (1个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/app_preview/pc_portal"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "SRI(Subresource Integrity) 不受支持",
+      "revision": "将每个第三方脚本/链接元素支持添加到 SRI(Subresource Integrity)。"
+    },
+    {
+      "type": "不安全的第三方链接 (target=\"_blank\")",
+      "title": "不安全的第三方链接 (target=\"_blank\") (1个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/bpm/public/browser.html"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "通过 target=_blank 链接而链接到的页面将通过 window.opener 对象获取链接页面窗口对象的部分访问权。",
+      "revision": "将属性 rel = \"noopener noreferrer\" 添加到带有 target=\"_blank\" 的每个元素"
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "title": "具有不安全、不正确或缺少 SameSite 属性的 Cookie (24个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 24,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        }
+      ],
+      "cvss_score": "4.7",
+      "cve": [],
+      "cause": "具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie",
+      "revision": "查看将 SameSite Cookie 属性配置为推荐值的可能解决方案"
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "title": "加密会话（SSL）Cookie 中缺少 Secure 属性 (13个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 13,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        }
+      ],
+      "cvss_score": "6.5",
+      "cve": [],
+      "cause": "Web 应用程序通过 SSL 发送不安全的 cookie",
+      "revision": "向所有敏感的 cookie 添加“Secure”属性"
+    },
+    {
+      "type": "发现数据库错误模式",
+      "title": "发现数据库错误模式 (54个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 54,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/errorTip.html"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/cdnfiles/maps.js"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/cdnfiles/vendor2.bca6b890.js"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.lodash.bdb63dc4.js"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/cdnfiles/vendor.myui.fix.jquery.js"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.antd.156b55ba.js"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.babel.2ddd8355.js"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.babel-runtime.27d3976f.js"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.ant-design.02d8ac0a.js"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-animate.55c01d7b.js"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rt-tree.0c4cda23.js"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-util.eab9e07f.js"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.dmp-react-gridlayout-fork.6583d937.js"
+          ]
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.dingtalk-jsapi.0ce5d2ad.js"
+          ]
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.core-js.e5166839.js"
+          ]
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.antv.4d8f8f6f.js"
+          ]
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.lodash-es.fa8cd777.js"
+          ]
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-calendar.98021737.js"
+          ]
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-color.c9767884.js"
+          ]
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-router.884bd1a4.js"
+          ]
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.crypto-js.00fa3d44.js"
+          ]
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.history.7a72efe1.js"
+          ]
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-redux.c788aa7d.js"
+          ]
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.async-validator.d3c28003.js"
+          ]
+        },
+        {
+          "index": 25,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-tabs.42e896c1.js"
+          ]
+        },
+        {
+          "index": 26,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-calendar.98021737.js"
+          ]
+        },
+        {
+          "index": 27,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-motion.cf8372f6.js"
+          ]
+        },
+        {
+          "index": 28,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-slider.3a713353.js"
+          ]
+        },
+        {
+          "index": 29,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.tanem.56df8469.js"
+          ]
+        },
+        {
+          "index": 30,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-menu.d1e0b51b.js"
+          ]
+        },
+        {
+          "index": 31,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-select.43b99508.js"
+          ]
+        },
+        {
+          "index": 32,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-tree.cc3ad283.js"
+          ]
+        },
+        {
+          "index": 33,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-form.49b5cc28.js"
+          ]
+        },
+        {
+          "index": 34,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-trigger.895b394c.js"
+          ]
+        },
+        {
+          "index": 35,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-drawer.4a8c3b71.js"
+          ]
+        },
+        {
+          "index": 36,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.rc-time-picker.81a96d6e.js"
+          ]
+        },
+        {
+          "index": 37,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-dom.00163598.js"
+          ]
+        },
+        {
+          "index": 38,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.resize-observer-polyfill.59028ab9.js"
+          ]
+        },
+        {
+          "index": 39,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-bootstrap-myui.fce3c87c.js"
+          ]
+        },
+        {
+          "index": 40,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-dom.00163598.js"
+          ]
+        },
+        {
+          "index": 41,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.sortablejs.3b8a0ffb.js"
+          ]
+        },
+        {
+          "index": 42,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.dmp-react-draggable-fork.20c54ec5.js"
+          ]
+        },
+        {
+          "index": 43,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.dom-align.5874023c.js"
+          ]
+        },
+        {
+          "index": 44,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.i18next.872acf0f.js"
+          ]
+        },
+        {
+          "index": 45,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.hammerjs.192ed4df.js"
+          ]
+        },
+        {
+          "index": 46,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.intersection-observer.063a62b9.js"
+          ]
+        },
+        {
+          "index": 47,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.lodash.isequal.65b5d484.js"
+          ]
+        },
+        {
+          "index": 48,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.oidc-client.f7a1ee43.js"
+          ]
+        },
+        {
+          "index": 49,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.react-sortable-hoc.2e2a3cf4.js"
+          ]
+        },
+        {
+          "index": 50,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.ua-parser-js.8563562c.js"
+          ]
+        },
+        {
+          "index": 51,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.tinycolor2.5e1fb90e.js"
+          ]
+        },
+        {
+          "index": 52,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/npm.vue.61af3082.js"
+          ]
+        },
+        {
+          "index": 53,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/main.18979439.js"
+          ]
+        },
+        {
+          "index": 54,
+          "url": [
+            "https://emdstest.sqemc.com:7443/dp/bi-visual/static/js/main.18979439.js"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "未对用户输入正确执行危险字符清理",
+      "revision": "查看危险字符注入的可能解决方案"
+    },
+    {
+      "type": "发现目录列表模式",
+      "title": "发现目录列表模式 (1个实例)",
+      "severity": "中",
+      "system": "前海工程建设管理数字化智慧大屏-26-5-13",
+      "vulnerability_category": "应用系统漏洞",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emdstest.sqemc.com:7443/"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "已启用目录浏览",
+      "revision": "修改服务器配置以拒绝目录列表，并安装推出的最新安全补丁"
+    }
+  ]
+}

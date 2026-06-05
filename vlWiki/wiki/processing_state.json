@@ -1,0 +1,207 @@
+{
+  "current_batch": 12,
+  "total_batches": 12,
+  "batches": [
+    {
+      "batch_id": 1,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "14-15",
+      "vulnerability_type": "SQL注入",
+      "vuln_count": 1,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-001.md",
+        "wiki/vulnerability-types/SQL注入.md",
+        "wiki/systems/全流程工程管理数字化系统.md"
+      ],
+      "timestamp": "2026-05-09T21:00:00"
+    },
+    {
+      "batch_id": 2,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "16-51",
+      "vulnerability_type": "整数溢出",
+      "vuln_count": 53,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-002.md",
+        "wiki/vulnerability-types/整数溢出.md",
+        "wiki/systems/全流程工程管理数字化系统.md"
+      ],
+      "timestamp": "2026-05-09T22:15:00"
+    },
+    {
+      "batch_id": 3,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "52-87",
+      "vulnerability_type": "缺少必需的CSP指令",
+      "vuln_count": 58,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-003.md",
+        "wiki/vulnerability-types/缺少必需的CSP指令.md"
+      ],
+      "timestamp": "2026-05-09T23:00:00"
+    },
+    {
+      "batch_id": 4,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "88, 51",
+      "vulnerability_type": "通过URL重定向钓鱼 + 查询中的密码参数",
+      "vuln_count": 2,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-004.md",
+        "wiki/vulnerabilities/VL-2026-005.md"
+      ],
+      "timestamp": "2026-05-09T23:05:00"
+    },
+    {
+      "batch_id": 5,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "89-91",
+      "vulnerability_type": "CORS策略 + OAuth隐式 + SRI检查",
+      "vuln_count": 4,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-006.md",
+        "wiki/vulnerabilities/VL-2026-007.md",
+        "wiki/vulnerabilities/VL-2026-008.md"
+      ],
+      "timestamp": "2026-05-09T23:10:00"
+    },
+    {
+      "batch_id": 6,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "92-96",
+      "vulnerability_type": "SameSite Cookie",
+      "vuln_count": 7,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-009.md"
+      ],
+      "timestamp": "2026-05-09T23:12:00"
+    },
+    {
+      "batch_id": 7,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "97-99",
+      "vulnerability_type": "加密会话Cookie Secure属性",
+      "vuln_count": 6,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-010.md"
+      ],
+      "timestamp": "2026-05-09T23:14:00"
+    },
+    {
+      "batch_id": 8,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "100-104",
+      "vulnerability_type": "发现数据库错误模式",
+      "vuln_count": 4,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-011.md"
+      ],
+      "timestamp": "2026-05-09T23:16:00"
+    },
+    {
+      "batch_id": 9,
+      "pdf_file": "2026-04-16-安全报告.pdf",
+      "page_range": "105-111",
+      "vulnerability_type": "跨站点请求伪造",
+      "vuln_count": 19,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-012.md"
+      ],
+      "timestamp": "2026-05-09T23:20:00"
+    },
+    {
+      "batch_id": 10,
+      "pdf_file": "2026-04-20-安全报告.pdf",
+      "page_range": "11-12, 140, 353-360",
+      "vulnerability_type": "API成批分配 + LDAP盲注 + CORS + MHTML + OAuth + SRI",
+      "vuln_count": 9,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-013.md",
+        "wiki/vulnerabilities/VL-2026-015.md",
+        "wiki/vulnerabilities/VL-2026-017.md",
+        "wiki/vulnerabilities/VL-2026-006.md（已更新）",
+        "wiki/vulnerabilities/VL-2026-007.md（已更新）",
+        "wiki/vulnerabilities/VL-2026-008.md（已更新）"
+      ],
+      "timestamp": "2026-05-09T23:40:00"
+    },
+    {
+      "batch_id": 11,
+      "pdf_file": "2026-04-20-安全报告.pdf",
+      "page_range": "13-139, 141-267, 268-352, 488-508, 509-515, 516-570",
+      "vulnerability_type": "CSP内联脚本 + CSP不安全URL + 整数溢出 + SameSite + Secure + 数据库错误（已存在类型的增量更新）",
+      "vuln_count": 455,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-014.md",
+        "wiki/vulnerabilities/VL-2026-016.md",
+        "wiki/vulnerabilities/VL-2026-002.md（已更新）",
+        "wiki/vulnerabilities/VL-2026-009.md（已更新）",
+        "wiki/vulnerabilities/VL-2026-010.md（已更新）",
+        "wiki/vulnerabilities/VL-2026-011.md（已更新）"
+      ],
+      "timestamp": "2026-05-09T23:50:00"
+    },
+    {
+      "batch_id": 12,
+      "pdf_file": "2026-04-20-安全报告.pdf",
+      "page_range": "361-487, 571-699, 700-856",
+      "vulnerability_type": "strict-dynamic(110) + 目录列表(1) + CSP不安全eval(110) + 白名单绕过(110)",
+      "vuln_count": 331,
+      "status": "completed",
+      "output_files": [
+        "wiki/vulnerabilities/VL-2026-018.md",
+        "wiki/vulnerabilities/VL-2026-019.md",
+        "wiki/vulnerabilities/VL-2026-020.md",
+        "wiki/vulnerabilities/VL-2026-021.md"
+      ],
+      "timestamp": "2026-05-09T23:55:00"
+    }
+  ],
+  "last_updated": "2026-05-09T23:55:00",
+  "pdf_files": [
+    "D:/Users/个人项目/wb/vlWiki/raw/reports/2026-04-16-安全报告.pdf",
+    "D:/Users/个人项目/wb/vlWiki/raw/reports/2026-04-20-安全报告.pdf"
+  ],
+  "vulnerability_types": [
+    "SQL注入",
+    "整数溢出",
+    "缺少必需的CSP指令",
+    "通过URL重定向钓鱼",
+    "查询中的密码参数",
+    "CORS策略",
+    "OAuth隐式授权类型缺陷",
+    "SRI检查",
+    "具有不安全SameSite属性的Cookie",
+    "加密会话Cookie中缺少Secure属性",
+    "发现数据库错误模式",
+    "跨站点请求伪造",
+    "API成批分配",
+    "CSP中允许内联脚本执行",
+    "LDAP盲注",
+    "在CSP中的不安全URL方案",
+    "Microsoft Windows MHTML XSS",
+    "与strict-dynamic指令相关的配置错误",
+    "发现目录列表模式",
+    "在CSP中使用了不安全的eval()",
+    "脚本白名单配置的绕过",
+    "X-Content-Type-Options头缺失（低危-忽略）",
+    "会话cookie中缺少HttpOnly属性（低危-忽略）",
+    "发现Web应用程序源代码泄露模式（低危-忽略）",
+    "发现可高速缓存的SSL页面（低危-忽略）",
+    "在CSP中未强制执行脚本中的可信类型（低危-忽略）",
+    "永久Cookie包含敏感的会话信息（低危-忽略）",
+    "跨帧脚本编制防御缺失（低危-忽略）",
+    "过度许可的CORS访问测试（低危-忽略）"
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "total_instances": 25,
+  "vulnerability_types": 7,
+  "system": "区块链+刑罚执行监督系统",
+  "types": [
+    {
+      "type": "NoSQL 注入",
+      "severity": "紧急",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/system/captcha/check",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/system/auth/login",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/system/captcha/get",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "NoSQL 注入",
+          "severity": "紧急",
+          "cvss_score": "9.4",
+          "url": "https://10.249.2.1:8090/admin-api/chain/shouye/gzList",
+          "cause": "未对用户输入正确执行危险字符清理",
+          "revision": "确保用户输入的类型正确并对其进行正确转义",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "API 成批分配",
+      "severity": "高",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/system/captcha/get",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/system/captcha/check",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/system/auth/login",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/shouye/gzList",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/zf-zfjbxx/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jxjs-gz/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/zf-kh-jkf/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jx/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jxjs/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "API 成批分配",
+          "severity": "高",
+          "cvss_score": "7.3",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page",
+          "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+          "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "severity": "中",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+          "severity": "中",
+          "cvss_score": "4.7",
+          "url": "https://10.249.2.1:8090/",
+          "cause": "具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie",
+          "revision": "查看将 SameSite Cookie 属性配置为推荐值的可能解决方案",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "severity": "中",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+          "severity": "中",
+          "cvss_score": "6.5",
+          "url": "https://10.249.2.1:8090/",
+          "cause": "Web 应用程序通过 SSL 发送不安全的 cookie",
+          "revision": "向所有敏感的 cookie 添加“Secure”属性",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "支持较老的 TLS 版本",
+      "severity": "中",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "支持较老的 TLS 版本",
+          "severity": "中",
+          "cvss_score": "5.3",
+          "url": "https://10.249.2.1:8090/admin-api/system/auth/logout",
+          "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的",
+          "revision": "对证书使用不同签名算法。请参阅“修订建议”以获取特定服务器指示信息。",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "检测到 SHA-1 密码套件",
+      "severity": "中",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "检测到 SHA-1 密码套件",
+          "severity": "中",
+          "cvss_score": "5.3",
+          "url": "https://10.249.2.1:8090/admin-api/system/auth/logout",
+          "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的",
+          "revision": "更改服务器的受支持密码套件",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    },
+    {
+      "type": "跨站点请求伪造",
+      "severity": "中",
+      "system": "区块链+刑罚执行监督系统",
+      "instances": [
+        {
+          "type": "跨站点请求伪造",
+          "severity": "中",
+          "cvss_score": "6.5",
+          "url": "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page",
+          "cause": "应用程序使用的认证方法不充分",
+          "revision": "验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce",
+          "cve": null,
+          "wasc": null
+        },
+        {
+          "type": "跨站点请求伪造",
+          "severity": "中",
+          "cvss_score": "6.5",
+          "url": "https://10.249.2.1:8090/admin-api/system/auth/login",
+          "cause": "应用程序使用的认证方法不充分",
+          "revision": "验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce",
+          "cve": null,
+          "wasc": null
+        }
+      ]
+    }
+  ]
+}

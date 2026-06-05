@@ -1,0 +1,275 @@
+{
+  "scan_info": {
+    "name": "数据加密服务系统-26-3-3",
+    "date": "2026/3/3 下午6:01:56",
+    "iso_date": "2026-03-03T18:01:56Z",
+    "product": "HCL AppScan Standard",
+    "version": "10.9.0",
+    "cvss_ver": "3.1",
+    "config": {
+      "starting_url": "https://10.132.197.11:9044/",
+      "test_policy": "Default",
+      "scanned_hosts": ""
+    },
+    "summary": {
+      "duration": "00:22:14.5715051",
+      "pages_scanned": "7",
+      "entities_tested": "399",
+      "issues_found": "88",
+      "severity_critical": "0",
+      "severity_high": "0",
+      "severity_medium": "4",
+      "severity_low": "70",
+      "severity_info": "14"
+    }
+  },
+  "total_extracted": 4,
+  "issues": [
+    {
+      "id": "-4387024196040461824",
+      "severity": "medium",
+      "severity_id": "2",
+      "cvss_score": "4.7",
+      "cvss_vector": "AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N/E:U/RL:O/RC:C/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X",
+      "cvss_vector_url": "",
+      "cwe": "1275",
+      "vuln_name": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "vuln_type_id": "attSameSiteCookie",
+      "threat_class": "服务器配置错误",
+      "count": "1",
+      "cwe_ids": [
+        "1275",
+        "284",
+        "923"
+      ],
+      "url": "https://10.132.197.11:9044/",
+      "http_method": "GET",
+      "domain": "sid",
+      "entity_type": "Cookie",
+      "issue_tip": "查看 Set-Cookie 头，并验证 SameSite 属性是否设置为“Lax”或“Strict”，以确保 Cookie 仅限于第一方或同一站点上下文。",
+      "reasoning": "响应包含不安全、不正确或缺少 SameSite 属性的敏感 Cookie，这可能会导致 Cookie 信息泄露，如果没有额外的保护措施，可能会扩展为跨站点请求伪造 (CSRF) 攻击。",
+      "original_request": "",
+      "additional_data": "",
+      "variant_count": 1,
+      "fix_tips": [],
+      "security_risks": [
+        "通过将 Cookie 限制为第一方或同一站点上下文，防止 Cookie 信息泄露",
+        "如果没有额外的保护措施（例如反 CSRF 令牌），攻击可能会扩展到跨站点请求伪造 (CSRF) 攻击。",
+        "SameSite 属性控制如何为跨域请求发送 Cookie。",
+        "该属性可以有三个值：“Lax”、“Strict”或“None”。如果使用“None”，Web 站点可能会向另一个 Web 站点创建跨域 POST HTTP 请求，浏览器会自动向该请求添加 Cookie。",
+        "如果没有适当的保护措施（例如反 CSRF 令牌），则可能会导致跨站请求伪造 (CSRF) 攻击。",
+        "模式及其用途：",
+        "“Lax”模式：Cookie 将仅随顶级 GET 请求一起发送。“Strict”模式；即使用户点击另一个 Web 站点的链接，也不会以任何跨站点使用方式发送该 Cookie。“None”模式：Cookie 将随跨站点请求一起发送。",
+        "具有“Lax”或“None”的属性必须设置“Secure”标志，并且必须通过 https 传输。示例 - Set-Cookie: key=value; SameSite=Lax;Secure",
+        "建议将属性设置为“Strict”。",
+        "示例 - Set-Cookie: key=value; SameSite=Strict"
+      ],
+      "references": [
+        {
+          "text": "WASC 威胁分类：信息泄露",
+          "url": "http://www.webappsec.org/projects/threat/classes/information_leakage.shtml"
+        },
+        {
+          "text": "SameSite Cookie",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite"
+        }
+      ],
+      "cwe_links": [
+        {
+          "text": "1275",
+          "url": "http://cwe.mitre.org/data/definitions/1275.html",
+          "id": "CWE-1275"
+        },
+        {
+          "text": "284",
+          "url": "http://cwe.mitre.org/data/definitions/284.html",
+          "id": "CWE-284"
+        },
+        {
+          "text": "923",
+          "url": "http://cwe.mitre.org/data/definitions/923.html",
+          "id": "CWE-923"
+        }
+      ],
+      "test_request": "GET /reuse/meta/etlDatasource?utoken=047BFF5EEDAF1138C19F58DE6D3604A8FAE7E91A4B2BFC8E48568D6D193E327224E498C0002EBC24D6F8C2A4C75728F9687637BC52B981B72F00AB78C2FDBAF50D5466959CDBF2BC53447213BA05A3CB25C9A71C98D8CABBE399FBC5117FA1522F33B0B5 HTTP/1.1\nHost: 10.132.197.11:9044\nConnection: keep-alive\nsec-ch-ua: \"Not:A-Brand\";v=\"99\", \"Microsoft Edge\";v=\"145\", \"Chromium\";v=\"145\"\nsec-ch-ua-mobile: ?0\nsec-ch-ua-platform: \"Windows\"\nUpgrade-Insecure-Requests: 1\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\nSec-Fetch-Site: same-origin\nSec-Fetch-Mode: navigate\nSec-Fetch-User: ?1\nSec-Fetch-Dest: iframe\nReferer: https://10.132.197.11:9044/\nAccept-Language: en-US\nContent-Length: 0\n\n\nHTTP/1.1 200 \nServer: nginx/1.24.0\nDate: Tue, 03 Mar 2026 10:25:03 GMT\nContent-Type: text/html;charset=UTF-8\nTransfer-Encoding: chunked\nAccess-Control-Allow-Origin: http://10.76.199.148\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: POST, GET, OPTIONS\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,Content-Type\nvary: accept-encoding\nContent-Language: zh-CN\n--begin_highlight_tag--Set-Cookie: sid=b6c4c536-51c3-4e26-90fb-70c71dd994d2; Path=/; HttpOnly; SameSite=lax--end_highlight_tag--\nSet-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 02-Mar-2026 10:25:03 GMT; SameSite=lax\n\n<!DOCTYPE HTML>\n<html lang=\"zh\">\n<meta charset=\"utf-8\">\n<head>\n\t<meta charset=\"utf-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<title></title>\n\t<meta name=\"keywords\" content=\"\">\n\t<meta name=\"description\" content=\"\">\n\t<link href=\"/reuse/css/bootstrap.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/fontawesome-free/css/all.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/font-awesome.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/layui/css/layui.css\" rel=\"stylesheet\"/>\n\t<!-- bootstrap-table 表格插件样式 -->\n\t<link href=\"/reuse/ajax/libs/bootstrap-table/bootstrap-table.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/bootstrap-treetable/bootstrap-treetable.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/animate.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/style.css?v=20250430\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select/select2.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select2/select2.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select2/select2-bootstrap.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/css/ry-ui.css?v=20250628\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/toastr/toastr.min.css\" rel=\"stylesheet\"/>\n\t<!--分页插件-->\n\t<link href=\"/reuse/systemplus/sPage/jquery.sPage.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/icon/iconfont.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/mycostern/iconfont.css?v=20220901\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/fonts/remixicon.css?v=20250611\" rel=\"stylesheet\"  />\n\t<link href=\"/reuse/systemplus/indexPage/fonts/iconfont.css?v=20250707\" rel=\"stylesheet\"  />\n\t<link href=\"/reuse/ajax/libs/magnify/jquery.magnify.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/magnify/magnify-white-theme.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/mycostern-ui-plus.css?v=20250618\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/subApp.css?v=20250628\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/multiselect/style.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/icons.css?v=20250328\" rel=\"stylesheet\"/>\n\t<style>\n\t\t.layui-layer-btn {\n\t\t\ttext-align: center !important;\n\t\t}\n\t</style>\n</style>\n</head>\n<body class=\"gray-bg\">\n\n     <div class=\"container-div\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-12 search-collapse\">\n                <form id=\"formId\">\n\t\t\t\t\t<div class=\"select-list\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t数据源名称：<input type=\"text\" name=\"name\" id=\"name\"/>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t数据库类型：\n\t\t\t\t\t\t\t\t<select name=\"linktype\">\n\t\t\t\t\t\t\t\t\t<option value=\"\">所有</option>\n\t\t\t\t\t\t\t\t\t<option value=\"mysql\">MySQL</option>\n\t\t\t\t\t\t\t\t\t<option value=\"psql\">PostgreSQL</option>\n\t\t\t\t\t\t\t\t\t<option value=\"oracle\">Oracle</option>\n\t\t\t\t\t\t\t\t\t<option value=\"sqlser\">SQL Server</option>\n\t\t\t\t\t\t\t\t\t<option value=\"DM8\">DM8</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a class=\"btn btn-primary btn-rounded btn-sm\" onclick=\"$.treeTable.search()\"><i class=\"fa fa-search\"></i>&nbsp;搜索</a>\n\t\t\t\t\t\t\t\t<a class=\"btn btn-warning btn-rounded btn-sm\" onclick=\"$.form.reset()\"><i class=\"fa fa-refresh\"></i>&nbsp;重置</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t\t\n\t        <div class=\"btn-group-sm h\n...\n...\n...",
+      "test_response": "...\n\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: POST, GET, OPTIONS\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,Content-Type\nvary: accept-encoding\nContent-Language: zh-CN\n--begin_highlight_tag--Set-Cookie: sid=757df8a6-39c6-40ce-b0dc-169fe985bdb6; Path=/; HttpOnly; SameSite=lax--end_highlight_tag--\nSet-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 02-Mar-2026 10:05:47 GMT; SameSite=lax\n\n<!DOCTYPE HTML>\n<html lang=\"zh\">\n<meta charset=\"utf-8\">\n<head>\n <meta charset=\"utf-8\">\n <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\n...",
+      "request_ref_id": ""
+    },
+    {
+      "id": "-2683689913884017152",
+      "severity": "medium",
+      "severity_id": "2",
+      "cvss_score": "6.5",
+      "cvss_vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X",
+      "cvss_vector_url": "",
+      "cwe": "614",
+      "vuln_name": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "vuln_type_id": "attRespCookieNotSecureSSL",
+      "threat_class": "信息泄露",
+      "count": "1",
+      "cwe_ids": [
+        "614",
+        "311",
+        "319"
+      ],
+      "url": "https://10.132.197.11:9044/",
+      "http_method": "GET",
+      "domain": "sid",
+      "entity_type": "Cookie",
+      "issue_tip": "查看 Set-Cookie 头，并验证“secure”属性是否缺失。确保此 cookie 正在加密会话（SSL）中使用。",
+      "reasoning": "AppScan 发现加密会话（SSL）使用的是没有“secure”属性的 cookie。",
+      "original_request": "",
+      "additional_data": "",
+      "variant_count": 1,
+      "fix_tips": [],
+      "security_risks": [
+        "可能会窃取在加密的会话期间发送的用户和会话信息（cookie）",
+        "在应用程序测试过程中，检测到在加密会话过程中，所测试的 Web 应用程序设置了不含“secure”属性的 cookie。由于这个 cookie 不包含“secure”属性，因此，也可能在未加密的会话过程中将它发送到站点。任何以明文形式发送到服务器的 cookie、会话令牌或用户凭证之类的信息都可能被窃取，并在稍后用于身份盗窃或用户伪装。",
+        "此外，若干隐私法规指出，用户凭证之类的敏感信息要始终以加密的方式发送到 Web 站点"
+      ],
+      "references": [
+        {
+          "text": "金融隐私权：The Gramm-Leach Bliley Act",
+          "url": "http://business.ftc.gov/privacy-and-security/gramm-leach-bliley-act/"
+        },
+        {
+          "text": "Health Insurance Portability and Accountability Act（HIPAA）",
+          "url": "http://www.hhs.gov/ocr/hipaa/"
+        },
+        {
+          "text": "Sarbanes-Oxley Act",
+          "url": "http://www.sec.gov/spotlight/sarbanes-oxley.htm"
+        },
+        {
+          "text": "California SB1386",
+          "url": "http://www.leginfo.ca.gov/pub/01-02/bill/sen/sb_1351-1400/sb_1386_bill_20020926_chaptered.html"
+        }
+      ],
+      "cwe_links": [
+        {
+          "text": "614",
+          "url": "http://cwe.mitre.org/data/definitions/614.html",
+          "id": "CWE-614"
+        },
+        {
+          "text": "311",
+          "url": "http://cwe.mitre.org/data/definitions/311.html",
+          "id": "CWE-311"
+        },
+        {
+          "text": "319",
+          "url": "http://cwe.mitre.org/data/definitions/319.html",
+          "id": "CWE-319"
+        }
+      ],
+      "test_request": "GET /reuse/meta/etlDatasource?utoken=047BFF5EEDAF1138C19F58DE6D3604A8FAE7E91A4B2BFC8E48568D6D193E327224E498C0002EBC24D6F8C2A4C75728F9687637BC52B981B72F00AB78C2FDBAF50D5466959CDBF2BC53447213BA05A3CB25C9A71C98D8CABBE399FBC5117FA1522F33B0B5 HTTP/1.1\nHost: 10.132.197.11:9044\nConnection: keep-alive\nsec-ch-ua: \"Not:A-Brand\";v=\"99\", \"Microsoft Edge\";v=\"145\", \"Chromium\";v=\"145\"\nsec-ch-ua-mobile: ?0\nsec-ch-ua-platform: \"Windows\"\nUpgrade-Insecure-Requests: 1\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\nSec-Fetch-Site: same-origin\nSec-Fetch-Mode: navigate\nSec-Fetch-User: ?1\nSec-Fetch-Dest: iframe\nReferer: https://10.132.197.11:9044/\nAccept-Language: en-US\nContent-Length: 0\n\n\nHTTP/1.1 200 \nServer: nginx/1.24.0\nDate: Tue, 03 Mar 2026 10:25:03 GMT\nContent-Type: text/html;charset=UTF-8\nTransfer-Encoding: chunked\nAccess-Control-Allow-Origin: http://10.76.199.148\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: POST, GET, OPTIONS\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,Content-Type\nvary: accept-encoding\nContent-Language: zh-CN\n--begin_highlight_tag--Set-Cookie: sid=0f03fee5-620a-4566-985c-0e3d77d544c3; Path=/; HttpOnly; SameSite=lax--end_highlight_tag--\nSet-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 02-Mar-2026 10:25:03 GMT; SameSite=lax\n\n<!DOCTYPE HTML>\n<html lang=\"zh\">\n<meta charset=\"utf-8\">\n<head>\n\t<meta charset=\"utf-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<title></title>\n\t<meta name=\"keywords\" content=\"\">\n\t<meta name=\"description\" content=\"\">\n\t<link href=\"/reuse/css/bootstrap.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/fontawesome-free/css/all.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/font-awesome.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/layui/css/layui.css\" rel=\"stylesheet\"/>\n\t<!-- bootstrap-table 表格插件样式 -->\n\t<link href=\"/reuse/ajax/libs/bootstrap-table/bootstrap-table.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/bootstrap-treetable/bootstrap-treetable.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/animate.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/style.css?v=20250430\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select/select2.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select2/select2.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/select2/select2-bootstrap.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/css/ry-ui.css?v=20250628\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/toastr/toastr.min.css\" rel=\"stylesheet\"/>\n\t<!--分页插件-->\n\t<link href=\"/reuse/systemplus/sPage/jquery.sPage.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/icon/iconfont.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/mycostern/iconfont.css?v=20220901\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/systemplus/fonts/remixicon.css?v=20250611\" rel=\"stylesheet\"  />\n\t<link href=\"/reuse/systemplus/indexPage/fonts/iconfont.css?v=20250707\" rel=\"stylesheet\"  />\n\t<link href=\"/reuse/ajax/libs/magnify/jquery.magnify.min.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/ajax/libs/magnify/magnify-white-theme.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/mycostern-ui-plus.css?v=20250618\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/subApp.css?v=20250628\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/multiselect/style.css\" rel=\"stylesheet\"/>\n\t<link href=\"/reuse/css/icons.css?v=20250328\" rel=\"stylesheet\"/>\n\t<style>\n\t\t.layui-layer-btn {\n\t\t\ttext-align: center !important;\n\t\t}\n\t</style>\n</style>\n</head>\n<body class=\"gray-bg\">\n\n     <div class=\"container-div\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-12 search-collapse\">\n                <form id=\"formId\">\n\t\t\t\t\t<div class=\"select-list\">\n\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t数据源名称：<input type=\"text\" name=\"name\" id=\"name\"/>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t数据库类型：\n\t\t\t\t\t\t\t\t<select name=\"linktype\">\n\t\t\t\t\t\t\t\t\t<option value=\"\">所有</option>\n\t\t\t\t\t\t\t\t\t<option value=\"mysql\">MySQL</option>\n\t\t\t\t\t\t\t\t\t<option value=\"psql\">PostgreSQL</option>\n\t\t\t\t\t\t\t\t\t<option value=\"oracle\">Oracle</option>\n\t\t\t\t\t\t\t\t\t<option value=\"sqlser\">SQL Server</option>\n\t\t\t\t\t\t\t\t\t<option value=\"DM8\">DM8</option>\n\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a class=\"btn btn-primary btn-rounded btn-sm\" onclick=\"$.treeTable.search()\"><i class=\"fa fa-search\"></i>&nbsp;搜索</a>\n\t\t\t\t\t\t\t\t<a class=\"btn btn-warning btn-rounded btn-sm\" onclick=\"$.form.reset()\"><i class=\"fa fa-refresh\"></i>&nbsp;重置</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t\t\n\t        <div class=\"btn-group-sm h\n...\n...\n...",
+      "test_response": "...\n\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\nAccess-Control-Allow-Methods: POST, GET, OPTIONS\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,Content-Type\nvary: accept-encoding\nContent-Language: zh-CN\n--begin_highlight_tag--Set-Cookie: sid=73e68019-4cf6-40de-b512-77a10dee6e50; Path=/; HttpOnly; SameSite=lax--end_highlight_tag--\nSet-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 02-Mar-2026 10:05:47 GMT; SameSite=lax\n\n<!DOCTYPE HTML>\n<html lang=\"zh\">\n<meta charset=\"utf-8\">\n<head>\n <meta charset=\"utf-8\">\n <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\n...",
+      "request_ref_id": ""
+    },
+    {
+      "id": "-3820063527046193408",
+      "severity": "medium",
+      "severity_id": "2",
+      "cvss_score": "5.3",
+      "cvss_vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X",
+      "cvss_vector_url": "",
+      "cwe": "327",
+      "vuln_name": "支持较老的 TLS 版本",
+      "vuln_type_id": "OldTLS",
+      "threat_class": "服务器配置错误",
+      "count": "1",
+      "cwe_ids": [
+        "327"
+      ],
+      "url": "https://10.132.197.11:9044/api/login/imgCode",
+      "http_method": "GET",
+      "domain": "10.132.197.11",
+      "entity_type": "Page",
+      "issue_tip": "手动连接到服务器，指定 TLSv1.0 或 TLSv1.1，然后验证连接是否成功",
+      "reasoning": "AppScan 发现服务器支持较老的 TLS 版本（TLSv1.0 或 TLSv1.1）",
+      "original_request": "",
+      "additional_data": "",
+      "variant_count": 1,
+      "fix_tips": [],
+      "security_risks": [
+        "可能会窃取或操纵客户会话和 Cookie，它们可能用于假冒合法用户，从而使黑客能够以该用户身份查看或变更用户记录以及执行事务",
+        "服务器支持不提供加密或使用弱加密算法的 TLS 密码套件。因此，攻击者可能能够",
+        "解密客户端和服务器之间的安全通信，或成功对客户端执行“中间人”攻击，使他们能够查看敏感信息以及代表客户端执行操作。",
+        "当前最安全的 TLS 版本是 1.3"
+      ],
+      "references": [
+        {
+          "text": "弃用 TLS 1.0 和 1.1",
+          "url": "https://www.digicert.com/blog/depreciating-tls-1-0-and-1-1/"
+        },
+        {
+          "text": "TLS 1.3 概述",
+          "url": "https://kinsta.com/blog/tls-1-3/"
+        }
+      ],
+      "cwe_links": [
+        {
+          "text": "327",
+          "url": "http://cwe.mitre.org/data/definitions/327.html",
+          "id": "CWE-327"
+        }
+      ],
+      "test_request": "GET /api/login/imgCode?t=1772532085837 HTTP/1.1\nHost: 10.132.197.11:9044\nConnection: keep-alive\nsec-ch-ua-platform: \"Windows\"\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0\nsec-ch-ua: \"Not:A-Brand\";v=\"99\", \"Microsoft Edge\";v=\"145\", \"Chromium\";v=\"145\"\nsec-ch-ua-mobile: ?0\nAccept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8\nSec-Fetch-Site: same-origin\nSec-Fetch-Mode: no-cors\nSec-Fetch-Dest: image\nReferer: https://10.132.197.11:9044/\nAccept-Language: en-US\nCookie: JSESSIONID=node072h22zb7qe2o181133qlkxlkm9.node0\nContent-Length: 0\n\n\nHTTP/1.1 200 OK\nServer: nginx/1.24.0\nDate: Tue, 03 Mar 2026 10:01:24 GMT\nContent-Type: application/json;charset=utf-8\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: *\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Credentials: true\nXDomainRequestAllowed: 1\nExpires: Thu, 01 Jan 1970 00:00:00 GMT\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 1076\nSet-Cookie: JSESSIONID=node01qn9k8b0ysbt812u0lswuomjy011.node0; Path=/api; Secure; HttpOnly; SameSite=Strict\n\n����  JFIF          �� C           \t\t \n  \n                 $.'\",#  (7),01444 '9=82<.342�� C \t\t\t    \n\n 2! !22222222222222222222222222222222222222222222222222��      4  \"       ��                            \t\n �� �                \n}        !1A  Qa \"q 2��� #B�� R��$3br�\t\n     %&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������                            \t\n �� �                w       !1  AQ aq \"2�  B����\t#3R� br�\n $4�%�    &'()*56789: CDEFGHIJSTUVWXYZcdefghijstuvwxyz��������������������������������������������������������������������������          ? 뤒++ ��1��C+3�8U � � �¹� �S��e��xa�Nk�l���/�",
+      "test_response": "HTTP/1.1 200 OK\nServer: nginx/1.24.0\nDate: Tue, 03 Mar 2026 10:01:24 GMT\nContent-Type: application/json;charset=utf-8\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: *\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Credentials: true\nXDomainRequestAllowed: 1\nExpires: Thu, 01 Jan 1970 00:00:00 GMT\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 1076\nSet-Cookie: JSESSIONID=node01qn9k8b0ysbt812u0lswuomjy011.node0; Path=/api; Secure; HttpOnly; SameSite=Strict\n\n����  JFIF          �� C           \t\t \n  \n                 $.'\",#  (7),01444 '9=82<.342�� C \t\t\t    \n\n 2! !22222222222222222222222222222222222222222222222222��      4  \"       ��                            \t\n �� �                \n}        !1A  Qa \"q 2��� #B�� R��$3br�\t\n     %&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������                            \t\n...",
+      "request_ref_id": ""
+    },
+    {
+      "id": "-1791753381008189440",
+      "severity": "medium",
+      "severity_id": "2",
+      "cvss_score": "5.3",
+      "cvss_vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:X/RL:X/RC:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MPR:X/MUI:X/MS:X/MC:X/MI:X/MA:X",
+      "cvss_vector_url": "",
+      "cwe": "327",
+      "vuln_name": "检测到 SHA-1 密码套件",
+      "vuln_type_id": "SHA1CipherSuites",
+      "threat_class": "服务器配置错误",
+      "count": "1",
+      "cwe_ids": [
+        "327"
+      ],
+      "url": "https://10.132.197.11:9044/api/login/imgCode",
+      "http_method": "GET",
+      "domain": "10.132.197.11",
+      "entity_type": "Page",
+      "issue_tip": "验证套件是否使用此处列出的加密型弱密码套件。",
+      "reasoning": "通过使用此处列出的各个弱密码套件成功创建 SSL 连接，AppScan 可以确定该站点使用的是弱密码套件。",
+      "original_request": "",
+      "additional_data": "<CipherSuites><CipherSuite><Id>57</Id><Name>TLS_DHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>SSL 3.0</SslVersion></CipherSuite><CipherSuite><Id>57</Id><Name>TLS_DHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.0</SslVersion></CipherSuite><CipherSuite><Id>49172</Id><Name>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.0</SslVersion></CipherSuite><CipherSuite><Id>57</Id><Name>TLS_DHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.1</SslVersion></CipherSuite><CipherSuite><Id>49172</Id><Name>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.1</SslVersion></CipherSuite><CipherSuite><Id>57</Id><Name>TLS_DHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.2</SslVersion></CipherSuite><CipherSuite><Id>49172</Id><Name>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</Name><SslVersion>TLS 1.2</SslVersion></CipherSuite></CipherSuites>",
+      "variant_count": 1,
+      "fix_tips": [],
+      "security_risks": [
+        "它可能窃取或操纵客户会话和 cookie，这可能用于假冒合法用户，从使攻击者能够查看或更改用户记录，并以该用户的身份执行事务。",
+        "服务器支持 SHA-1 密码套件。",
+        "NIST 在 2011 年淘汰了 SHA-1，但是许多应用程序仍然依赖它。",
+        "直到目前 (2017) 为止，已知只有推论上的攻击是针对 SHA-1，这就是为何许多应用程序仍然依赖它的原因。",
+        "最近，CWI Amsterdam 和 Google Research 团队（[1] 和 [2]）才引入实际的攻击。"
+      ],
+      "references": [
+        {
+          "text": "[1] SHATTERED",
+          "url": "http://shattered.io/"
+        },
+        {
+          "text": "[2] 完整 SHA-1 的第一个冲突",
+          "url": "http://shattered.io/static/shattered.pdf"
+        }
+      ],
+      "cwe_links": [
+        {
+          "text": "327",
+          "url": "http://cwe.mitre.org/data/definitions/327.html",
+          "id": "CWE-327"
+        }
+      ],
+      "test_request": "GET /api/login/imgCode?t=1772532085837 HTTP/1.1\nHost: 10.132.197.11:9044\nConnection: keep-alive\nsec-ch-ua-platform: \"Windows\"\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0\nsec-ch-ua: \"Not:A-Brand\";v=\"99\", \"Microsoft Edge\";v=\"145\", \"Chromium\";v=\"145\"\nsec-ch-ua-mobile: ?0\nAccept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8\nSec-Fetch-Site: same-origin\nSec-Fetch-Mode: no-cors\nSec-Fetch-Dest: image\nReferer: https://10.132.197.11:9044/\nAccept-Language: en-US\nCookie: JSESSIONID=node072h22zb7qe2o181133qlkxlkm9.node0\nContent-Length: 0\n\n\nHTTP/1.1 200 OK\nServer: nginx/1.24.0\nDate: Tue, 03 Mar 2026 10:01:24 GMT\nContent-Type: application/json;charset=utf-8\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: *\nAccess-Control-Max-Age: 3600\nAccess-Control-Allow-Headers: *\nAccess-Control-Allow-Credentials: true\nXDomainRequestAllowed: 1\nExpires: Thu, 01 Jan 1970 00:00:00 GMT\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Length: 1076\nSet-Cookie: JSESSIONID=node01qn9k8b0ysbt812u0lswuomjy011.node0; Path=/api; Secure; HttpOnly; SameSite=Strict\n\n����  JFIF          �� C           \t\t \n  \n                 $.'\",#  (7),01444 '9=82<.342�� C \t\t\t    \n\n 2! !22222222222222222222222222222222222222222222222222��      4  \"       ��                            \t\n �� �                \n}        !1A  Qa \"q 2��� #B�� R��$3br�\t\n     %&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������                            \t\n �� �                w       !1  AQ aq \"2�  B����\t#3R� br�\n $4�%�    &'()*56789: CDEFGHIJSTUVWXYZcdefghijstuvwxyz��������������������������������������������������������������������������          ? 뤒++ ��1��C+3�8U � � �¹� �S��e��xa�Nk�l���/�",
+      "test_response": "",
+      "request_ref_id": ""
+    }
+  ]
+}

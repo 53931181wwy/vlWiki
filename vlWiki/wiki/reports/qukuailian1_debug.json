@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "total_instances": 25,
+    "vulnerability_types": 7,
+    "system": "区块链+刑罚执行监督系统",
+    "vulnerability_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "NoSQL 注入",
+      "title": "NoSQL 注入 (6个实例)",
+      "severity": "紧急",
+      "instance_count": 6,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/check"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/get"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/shouye/gzList"
+          ]
+        }
+      ],
+      "cvss_score": "9.4",
+      "cve": [],
+      "cause": "未对用户输入正确执行危险字符清理",
+      "revision": "确保用户输入的类型正确并对其进行正确转义"
+    },
+    {
+      "type": "API 成批分配",
+      "title": "API 成批分配 (13个实例)",
+      "severity": "高",
+      "instance_count": 13,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/get"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/check"
+          ]
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ]
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/shouye/gzList"
+          ]
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/zf-zfjbxx/page"
+          ]
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jxjs-gz/page"
+          ]
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh/page"
+          ]
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page"
+          ]
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/zf-kh-jkf/page"
+          ]
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jx/page"
+          ]
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId"
+          ]
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jxjs/page"
+          ]
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page"
+          ]
+        }
+      ],
+      "cvss_score": "7.3",
+      "cve": [],
+      "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+      "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。"
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "title": "具有不安全、不正确或缺少 SameSite 属性的 Cookie (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/"
+          ]
+        }
+      ],
+      "cvss_score": "4.7",
+      "cve": [],
+      "cause": "具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie",
+      "revision": "查看将 SameSite Cookie 属性配置为推荐值的可能解决方案"
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "title": "加密会话（SSL）Cookie 中缺少 Secure 属性 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/"
+          ]
+        }
+      ],
+      "cvss_score": "6.5",
+      "cve": [],
+      "cause": "Web 应用程序通过 SSL 发送不安全的 cookie",
+      "revision": "向所有敏感的 cookie 添加“Secure”属性"
+    },
+    {
+      "type": "支持较老的 TLS 版本",
+      "title": "支持较老的 TLS 版本 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/logout"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的",
+      "revision": "对证书使用不同签名算法。请参阅“修订建议”以获取特定服务器指示信息。"
+    },
+    {
+      "type": "检测到 SHA-1 密码套件",
+      "title": "检测到 SHA-1 密码套件 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/logout"
+          ]
+        }
+      ],
+      "cvss_score": "5.3",
+      "cve": [],
+      "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的",
+      "revision": "更改服务器的受支持密码套件"
+    },
+    {
+      "type": "跨站点请求伪造",
+      "title": "跨站点请求伪造 (2个实例)",
+      "severity": "中",
+      "instance_count": 2,
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page"
+          ]
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ]
+        }
+      ],
+      "cvss_score": "6.5",
+      "cve": [],
+      "cause": "应用程序使用的认证方法不充分",
+      "revision": "验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce"
+    }
+  ]
+}
