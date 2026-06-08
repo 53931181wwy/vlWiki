@@ -519,7 +519,12 @@ class AppScanPDFParser:
             if s in section_boundaries:
                 save_field()
                 break
-            if s.startswith('原因') and current_field and current_field != 'cause':
+            # 匹配 '原因：' 或 'XXX原因：'（下一个漏洞的 cause 字段开始）
+            if current_field and re.search(r'原因\s*[：:]', s):
+                save_field()
+                break
+            # 当前行以某个漏洞类型名开头 → 已进入下一个漏洞的修复块，截断
+            if current_field and any(s.startswith(t) for t in type_names):
                 save_field()
                 break
 

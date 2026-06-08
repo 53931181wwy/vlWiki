@@ -10,12 +10,15 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
 # ---------------------------------------------------------------------------
-# 知识库默认路径
+# 知识库默认路径（基于 Skill 目录动态计算，无需硬编码）
+# Skill 代码目录: C:\Users\stc\.codebuddy\skills\vlWiki
+# 知识库目录:     C:\Users\stc\.codebuddy\skills\vlWiki\vlWiki
 # ---------------------------------------------------------------------------
 
-VAULT_ROOT = r"D:\Users\个人项目\wb\vlWiki"
-WIKI_DIR = VAULT_ROOT                         # 知识库根目录
-WIKI_ROOT = os.path.join(VAULT_ROOT, "wiki")  # wiki 子目录
+_SKILL_DIR = Path(__file__).parent.parent.resolve()  # Skill 根目录
+VAULT_ROOT = str(_SKILL_DIR / "vlWiki")               # 知识库 Vault 根目录
+WIKI_DIR = VAULT_ROOT                                  # 知识库根目录
+WIKI_ROOT = os.path.join(VAULT_ROOT, "wiki")           # wiki 子目录
 VULN_DIR = os.path.join(WIKI_ROOT, "vulnerabilities")
 TYPE_DIR = os.path.join(WIKI_ROOT, "vulnerability-types")
 SYSTEM_DIR = os.path.join(WIKI_ROOT, "systems")

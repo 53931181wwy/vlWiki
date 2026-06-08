@@ -1,0 +1,1244 @@
+{
+  "meta": {
+    "source_file": "2026-04-16-安全报告.pdf",
+    "source_path": "C:\\Users\\stc\\.codebuddy\\skills\\vlWiki\\vlWiki\\wiki\\raw\\pdf\\2026-04-16-安全报告.pdf",
+    "parser": "appscan_pdf",
+    "parse_date": "2026-06-08T20:32:20.986318",
+    "report_date": "",
+    "total_instances": 154,
+    "vulnerability_types": 12,
+    "system": "全流程工程管理数字化系统-26-4-16",
+    "vul_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "SQL 注入",
+      "title": "SQL 注入 (1个实例)",
+      "severity": "紧急",
+      "instance_count": 1,
+      "cvss_score": "9.4",
+      "cause": "未对用户输入正确执行危险字符清理",
+      "revision": "查看危险字符注入的可能解决方案",
+      "risk": "可能的后果包括以下方面的损害：\n机密性 - 由于 SQL 数据库通常用于存储敏感数据，因此丧失机密性是 SQL 注入漏洞的常见问题。\n身份验证 - 如果使用不良的 SQL 命令检查用户名和密码，则有可能以其他用户的身份连接到系统，而无需提前知道密码。\n授权 - 如果授权信息保存在 SQL 数据库中，则可以通过成功利用 SQL 注入漏洞来更改这些信息。\n完整性 - 正如有可能读取敏感信息一样，通过 SQL 注入攻击还可以更改甚至删除这些信息。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 14
+        }
+      ]
+    },
+    {
+      "type": "整数溢出",
+      "title": "整数溢出 (53个实例)",
+      "severity": "高",
+      "instance_count": 53,
+      "cvss_score": "8.6",
+      "cause": "未对入局参数值执行适当的边界检查\n当以整数数据类型（包括字节、短、长和其他类型）存储的值过大（大于变量可容纳的最大值）的值时，将发生整数溢出（或环绕）。整数的最高有效位丢失，而其余值则相对于最小值\n（对于带符号类型，为 0 或负值）。",
+      "revision": "验证参数值是否在其预计范围和类型内。不要输出调试错误消息和异常",
+      "risk": "当发生整数溢出时，解释后的值似乎已“环绕”过最大值，然后重新设置回最小值。\n该值可能会意外变为零或负数。如果该值用于控制循环、管理资源（例如内存分配）或制定业务逻辑决策，可能会带来安全隐患。\n例如，当交易完成时，整数溢出可导致除购买物之外还需要向客户支付钱款。\n尤其是，如果数学运算得出的数字大于该整数类型可能的最大值，则该值会环绕并将变量设置为零或负数。\ni=UINT_MAX+1; //无符号整数类型的变量的最大值 - 4294967295 (0xffffffff)。结果为：i=0",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/auth/oauth2/authorize"
+          ],
+          "start_page": 16
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 16
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/pub/03011407/topNav/getMessageCount"
+          ],
+          "start_page": 17
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 18
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 18
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 19
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 20
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 20
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 21
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 22
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 22
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 23
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetFianFinancePlanSettings"
+          ],
+          "start_page": 24
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 24
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 25
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010604/MoneyPlanReportGroup/GetMoneyPlanGroupApprovalData"
+          ],
+          "start_page": 26
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetMoneyPlanParamValue"
+          ],
+          "start_page": 26
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetMoneyPlanParamValue"
+          ],
+          "start_page": 27
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 28
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emds.sqemc.com:8443/api/03011407/setting/page/config"
+          ],
+          "start_page": 28
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppCardAjaxHandler/LoadData"
+          ],
+          "start_page": 29
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02209901/Common/enableRiskMain"
+          ],
+          "start_page": 30
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/Provider/enableYcg"
+          ],
+          "start_page": 30
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppCardAjaxHandler/LoadData"
+          ],
+          "start_page": 31
+        },
+        {
+          "index": 25,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppCardAjaxHandler/LoadData"
+          ],
+          "start_page": 32
+        },
+        {
+          "index": 26,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 32
+        },
+        {
+          "index": 27,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 33
+        },
+        {
+          "index": 28,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 34
+        },
+        {
+          "index": 29,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 34
+        },
+        {
+          "index": 30,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetUsedProviderTypeInfo"
+          ],
+          "start_page": 35
+        },
+        {
+          "index": 31,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetKhRuleList"
+          ],
+          "start_page": 36
+        },
+        {
+          "index": 32,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 36
+        },
+        {
+          "index": 33,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetCacheManager"
+          ],
+          "start_page": 37
+        },
+        {
+          "index": 34,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetCacheManager"
+          ],
+          "start_page": 38
+        },
+        {
+          "index": 35,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetExportParam"
+          ],
+          "start_page": 38
+        },
+        {
+          "index": 36,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 39
+        },
+        {
+          "index": 37,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 40
+        },
+        {
+          "index": 38,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 40
+        },
+        {
+          "index": 39,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 41
+        },
+        {
+          "index": 40,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 42
+        },
+        {
+          "index": 41,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 42
+        },
+        {
+          "index": 42,
+          "url": [
+            "https://emds.sqemc.com:8443/api/03011407/setting/globalCss"
+          ],
+          "start_page": 43
+        },
+        {
+          "index": 43,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 44
+        },
+        {
+          "index": 44,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200307/CgSolutionSimple/GetNodeList"
+          ],
+          "start_page": 44
+        },
+        {
+          "index": 45,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 45
+        },
+        {
+          "index": 46,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 46
+        },
+        {
+          "index": 47,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ],
+          "start_page": 46
+        },
+        {
+          "index": 48,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ],
+          "start_page": 47
+        },
+        {
+          "index": 49,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201204/BaseBidPriceAdjust/IsAdmin"
+          ],
+          "start_page": 48
+        },
+        {
+          "index": 50,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Nav.AppServices.SiteRedirectAppService/RedirectFunctionHomePageWithoutToken"
+          ],
+          "start_page": 48
+        },
+        {
+          "index": 51,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Nav.AppServices.SiteRedirectAppService/RedirectFunctionHomePageWithoutToken"
+          ],
+          "start_page": 49
+        },
+        {
+          "index": 52,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 50
+        },
+        {
+          "index": 53,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 50
+        }
+      ]
+    },
+    {
+      "type": "查询中的密码参数",
+      "title": "查询中的密码参数 (1个实例)",
+      "severity": "高",
+      "instance_count": 1,
+      "cvss_score": "8.2",
+      "cause": "查询字符串中传递了敏感输入字段（例如用户名、密码和信用卡号）\n查询字符串中传递了敏感输入字段（例如用户名、密码和信用卡号）",
+      "revision": "发送敏感信息时，始终使用 SSL 和 POST（主体）参数。",
+      "risk": "可能会窃取查询字符串中发送的敏感数据，例如用户名和密码\n在应用程序测试过程中，检测到查询字符串中接收到密码参数。由于登录过程所用的部分输入字段（例如：用户名、密码、电子邮件地址、社会保险号码，等等）是个人敏感信息，\n建议将其放在请求的主体部分或加密连接（如 SSL）中来发送到服务器。任何通过查询字符串传给服务器的信息都可能被窃，稍后可用来电子欺骗身份或伪装用户。\n此外，若干隐私权法规指出，用户凭证之类的敏感信息一律以加密方式传给网站。",
+      "affected_products": "该问题可能会影响各种类型的产品",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetKhRuleList"
+          ],
+          "start_page": 51
+        }
+      ]
+    },
+    {
+      "type": "缺少必需的CSP指令",
+      "title": "缺少必需的CSP指令 (58个实例)",
+      "severity": "高",
+      "instance_count": 58,
+      "cvss_score": "8.2",
+      "cause": "Web 应用程序编程或配置不安全\n不安全的网络应用程序编程或配置",
+      "revision": "配置具有适当值的Content-Security-Policy",
+      "risk": "\"Content-Security-Policy\"头部设计用于修改浏览器渲染页面的方式，从而保护免受各种跨站注入，包括跨站脚本。正确设置头部值非常重要，以免阻止网站的正常运行。\n缺少必要的指令可能会使网站变得脆弱，因此，攻击向量如XSS可能会被利用。",
+      "affected_products": "这个问题可能会影响不同类型的产品。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/login"
+          ],
+          "start_page": 52
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/version.json"
+          ],
+          "start_page": 52
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/pub/03011407/topNav/getMessageCount"
+          ],
+          "start_page": 53
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/gzt/oauth2/refreshToken"
+          ],
+          "start_page": 54
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emds.sqemc.com:8443/std/03011401/08dc5cec-6593-4af6-8de4-8bf200fca00a"
+          ],
+          "start_page": 54
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.PubPlatform.Nav.Handlers.WorkBenchLoginHandler/DoLogin"
+          ],
+          "start_page": 55
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/widgets/news/manifest.json"
+          ],
+          "start_page": 56
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/widgets/notice/manifest.json"
+          ],
+          "start_page": 56
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/widgets/functionList/manifest.json"
+          ],
+          "start_page": 57
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/widgets/messageCenter/manifest.json"
+          ],
+          "start_page": 58
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emds.sqemc.com:8443/std/32010650/81a01160-efa5-454f-509a-08da4c3076e6"
+          ],
+          "start_page": 58
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 59
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/GetHtml"
+          ],
+          "start_page": 60
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.Controls.SubControls.FilterAppService/LoadFilter"
+          ],
+          "start_page": 60
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.Map6.Modeling.AppServices.Controls.ProjectTreeAppService/GetProjectSelect"
+          ],
+          "start_page": 61
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetFianFinancePlanSettings"
+          ],
+          "start_page": 61
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppTreeGridAjaxHandler/LoadData"
+          ],
+          "start_page": 62
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppGridAjaxHandler/LoadData"
+          ],
+          "start_page": 63
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emds.sqemc.com:8443/std/32010604/08dacec8-4ad1-41eb-8a87-fc79865b5b56"
+          ],
+          "start_page": 63
+        },
+        {
+          "index": 20,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010604/MoneyPlanReportGroup/GetMoneyPlanGroupApprovalData"
+          ],
+          "start_page": 64
+        },
+        {
+          "index": 21,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetMoneyPlanParamValue"
+          ],
+          "start_page": 65
+        },
+        {
+          "index": 22,
+          "url": [
+            "https://emds.sqemc.com:8443/std/32010652/08db82a4-ff76-43ff-80cd-70ffe3d0217e"
+          ],
+          "start_page": 65
+        },
+        {
+          "index": 23,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02200103/a43977ee-bc61-e911-9b41-001a7dda7111"
+          ],
+          "start_page": 66
+        },
+        {
+          "index": 24,
+          "url": [
+            "https://emds.sqemc.com:8443/PubPlatform/SysSetting/M00002105/bizparam"
+          ],
+          "start_page": 66
+        },
+        {
+          "index": 25,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02200105/1426487d-bfe1-ea11-9838-54e1adbf0f0f"
+          ],
+          "start_page": 67
+        },
+        {
+          "index": 26,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02200201/8713a59f-0b9a-e911-aa80-54e1adee7d63"
+          ],
+          "start_page": 67
+        },
+        {
+          "index": 27,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02209901/Common/enableRiskMain"
+          ],
+          "start_page": 68
+        },
+        {
+          "index": 28,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/Provider/enableYcg"
+          ],
+          "start_page": 69
+        },
+        {
+          "index": 29,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppCardAjaxHandler/LoadData"
+          ],
+          "start_page": 69
+        },
+        {
+          "index": 30,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetCacheManager"
+          ],
+          "start_page": 70
+        },
+        {
+          "index": 31,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetExportParam"
+          ],
+          "start_page": 70
+        },
+        {
+          "index": 32,
+          "url": [
+            "https://emds.sqemc.com:8443/api/03011407/setting/globalCss"
+          ],
+          "start_page": 71
+        },
+        {
+          "index": 33,
+          "url": [
+            "https://emds.sqemc.com:8443/PO/js/3rd/login.js"
+          ],
+          "start_page": 72
+        },
+        {
+          "index": 34,
+          "url": [
+            "https://emds.sqemc.com:8443/static/08dc4e04-a714-4971-86ae-2cd2852308c4/codingpage/08dc5cec-6593-4ad7-84fc-b29a58a47bd8.js"
+          ],
+          "start_page": 72
+        },
+        {
+          "index": 35,
+          "url": [
+            "https://emds.sqemc.com:8443/api/03011407/setting/page/config"
+          ],
+          "start_page": 73
+        },
+        {
+          "index": 36,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02201603/08daf383-e025-4769-846d-c6ac16e3e78b"
+          ],
+          "start_page": 74
+        },
+        {
+          "index": 37,
+          "url": [
+            "https://emds.sqemc.com:8443/Cgztb/ProviderAssess/M02201601/KhRuleForm/KhRuleForm"
+          ],
+          "start_page": 74
+        },
+        {
+          "index": 38,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetUsedProviderTypeInfo"
+          ],
+          "start_page": 75
+        },
+        {
+          "index": 39,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetKhRuleList"
+          ],
+          "start_page": 75
+        },
+        {
+          "index": 40,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02201604/08db0d8b-7f4f-4abe-863c-8da6af976f0c"
+          ],
+          "start_page": 76
+        },
+        {
+          "index": 41,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200307/CgSolutionSimple/GetNodeList"
+          ],
+          "start_page": 76
+        },
+        {
+          "index": 42,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Nav.AppServices.ThemeSettingsAppService/GetCustomizeThemeBySiteId"
+          ],
+          "start_page": 77
+        },
+        {
+          "index": 43,
+          "url": [
+            "https://emds.sqemc.com:8443/_frontend/sea-config.js"
+          ],
+          "start_page": 78
+        },
+        {
+          "index": 44,
+          "url": [
+            "https://emds.sqemc.com:8443/static/6807139e-1939-4353-d61e-08da49468f55/vuetemplate/71b1e5d2-bd54-4d55-5099-08da4c3076e6.js"
+          ],
+          "start_page": 78
+        },
+        {
+          "index": 45,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201204/BaseBidPriceAdjust/IsAdmin"
+          ],
+          "start_page": 79
+        },
+        {
+          "index": 46,
+          "url": [
+            "https://emds.sqemc.com:8443/std/32010604/febfed58-34fc-44ee-5bc8-08dad0e746f6"
+          ],
+          "start_page": 80
+        },
+        {
+          "index": 47,
+          "url": [
+            "https://emds.sqemc.com:8443/Cgztb/ProviderManage/M02200201/ProviderCompare/ProviderCompareIframe"
+          ],
+          "start_page": 80
+        },
+        {
+          "index": 48,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Nav.AppServices.SiteRedirectAppService/RedirectFunctionHomePageWithoutToken"
+          ],
+          "start_page": 81
+        },
+        {
+          "index": 49,
+          "url": [
+            "https://emds.sqemc.com:8443/PubPlatform/Nav/Common/OutsiteLinkPage"
+          ],
+          "start_page": 81
+        },
+        {
+          "index": 50,
+          "url": [
+            "https://emds.sqemc.com:8443/Pubplatform/SysSetting/M00002105/bizparam"
+          ],
+          "start_page": 82
+        },
+        {
+          "index": 51,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200302/CgSolution/GetNodeList"
+          ],
+          "start_page": 83
+        },
+        {
+          "index": 52,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02200308/08dc4246-562e-49b4-8864-54313a31b750"
+          ],
+          "start_page": 83
+        },
+        {
+          "index": 53,
+          "url": [
+            "https://emds.sqemc.com:8443/std/02200911/5cf49f23-3d86-ea11-aa7f-54e1ade4a50e"
+          ],
+          "start_page": 84
+        },
+        {
+          "index": 54,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/CurrentUserExistsDataMaskingRights"
+          ],
+          "start_page": 84
+        },
+        {
+          "index": 55,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IsSyncProviderUser2MyUser"
+          ],
+          "start_page": 85
+        },
+        {
+          "index": 56,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/BusinessModeIsOP"
+          ],
+          "start_page": 85
+        },
+        {
+          "index": 57,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.PublicServices.OrganizationUserImpAppService/GetIntegratedLicenseUserKindTitle"
+          ],
+          "start_page": 86
+        },
+        {
+          "index": 58,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IntegrationCategoryManager"
+          ],
+          "start_page": 87
+        }
+      ]
+    },
+    {
+      "type": "通过 URL 重定向钓鱼",
+      "title": "通过 URL 重定向钓鱼 (1个实例)",
+      "severity": "高",
+      "instance_count": 1,
+      "cvss_score": "8.2",
+      "cause": "Web 应用程序执行指向外部站点的重定向\n不安全的 Web 应用程序编程或配置",
+      "revision": "禁用基于参数值指向外部站点的重定向",
+      "risk": "可能会收集有关 Web 应用程序的敏感信息，例如用户名、密码、计算机名称和/或敏感文件位置\n可能会诱使防备心不强的用户提供敏感信息，如用户名、密码、信用卡号、社会保险号等\n跨源资源共享 (CORS) 是一种机制，允许网站从外部站点请求资源，而无需复制这些资源。\n授予对外部站点的访问权时，它们还可以在授予站点上执行各种操作，并在这些站点上运行脚本\n因此，非常重要的一点是，不要授予对任意站点的访问权，而应仅授予对可信站点的访问权。\n如果更改策略以反映源值，则必须针对可信站点的白名单对源进行测试。",
+      "affected_products": "此问题可能会影响不同类型的产品。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/auth/oauth2/authorize"
+          ],
+          "start_page": 87
+        }
+      ]
+    },
+    {
+      "type": "CORS 策略根据任意初始头进行设置",
+      "title": "CORS 策略根据任意初始头进行设置 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "5.3",
+      "cause": "Web 应用程序编程或配置不安全\n缺少 code_verify (PKCE)",
+      "revision": "修改“Access-Control-Allow-Origin”头以仅获取允许的站点",
+      "risk": "黑客可能能够窃取或操纵客户会话和 cookie，并且可能将其用于假冒合法用户，从而以该用户身份查看或变更用户记录以及执行事务操作",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 89
+        }
+      ]
+    },
+    {
+      "type": "OAuth 隐式授权类型缺陷",
+      "title": "OAuth 隐式授权类型缺陷 (2个实例)",
+      "severity": "中",
+      "instance_count": 2,
+      "cvss_score": "6.5",
+      "cause": "应用程序使用的认证方法不充分\n子资源完整性不受支持。",
+      "revision": "添加代码交换证明密钥 (PKCE)",
+      "risk": "用户代理不验证来自第三方服务的脚本。如果第三方服务被破坏，用户将处于无保护状态。源自其他域的脚本和链接标签不支持完整性检查。如果托管脚本的服务被破坏，这种漏洞\n可能会被利用。\n不支持SRI的样本脚本元素：\n<script src=\"https://example.com/example-framework.js\" crossorigin=\"anonymous\"></script>\n支持SRI的样本脚本元素：\n<script src=\"https://example.com/example-framework.js\" integrity=\"sha384-Li9vy3DqF8tnTXuiaAJuML3ky+er10rcgNR/VqsVpcw+ThHmYcwiB1pbOxEbzJr7\"\ncrossorigin=\"anonymous\"></script>",
+      "affected_products": "该问题可能会影响各种类型的产品。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/auth/oauth2/authorize"
+          ],
+          "start_page": 89
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/gzt/oauth2/refreshToken"
+          ],
+          "start_page": 90
+        }
+      ]
+    },
+    {
+      "type": "SRI (Subresource Integrity) 的检查",
+      "title": "SRI (Subresource Integrity) 的检查 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "5.3",
+      "cause": "SRI(Subresource Integrity) 不受支持\n具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie",
+      "revision": "将每个第三方脚本/链接元素支持添加到 SRI(Subresource Integrity)。",
+      "risk": "通过将 Cookie 限制为第一方或同一站点上下文，防止 Cookie 信息泄露\n如果没有额外的保护措施（例如反 CSRF 令牌），攻击可能会扩展到",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/bi-visual/app/index/11111111-0000-0000-0000-000000000220"
+          ],
+          "start_page": 91
+        }
+      ]
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "title": "具有不安全、不正确或缺少 SameSite 属性的 Cookie (7个实例)",
+      "severity": "中",
+      "instance_count": 7,
+      "cvss_score": "4.7",
+      "cause": "具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie\nWeb 应用程序通过 SSL 发送不安全的 cookie",
+      "revision": "查看将 SameSite Cookie 属性配置为推荐值的可能解决方案",
+      "risk": "可能会窃取在加密的会话期间发送的用户和会话信息（cookie）\n在应用程序测试过程中，检测到在加密会话过程中，所测试的 Web 应用程序设置了不含“secure”属性的 cookie。由于这个 cookie 不包含“secure”属性，因此，也可能在未加密的会\n话过程中将它发送到站点。任何以明文形式发送到服务器的 cookie、会话令牌或用户凭证之类的信息都可能被窃取，并在稍后用于身份盗窃或用户伪装。\n此外，若干隐私法规指出，用户凭证之类的敏感信息要始终以加密的方式发送到 Web 站点",
+      "affected_products": "该问题可能会影响各种类型的产品",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 92
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 92
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 93
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 93
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 94
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 95
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 95
+        }
+      ]
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "title": "加密会话（SSL）Cookie 中缺少 Secure 属性 (6个实例)",
+      "severity": "中",
+      "instance_count": 6,
+      "cvss_score": "6.5",
+      "cause": "Web 应用程序通过 SSL 发送不安全的 cookie\n未对用户输入正确执行危险字符清理",
+      "revision": "向所有敏感的 cookie 添加“Secure”属性",
+      "risk": "可能会查看、修改或删除数据库条目和表\nAppScan 在测试响应中发现数据库错误，该错误可能已被“SQL 注入”以外的攻击所触发。\n虽然不确定，但这个错误可能表示应用程序有“SQL 注入”漏洞。\n若是如此，请仔细阅读下列“SQL 注入”咨询。该软件使用受外部影响的输入构造整个 SQL 命令或 SQL 命令的一部分，但是会错误的无害化某些特殊元素，这些元素可在所需 SQL命\n令发送到数据库时对其进行修改。如果在用户可控制的输入中没有对 SQL 语法充分地除去或加上引号，那么生成的 SQL 查询可能会导致将这些输入解释为 SQL 而不是普通用户数\n据。这可用于修改查询逻辑以绕过安全性检查，或者插入其他用于修改后端数据库的语句，也可能包括执行系统命令。\nSELECT * FROM accounts WHERE username='$user' AND password='$pass'\n这两个变量（$user 和 $pass）包含了用户在登录表单中输入的用户凭证。因此，如果用户输入“jsmith”作为用户名，输入“Demo1234”作为密码，那么 SQL 查询将如下所示：\nSELECT * FROM accounts WHERE username='jsmith' AND password='Demo1234'\n但如果用户输入“'”（单引号）作为用户名，输入“'”（单引号）作为密码，那么 SQL 查询将如下所示：\nSELECT * FROM accounts WHERE username=''' AND password='''\n当然，这是格式错误的 SQL 查询，并将调用错误消息，而 HTTP 响应中可能会返回此错误消息。通过此类错误，攻击者会知道 SQL 注入已成功，这样攻击者就会尝试进一步的攻击\n媒介。利用的样本：\n以下 C# 代码会动态构造并执行 SQL 代码来搜索与指定名称匹配的项。该查询将所显示的项限制为其所有者与当前已认证用户的用户名相匹配的项。\n... string userName = ctx.getAuthenticatedUserName(); string query = \"SELECT * FROM items WHERE owner = \"'\" + userName + \"' AND itemname = '\" + ItemName.Text + \"'\";\nsda = new SqlDataAdapter(query, conn); DataTable dt = new DataTable(); sda.Fill(dt); ...\n此代码打算执行的查询如下所示：\nSELECT * FROM items WHERE owner = AND itemname = ;\n不过，由于该查询是通过将常量基本查询字符串和用户输入字符串进行并置来自动构造而成，因此仅当 itemName 不包含单引号字符时，查询才会正常工作。如果用户名为 wiley 的\n攻击者针对 itemName 输入字符串“name' OR 'a'='a”，那么查询将变为以下内容：\nSELECT * FROM items WHERE owner = 'wiley' AND itemname = 'name' OR 'a'='a';\n添加 OR 'a'='a' 条件导致 where 子句始终求值为 true，因此该查询在逻辑上将变为等价于以下更简单的查询：\nSELECT * FROM items;",
+      "affected_products": "该问题可能会影响各种类型的产品。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 96
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 97
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 97
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 98
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 99
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emds.sqemc.com:8443/"
+          ],
+          "start_page": 99
+        }
+      ]
+    },
+    {
+      "type": "发现数据库错误模式",
+      "title": "发现数据库错误模式 (4个实例)",
+      "severity": "中",
+      "instance_count": 4,
+      "cvss_score": "5.3",
+      "cause": "未对用户输入正确执行危险字符清理\n之所以出现此漏洞，是因为应用程序允许用户在不验证请求是否是有意发送的情况下执行某些敏感操作。\n攻击者可能导致受害者的浏览器向应用程序中的任意 URL 发出 HTTP 请求。从经过认证的受害者的浏览器发送此请求时，它将包括受害者的会话 Cookie 或认证标头。应用程序将接\n受此请求作为来自经过认证的用户的有效请求。\n如果将 Web 服务器设计为接收来自客户端的请求，但缺乏用于验证该请求是否有意发送的机制，则攻击者可能会欺骗客户端从另一个站点发出无意请求，而应用程序会将该请求视为\n可信请求。可以通过提交表单、加载图像、在 JavaScript 中发送 XMLHttpRequest 等执行此操作。\n例如，此 IMG 标签可以嵌入到攻击者的网页中，并且受害者的浏览器将提交请求检索该图像。此有效请求将由应用程序处理，并且浏览器不会显示损坏的图像。“<img\nsrc=\"https://myapp.com/transfer?acct=VICTIM&amount=10000\" width=0 height=0 border=0>”。由此带来的结果是，使用受害者的会话将受害者账户中的资金转移到攻击者的账户\n中。",
+      "revision": "查看危险字符注入的可能解决方案",
+      "risk": "攻击者可利用此漏洞在另一个用户的帐户中执行敏感操作，或使用其特权执行敏感操作。\n可能会强制最终用户在当前其已通过认证的 Web 应用程序上执行不必要的操作。这将允许攻击者更改用户记录并以该用户身份执行事务。\n如果用户当前登录到受害者站点，则请求将自动使用该用户的凭证，例如会话 Cookie、IP 地址及其他浏览器认证方法。攻击者使用此方法来伪造受害者的身份，并代表他们提交操\n作。\n此漏洞的严重程度取决于应用程序中受影响的功能。例如，对搜索页面的 CSRF 攻击不如对转账或个人资料更新页面的 CSRF 攻击严重。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 100
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 102
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 103
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 104
+        }
+      ]
+    },
+    {
+      "type": "跨站点请求伪造",
+      "title": "跨站点请求伪造 (19个实例)",
+      "severity": "中",
+      "instance_count": 19,
+      "cvss_score": "6.5",
+      "cause": "应用程序使用的认证方法不充分\nWeb 应用程序编程或配置不安全",
+      "revision": "验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce",
+      "risk": "可能会收集有关 Web 应用程序的敏感信息，如用户名、密码、机器名和/或敏感文件位置\n可能会劝说初级用户提供诸如用户名、密码、信用卡号、社会保险号等敏感信息。\n“X-Content-Type-Options”头（具有“nosniff”值）防止 IE 和 Chrome 忽略响应的内容类型。\n此操作可能防止不可信内容（例如，用户上载内容）在用户浏览器上执行（例如，在恶意命名之后）。",
+      "affected_products": "此问题可能影响不同类型的产品",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetFianFinancePlanSettings"
+          ],
+          "start_page": 105
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010604/MoneyPlanReportGroup/GetMoneyPlanGroupApprovalData"
+          ],
+          "start_page": 105
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://emds.sqemc.com:8443/api/32010650/MoneyPlanSettings/GetMoneyPlanParamValue"
+          ],
+          "start_page": 106
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02209901/Common/enableRiskMain"
+          ],
+          "start_page": 106
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/Provider/enableYcg"
+          ],
+          "start_page": 106
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetCacheManager"
+          ],
+          "start_page": 106
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200201/ProviderGlobalSearch/SetExportParam"
+          ],
+          "start_page": 107
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetUsedProviderTypeInfo"
+          ],
+          "start_page": 107
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201601/KhRule/GetKhRuleList"
+          ],
+          "start_page": 107
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200307/CgSolutionSimple/GetNodeList"
+          ],
+          "start_page": 108
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02201204/BaseBidPriceAdjust/IsAdmin"
+          ],
+          "start_page": 108
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://emds.sqemc.com:8443/api/02200302/CgSolution/GetNodeList"
+          ],
+          "start_page": 108
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://emds.sqemc.com:8443/ajax/Mysoft.Map6.Modeling.Controls.AppCardAjaxHandler/LoadData"
+          ],
+          "start_page": 109
+        },
+        {
+          "index": 14,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/CurrentUserExistsDataMaskingRights"
+          ],
+          "start_page": 109
+        },
+        {
+          "index": 15,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IsSyncProviderUser2MyUser"
+          ],
+          "start_page": 109
+        },
+        {
+          "index": 16,
+          "url": [
+            "https://emds.sqemc.com:8443/dp/api/released_dashboard_chart/chart/data"
+          ],
+          "start_page": 110
+        },
+        {
+          "index": 17,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/BusinessModeIsOP"
+          ],
+          "start_page": 110
+        },
+        {
+          "index": 18,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.PublicServices.OrganizationUserImpAppService/GetIntegratedLicenseUserKindTitle"
+          ],
+          "start_page": 110
+        },
+        {
+          "index": 19,
+          "url": [
+            "https://emds.sqemc.com:8443/api/Mysoft.PubPlatform.Organization.AppServices.OrganizationUserAppService/IntegrationCategoryManager"
+          ],
+          "start_page": 111
+        }
+      ]
+    }
+  ]
+}

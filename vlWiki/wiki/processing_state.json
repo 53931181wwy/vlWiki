@@ -170,8 +170,8 @@
   ],
   "last_updated": "2026-05-09T23:55:00",
   "pdf_files": [
-    "D:/Users/个人项目/wb/vlWiki/raw/reports/2026-04-16-安全报告.pdf",
-    "D:/Users/个人项目/wb/vlWiki/raw/reports/2026-04-20-安全报告.pdf"
+    "C:/Users/stc/.codebuddy/skills/vlWiki/vlWiki/raw/reports/2026-04-16-安全报告.pdf",
+    "C:/Users/stc/.codebuddy/skills/vlWiki/vlWiki/raw/reports/2026-04-20-安全报告.pdf"
   ],
   "vulnerability_types": [
     "SQL注入",

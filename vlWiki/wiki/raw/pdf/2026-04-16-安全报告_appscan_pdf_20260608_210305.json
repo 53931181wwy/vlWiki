@@ -1,9 +1,10 @@
-﻿{
+{
   "meta": {
     "source_file": "2026-04-16-安全报告.pdf",
     "source_path": "C:\\Users\\stc\\.codebuddy\\skills\\vlWiki\\vlWiki\\wiki\\raw\\pdf\\2026-04-16-安全报告.pdf",
     "parser": "appscan_pdf",
-    "parse_date": "2026-05-26T18:09:43.886135",
+    "parse_date": "2026-06-08T21:03:05.070064",
+    "report_date": "",
     "total_instances": 154,
     "vulnerability_types": 12,
     "system": "全流程工程管理数字化系统-26-4-16",

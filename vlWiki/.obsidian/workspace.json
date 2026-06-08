@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nousSave碎片-DeepSeek-28msg.md",
+                "file": "wiki/vulnerabilities/VL-2026-093.md",
                 "mode": "preview",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,31 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "nousSave碎片-DeepSeek-28msg"
+              "title": "VL-2026-093"
+            }
+          },
+          {
+            "id": "ded83d5e511c7a70",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/vulnerabilities/VL-2026-069.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "VL-2026-069"
             }
           }
         ]
@@ -43,7 +67,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wiki/vulnerabilities/VL-2026-023.md",
+                "file": "wiki/vulnerabilities/VL-2026-057.md",
                 "mode": "preview",
                 "source": false,
                 "backlinks": true,
@@ -58,7 +82,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "VL-2026-023"
+              "title": "VL-2026-057"
             }
           }
         ]
@@ -118,7 +142,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "5a1b20ddeae905c8",
@@ -217,59 +241,55 @@
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
-      "daily-notes:打开/创建今天的日记": false,
-      "templates:插入模板": false,
-      "command-palette:打开命令面板": false,
       "bases:新建数据库": false
     }
   },
-  "active": "a05060725d0b7b29",
+  "active": "9f71bdae7d833141",
   "lastOpenFiles": [
-    "nousSave碎片-DeepSeek-28msg.md",
-    "wiki/vulnerability-types/SRI (Subresource Integrity) 的检查.md",
-    "wiki/vulnerabilities/VL-2026-008.md",
-    "wiki/vulnerabilities/VL-2026-023.md",
-    "wiki/systems/前海工程建设管理数字化智慧大屏-26-5-13.md",
-    "wiki/vulnerability-types/OAuth 隐式授权类型缺陷.md",
-    "wiki/vulnerability-types/NoSQL 注入.md",
-    "wiki/vulnerability-types/CORS 策略根据任意初始头进行设置.md",
-    "wiki/vulnerabilities/VL-2026-003.md",
-    "wiki/vulnerability-types/发现目录列表模式.md",
-    "wiki/vulnerability-types/不安全的第三方链接 (target=-_blank-).md",
-    "wiki/vulnerability-types/查询中的密码参数.md",
-    "SCHEMA.md",
-    "目录泄露问题-DeepSeek-ob转笔记.md",
-    "do-DeepSeek -ob转笔记.md",
-    "noussave-助动词do解释-DeepSeek-10msg.md",
-    "wiki/raw/pdf/26-5-13 安全报告.pdf",
-    "wiki/vulnerabilities/VL-2026-019.md",
     "wiki/raw/pdf/2026-04-16-安全报告.pdf",
-    "wiki/query-result.md",
-    "wiki/SKILL.md",
-    "wiki/systems/区块链+刑罚执行监督系统.md",
-    "wiki/systems/数据加密服务系统-26-3-3.md",
-    "wiki/systems/全流程工程管理数字化系统-26-4-16.md",
-    "wiki/vulnerabilities/VL-2026-010.md",
-    "wiki/vulnerabilities/VL-2026-009.md",
-    "wiki/vulnerabilities/VL-2026-007.md",
-    "wiki/vulnerabilities/VL-2026-006.md",
+    "wiki/vulnerabilities/VL-2026-095.md",
+    "wiki/assets/screenshots/VL-2026-095_p105.png",
+    "wiki/vulnerabilities/VL-2026-094.md",
+    "wiki/assets/screenshots/VL-2026-094_p100.png",
+    "wiki/vulnerabilities/VL-2026-093.md",
+    "wiki/assets/screenshots/VL-2026-093_p96.png",
+    "wiki/vulnerabilities/VL-2026-092.md",
+    "wiki/assets/screenshots/VL-2026-092_p92.png",
+    "wiki/vulnerabilities/VL-2026-091.md",
+    "wiki/assets/screenshots/VL-2026-091_p91.png",
+    "wiki/vulnerabilities/VL-2026-090.md",
+    "wiki/assets/screenshots/VL-2026-090_p89.png",
+    "wiki/vulnerabilities/VL-2026-089.md",
+    "wiki/assets/screenshots/VL-2026-089_p89.png",
+    "wiki/vulnerabilities/VL-2026-088.md",
+    "wiki/assets/screenshots/VL-2026-088_p87.png",
+    "wiki/vulnerabilities/VL-2026-087.md",
+    "wiki/assets/screenshots/VL-2026-087_p52.png",
+    "wiki/vulnerabilities/VL-2026-086.md",
+    "wiki/assets/screenshots/VL-2026-086_p51.png",
+    "wiki/vulnerabilities/VL-2026-085.md",
+    "wiki/vulnerabilities/VL-2026-084.md",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260608_212212.json",
+    "wiki/vulnerabilities/VL-2026-081.md",
+    "wiki/vulnerabilities/VL-2026-069.md",
+    "wiki/vulnerabilities/VL-2026-082.md",
+    "wiki/vulnerabilities/VL-2026-083.md",
+    "wiki/vulnerabilities/VL-2026-080.md",
+    "wiki/vulnerabilities/VL-2026-079.md",
+    "wiki/vulnerabilities/VL-2026-078.md",
+    "wiki/vulnerabilities/VL-2026-077.md",
+    "wiki/vulnerabilities/VL-2026-076.md",
+    "wiki/vulnerabilities/VL-2026-075.md",
+    "wiki/vulnerabilities/VL-2026-074.md",
+    "wiki/vulnerabilities/VL-2026-073.md",
+    "wiki/vulnerabilities/VL-2026-072.md",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260608_211038.json",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260608_210348.json",
+    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260608_210305.json",
+    "wiki/raw/pdf/26-5-13 安全报告.pdf",
     "wiki/wiki",
     "wiki/raw/pdf/3-17_appscan_pdf_20260527_111638.json",
-    "wiki/assets/screenshots/VL-2026-035_p40.png",
-    "wiki/assets/screenshots/VL-2026-034_p38.png",
-    "wiki/assets/screenshots/VL-2026-033_p37.png",
-    "wiki/assets/screenshots/VL-2026-032_p37.png",
-    "wiki/assets/screenshots/VL-2026-031_p36.png",
-    "wiki/assets/screenshots/VL-2026-030_p16.png",
-    "wiki/assets/screenshots/VL-2026-029_p9.png",
     "wiki/raw/pdf/3-17_appscan_pdf_20260527_105611.json",
-    "wiki/assets/screenshots/VL-2026-028_p305.png",
-    "wiki/assets/screenshots/VL-2026-027_p241.png",
-    "wiki/assets/screenshots/VL-2026-026_p225.png",
-    "wiki/raw/pdf/26-5-13 安全报告_appscan_pdf_20260526_181731.json",
-    "wiki/raw/pdf/26-3-3 安全报告_appscan_pdf_20260526_181114.json",
-    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260526_180943.json",
-    "wiki/raw/pdf/2026-04-16-安全报告_appscan_pdf_20260526_173503.json",
-    "wiki/raw/pdf/26-5-13 安全报告_appscan_pdf_20260526_173132.json"
+    "wiki/raw/pdf/26-5-13 安全报告_appscan_pdf_20260526_181731.json"
   ]
 }

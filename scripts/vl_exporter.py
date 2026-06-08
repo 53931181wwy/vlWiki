@@ -309,7 +309,7 @@ created: "{datetime.now().strftime('%Y-%m-%d %H:%M')}"
 
 # {vuln_type_name}
 
-## 漏洞描述
+## 原因
 {desc_section}
 ## 修复建议
 {revision_section}{remediation_extra}\

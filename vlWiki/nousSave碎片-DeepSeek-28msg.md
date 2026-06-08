@@ -1,8 +1,8 @@
 ---
-title: "碎片 - DeepSeek"
-date: "2026-06-05T06:25:00.980Z"
-url: "https://chat.deepseek.com/a/chat/s/e0f50354-b9cc-4307-bf75-49e391b27fec"
-platform: "deepseek"
+title: 碎片 - DeepSeek
+date: 2026-06-05T06:25:00.980Z
+url: https://chat.deepseek.com/a/chat/s/e0f50354-b9cc-4307-bf75-49e391b27fec
+platform: deepseek
 message_count: 28
 ---
 
