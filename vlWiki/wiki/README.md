@@ -1,22 +1,43 @@
-# 安全漏洞Wiki - 使用指南
+# 安全漏洞 Wiki - 使用指南
 
-本Wiki用于管理安全漏洞信息，采用三层架构（遵循llm-wiki.md理念）。
+本 Wiki 用于管理安全漏洞信息，采用三层架构（遵循 llm-wiki.md 理念）。
 
 ---
 
 ## 快速开始
 
 ### 浏览漏洞信息
-1. **按系统查看**：打开`systems/系统名称.md`
-2. **按类型查看**：打开`vulnerability-types/漏洞类型.md`
-3. **按等级查看**：打开`index.md`，查找对应等级章节
-4. **搜索特定漏洞**：使用Obsidian搜索功能，或查看`index.md`
+
+| 方式 | 说明 |
+|------|------|
+| **vlwiki_viewer（推荐）** | 浏览器打开 `http://localhost:8080`，无需安装任何软件 |
+| **VS Code + Foam** | `code /home/sistec/skill/vlWiki/vlWiki/wiki`，支持编辑和全文搜索 |
+| **直接打开 Markdown** | 任意 Markdown 编辑器打开对应 `.md` 文件 |
+
+### 启动查看器
+
+```bash
+# 方式一：使用启动脚本（推荐）
+bash /home/sistec/skill/vlWiki/start_viewer.sh
+
+# 方式二：手动启动
+cd /home/sistec/skill/vlWiki
+python3 vlwiki_viewer.py
+# 访问 http://localhost:8080
+```
+
+> 查看器已配置开机自启（crontab `@reboot`），重启后自动运行。
 
 ### 添加新报告
-1. 将PDF复制到`../raw/reports/`目录
-2. 按`YYYY-MM-DD-安全报告.pdf`格式重命名
-3. 更新`../raw/README.md`（添加文件来源记录）
-4. 运行Ingest流程（由LLM Agent执行）
+
+1. 将 PDF 复制到 `../raw/pdf/` 目录
+2. 按 `YYYY-MM-DD-安全报告.pdf` 格式重命名
+3. 运行一键导入：
+   ```bash
+   cd /home/sistec/skill/vlWiki
+   python3 scripts/report2wiki.py "../vlWiki/wiki/raw/pdf/报告.pdf"
+   ```
+4. 脚本自动完成阶段1（PDF→JSON）和阶段2（JSON→MD页面），并生成索引
 
 ---
 
@@ -24,23 +45,28 @@
 
 ```
 vlWiki/
-├── SCHEMA.md               # 架构定义和操作规程
-├── raw/                     # 第一层：原始数据源
-│   ├── README.md
-│   ├── reports/               # 安全报告PDF
-│   └── cve_cache/           # CVE数据缓存（预留）
-└── wiki/                    # 第二层：结构化知识库
-    ├── index.md              # 多维度索引
-    ├── log.md                # 处理日志
-    ├── README.md            # 本文件
-    ├── processing_state.json  # 批次处理状态
-    ├── vulnerabilities/       # 漏洞详情页
-    ├── systems/              # 目标系统页面
-    ├── vulnerability-types/   # 漏洞类型页面
-    ├── reports/              # 按报告整理的视图
-    ├── assets/               # 证据图片和POC
-    ├── scripts/              # 自动化脚本（预留）
-    └── templates/            # 页面模板
+├── SKILL.md               # 技能说明文档（使用方法、脚本说明）
+├── vlwiki_viewer.py       # 独立 Python 查看器
+├── start_viewer.sh        # 查看器启动脚本
+├── scripts/               # 处理脚本
+│   ├── appscanpdf2json.py   # 阶段1：PDF → 中间 JSON
+│   ├── json2wiki.py         # 阶段2：JSON → VL 页面
+│   ├── report2wiki.py       # 一键流程（阶段1+2）
+│   ├── update_index.py      # 阶段3：更新索引
+│   └── ...
+├── templates/             # 页面模板
+└── vlWiki/
+    ├── SCHEMA.md          # 架构定义和操作规程
+    └── wiki/             # 第二层：结构化知识库（Obsidian Vault）
+        ├── index.md       # 多维度索引（主页）
+        ├── log.md         # 处理日志
+        ├── README.md      # 本文件
+        ├── vulnerabilities/  # 漏洞详情页（VL-2026-XXX.md）
+        ├── systems/         # 系统页面
+        ├── vulnerability-types/ # 漏洞类型页面
+        ├── reports/         # 按报告整理的视图
+        ├── raw/pdf/         # 原始 PDF 报告
+        └── assets/          # 证据图片
 ```
 
 ---
@@ -48,25 +74,26 @@ vlWiki/
 ## 页面类型说明
 
 ### 1. 漏洞页面（`vulnerabilities/VL-YYYY-NNN.md`）
+
 **用途**：记录单个漏洞的完整信息
 
 **包含章节**：
 - 基本信息（编号、系统、类型、等级、状态）
 - 原因
-- 漏洞证明（截图、POC）
-- 检测方法
 - 修复建议
-- 建设方反馈（拒绝原因、回复策略）
+- 受影响实例（自动生成表格）
+- 扫描原始数据（报告链接+截图）
+- 沟通记录
 - 状态追踪
-- 版本历史
 - 相关链接
 
 **交叉引用**：
-- 链接到[[系统页面]]
-- 链接到[[漏洞类型页面]]
-- 链接到[[报告页面]]
+- 链接到 `[[系统页面]]`
+- 链接到 `[[漏洞类型页面]]`
+- 链接到 `[[报告页面]]`
 
 ### 2. 系统页面（`systems/系统名称.md`）
+
 **用途**：展示特定系统的安全状况
 
 **包含章节**：
@@ -79,21 +106,23 @@ vlWiki/
 - 相关漏洞类型
 
 ### 3. 漏洞类型页面（`vulnerability-types/漏洞类型.md`）
+
 **用途**：提供漏洞类型的通用知识
 
 **包含章节**：
-- 漏洞定义（引用OWASP/CWE）
+- 漏洞定义（引用 OWASP/CWE）
 - 形成原因
 - 危害等级
 - 检测方法
 - 修复建议
-- 本Wiki中相关漏洞（按系统分组）
+- 本 Wiki 中相关漏洞（按系统分组）
 
 ---
 
-## YAML Frontmatter字段
+## YAML Frontmatter 字段
 
 ### 漏洞页面
+
 ```yaml
 ---
 title: "漏洞标题"
@@ -102,7 +131,7 @@ last_updated: "2026-04-20"
 system: ["系统A", "系统B"]   # 数组，支持多系统
 type: "SQL注入"
 severity: "高危"              # 高危/中危/低危/信息
-status: "建设方拒绝修复"
+status: "待修复"              # 待修复/修复中/已修复/已拒绝
 cve: ["CVE-2021-44228"]   # 数组，可选
 cvss_score: "10.0"           # 字符串，可选
 tags: ["SQL注入", "高危"]
@@ -110,6 +139,7 @@ tags: ["SQL注入", "高危"]
 ```
 
 ### 系统页面
+
 ```yaml
 ---
 title: "系统名称"
@@ -121,163 +151,91 @@ testing_agency: "测试单位"
 ```
 
 ### 漏洞类型页面
+
 ```yaml
 ---
 title: "漏洞类型名称"
-owasp: "A03:2021"   # OWASP Top 10分类，可选
-cwe: "CWE-89"          # CWE编号，可选
+owasp: "A03:2021"   # OWASP Top 10 分类，可选
+cwe: "CWE-89"          # CWE 编号，可选
 ---
 ```
-
----
-
-## 工作流程
-
-### Ingest工作流程（添加新报告）
-1. **复制PDF**到`raw/reports/`
-2. **轻量级分析**：提取前10页了解结构
-3. **分批提取**：每批3-5个漏洞（约20页）
-4. **去重检查**：与新报告中的漏洞比对
-5. **生成Wiki页面**：创建/更新漏洞页面
-6. **更新索引**：更新`index.md`和`log.md`
-7. **批次整合**：所有批次完成后，生成系统页面和类型页面
-
-### Query工作流程（查询漏洞信息）
-1. 读取`index.md`找到相关页面
-2. 读取相关漏洞页面
-3. 综合信息生成回答
-4. 如回答有综合价值，可归档为新页面
-
-### Lint工作流程（维护Wiki质量）
-**建议每周运行**：
-1. 检查孤立页面（无inbound links）
-2. 检查过期状态（如"待修复"超过30天）
-3. 检查缺失的交叉引用
-4. 检查数据一致性（如`index.md`与实际页面不符）
 
 ---
 
 ## 交叉引用约定
 
 ### 格式
-- 使用Obsidian-style `[[wiki链接]]`格式
-- 页面创建后，必须在`index.md`中注册
-- 相关页面必须双向链接
+
+- 使用 Obsidian-style `[[wiki链接]]` 格式
+- 页面创建后，必须在 `index.md` 中注册
+- 相关页面必须**双向链接**
 
 ### 示例
+
 ```markdown
 ## 相关链接
 - [[全流程工程管理数字化系统]] - 受影响系统
 - [[SQL注入]] - 漏洞类型详解
 - [[2026-04-16报告]] - 发现此漏洞的原始报告
-- [Raw Source](../raw/reports/2026-04-16-安全报告.pdf) - 原始报告PDF
+- [Raw Source](../raw/pdf/2026-04-16-安全报告.pdf) - 原始报告 PDF
 ```
-
----
-
-## 批量处理机制
-
-### 为什么需要分批处理？
-- PDF报告通常很长（100+页）
-- 一次性提取全部内容会导致上下文溢出
-- 分批处理可以逐批验证质量，出错时只需重处理单个批次
-
-### 批次定义
-- 每批次处理 **3-5个漏洞**（或一个完整章节）
-- 或按 **页码范围**（每批约20页）
-- 避免拆分同一个漏洞（漏洞内容跨页时保持完整）
-
-### 状态跟踪
-- **文件**：`processing_state.json`
-- **用途**：跟踪处理进度，支持断点续传
-- **字段**：
-  - `current_batch`: 当前批次号
-  - `total_batches`: 总批次数
-  - `batches`: 每个批次的详细信息
-  - `status`: 批次状态（pending/in_progress/completed/failed）
-
-### 去重规则
-1. 标题相似度 > 80% → 疑似同一漏洞
-2. 影响组件相同 + 漏洞类型相同 → 疑似同一漏洞
-3. 确认重复后 → 在原页面添加版本历史（不创建新页面）
-
----
-
-## CVE数据库对接（预留）
-
-### 功能
-- 自动关联CVE编号
-- 自动填充CVSS评分
-- 自动生成CVE详情链接
-
-### 实现状态
-- ✅ 在`SCHEMA.md`中定义规范
-- ✅ 创建`raw/cve_cache/`目录
-- ❌ 暂不编写`cve_lookup.py`和`cve_sync.py`脚本
-- ❌ 暂不生成NVD API Key申请指南
-
-### 前置条件（后续准备）
-1. 申请NVD API Key（免费）：https://nvd.nist.gov/developers/request-an-api-key
-2. 配置API Key（环境变量或配置文件）
-3. 安装依赖：`pip install requests`
 
 ---
 
 ## 维护检查清单
 
-### 每次Ingest后
-- [ ] 更新`processing_state.json`
-- [ ] 更新`log.md`
-- [ ] 检查新页面的交叉引用
+### 每次 Ingest 后
 
-### 每周Lint
-- [ ] 检查孤立页面
-- [ ] 检查过期状态
-- [ ] 验证索引一致性
+- [ ] 运行 `update_index.py` 更新 `index.md`
+- [ ] 检查新页面的交叉引用
+- [ ] 运行 `build_type_index.py` 更新漏洞类型页面
+- [ ] 运行 `build_system_index.py` 更新系统页面
+
+### 每周 Lint
+
+- [ ] 检查孤立页面（无 inbound links）
+- [ ] 检查过期状态（如"待修复"超过 30 天）
+- [ ] 检查缺失的交叉引用
+- [ ] 检查数据一致性（`index.md` 与实际页面不符）
 
 ### 每月审查
-- [ ] 审查CVE关联准确性
+
+- [ ] 审查 CVE 关联准确性
 - [ ] 更新漏洞类型页面
-- [ ] 备份整个Wiki目录
+- [ ] 备份整个 Wiki 目录
 
 ---
 
 ## 常见问题
 
+### 查看器无法访问（连接拒绝）
+
+```bash
+# 检查服务是否运行
+ps aux | grep vlwiki_viewer | grep -v grep
+
+# 如未运行，手动启动
+bash /home/sistec/skill/vlWiki/start_viewer.sh
+
+# 查看错误日志
+cat /tmp/vlwiki.log
+```
+
 ### 如何判断两个漏洞是否相同？
+
 1. 对比**漏洞标题**（相似度 > 80%）
-2. 对比**影响组件**（URL或模块路径）
-3. 对比**漏洞类型**（SQL注入、XSS等）
-4. 如以上3点都高度相似 → 判定为同一漏洞
+2. 对比**影响组件**（URL 或模块路径）
+3. 对比**漏洞类型**（SQL 注入、XSS 等）
+4. 如以上 3 点都高度相似 → 判定为同一漏洞
 
 ### 如何处理同一漏洞影响多个系统？
-- **不创建新页面**，在原页面操作：
-  1. 更新`system:`字段（添加新系统）
-  2. 添加**版本历史**（记录新增的系统）
-  3. 更新`last_updated:`字段
 
-### 如何添加CVEC编号？
-- **手动添加**：在漏洞页面的YAML中添加`cve:`字段
-  ```yaml
-  cve:
-    - CVE-2021-44228
-    - CVE-2021-45046
-  cve_verified: true
-  ```
-- **自动添加**（后续实现）：运行`wiki/scripts/cve_sync.py`
+**不创建新页面**，在原页面操作：
+1. 更新 `system:` 字段（添加新系统）
+2. 添加**版本历史**（记录新增的系统）
+3. 更新 `last_updated:` 字段
 
 ---
 
-## 后续扩展方向
-
-1. **CVE数据库对接**：关联公共漏洞库信息
-2. **漏洞扫描器输出**：整合自动化扫描结果
-3. **合规要求映射**：关联等保2.0、GDPR等合规标准
-4. **修复验证追踪**：增加修复验证流程和证据
-5. **统计和可视化**：生成漏洞趋势图、修复效率统计等
-6. **团队协作**：增加多人协作的工作流程
-
----
-
-**最后更新**：2026-05-09
+**最后更新**：2026-06-09
 **维护者**：LLM Agent

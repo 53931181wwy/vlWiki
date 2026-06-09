@@ -5,7 +5,7 @@
   [AppScan PDF 报告] → appscanpdf2json.py → [标准中间 JSON]
 
 职责：
-  1. 使用 document-reader 提取 PDF 文本 → 输出 fulltxt.txt
+  1. 使用 PyMuPDF 按视觉阅读顺序提取 PDF 文本 → 输出 fulltxt.txt
   2. 调用 appscan_pdf 解析器
   3. 输出标准中间 JSON 到输入文件所在目录
 
@@ -24,10 +24,6 @@ from typing import Dict, Optional
 skill_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(skill_dir))
 
-# 添加 document-reader 路径（PDF 提取）
-doc_reader_scripts = Path.home() / ".codebuddy/skills/document-reader/scripts"
-sys.path.insert(0, str(doc_reader_scripts))
-
 from parsers import get_parser
 
 PARSER_KEY = "appscan_pdf"
@@ -36,7 +32,14 @@ PARSER_KEY = "appscan_pdf"
 # ── PDF 文本提取 ─────────────────────────────────────────────────
 
 def extract_pdf_text(file_path: str, save_fulltxt: bool = True) -> str:
-    """使用 document-reader 提取 PDF 文本
+    """使用 PyMuPDF 提取 PDF 文本，按视觉阅读顺序排序文字块
+
+    修复说明：
+      原始 document-reader 的 pdf_extract 模块返回的文字块顺序
+      是按 PDF 内部内容流顺序，而非视觉阅读顺序。多列布局或
+      复杂排版的 PDF 会出现文字错序问题。
+      本函数按 Y 坐标排序再按 X 坐标二次排序，确保输出文本
+      与视觉阅读顺序一致。
 
     Args:
         file_path: PDF 文件路径
@@ -45,23 +48,37 @@ def extract_pdf_text(file_path: str, save_fulltxt: bool = True) -> str:
     Returns:
         带页码标签的完整文本
     """
-    try:
-        import pdf_extract
-    except ImportError as e:
-        print(f"错误: 无法导入 pdf_extract: {e}")
-        print("  请确保 document-reader skill 已正确安装")
-        sys.exit(1)
+    import fitz  # PyMuPDF
 
-    result_pymupdf = pdf_extract.extract_pymupdf(file_path)
-    if not result_pymupdf.get('success'):
-        print(f"错误: PyMuPDF 提取失败: {result_pymupdf.get('error', '未知')}")
-        sys.exit(1)
+    doc = fitz.open(file_path)
+    page_texts = []
+    page_count = doc.page_count
 
-    pages = result_pymupdf.get('pages', [])
-    full_text = "\n\n".join(
-        [f"[VLWIKI_PAGE_SEPARATOR:{page['page']}]\n{page['text']}" for page in pages]
-    )
-    print(f"文本提取完成: {len(pages)} 页")
+    for page_idx in range(page_count):
+        page = doc[page_idx]
+        # 获取所有文字块及其包围盒 (x0,y0,x1,y1,text,block_type,block_no)
+        blocks = page.get_text("blocks")
+
+        # 按视觉阅读顺序排序：先 Y 坐标（行），再 X 坐标（列）
+        # 使用 round(y, 0) 将同一行的块归组
+        sorted_blocks = sorted(
+            blocks,
+            key=lambda b: (round(b[1], 0), b[0])  # b[1]=y0, b[0]=x0
+        )
+
+        # 拼接排序后的文字，块间用换行分隔
+        page_text = "\n".join(
+            b[4].strip() for b in sorted_blocks if b[4].strip()
+        )
+
+        page_texts.append(
+            f"[VLWIKI_PAGE_SEPARATOR:{page_idx + 1}]\n{page_text}"
+        )
+
+    doc.close()
+
+    full_text = "\n\n".join(page_texts)
+    print(f"文本提取完成: {page_count} 页（已按视觉顺序排序）")
 
     # 输出 fulltxt.txt
     if save_fulltxt:
