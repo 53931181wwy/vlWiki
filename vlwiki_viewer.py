@@ -169,7 +169,12 @@ def build_nav():
             rel = f.relative_to(VAULT_DIR).as_posix().replace('.md', '')
             href = '/' + urllib.parse.quote(rel, safe='/')
             items += '<li><a href="{0}">{1}</a></li>\n'.format(href, html.escape(name))
-        nav_parts.append('<div class="nav-section"><h3>{0}</h3><ul>\n{1}</ul></div>'.format(html.escape(title), items))
+        nav_parts.append(
+            '<div class="nav-section">'
+            '<h3 class="nav-toggle" onclick="toggleNav(this)"><span class="nav-arrow">▶</span> {0} <span class="nav-count">{1}</span></h3>'
+            '<ul class="nav-collapsed">\n{2}</ul>'
+            '</div>'.format(html.escape(title), len(files), items)
+        )
     return '\n'.join(nav_parts)
 
 
@@ -202,6 +207,36 @@ body {
     font-size: 12px;
     color: #888;
     font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.nav-section h3:hover {
+    color: #333;
+}
+.nav-arrow {
+    font-size: 10px;
+    transition: transform 0.15s;
+    display: inline-block;
+}
+.nav-arrow.open {
+    transform: rotate(90deg);
+}
+.nav-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 400;
+}
+.nav-collapsed {
+    display: none;
+    list-style: none;
+    padding: 0;
+}
+.nav-collapsed.open {
+    display: block;
 }
 .nav-section ul { list-style: none; padding: 0; }
 .nav-section li a {
@@ -315,6 +350,30 @@ def wrap_template(title, content, nav):
     {3}
   </div>
 </body>
+<script>
+function toggleNav(el) {{
+    var ul = el.nextElementSibling;
+    var arrow = el.querySelector('.nav-arrow');
+    if (ul.classList.contains('open')) {{
+        ul.classList.remove('open');
+        arrow.classList.remove('open');
+    }} else {{
+        ul.classList.add('open');
+        arrow.classList.add('open');
+    }}
+}}
+document.querySelectorAll('.nav-toggle').forEach(function(el) {{
+    var href = window.location.pathname;
+    var ul = el.nextElementSibling;
+    var links = ul.querySelectorAll('a');
+    links.forEach(function(a) {{
+        if (a.getAttribute('href') === href || decodeURIComponent(a.getAttribute('href')) === decodeURIComponent(href)) {{
+            ul.classList.add('open');
+            el.querySelector('.nav-arrow').classList.add('open');
+        }}
+    }});
+}});
+</script>
 </html>""".format(html.escape(title), CSS, nav, content)
 
 

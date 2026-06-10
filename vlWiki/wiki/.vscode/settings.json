@@ -1,0 +1,9 @@
+{
+  "foam.edit.linkReferenceDestination": "filename",
+  "foam.files.wikiLinkDefinition.placeholder": true,
+  "foam.logging.level": "verbose",
+  "foam.openMarkdownLinkBehavior": "default",
+  "files.associations": {
+    "**/*.md": "foam"
+  }
+}
