@@ -307,8 +307,6 @@ vul_category: {category_yaml}
 created: "{datetime.now().strftime('%Y-%m-%d %H:%M')}"
 ---
 
-# {vuln_type_name}
-
 ## 原因
 {desc_section}
 ## 修复建议
@@ -367,11 +365,11 @@ created: "{datetime.now().strftime('%Y-%m-%d %H:%M')}"
     # 添加PDF页面截图（Obsidian嵌入语法）
     if screenshot_path_rel:
         raw_section += f"\n**原始报告截图（第{start_page}页）：**\n"
-        raw_section += f"![[{screenshot_path_rel}|1200]]\n"
+        raw_section += f"![[{screenshot_path_rel}|1000]]\n"
     elif existing_screenshots:
         raw_section += "\n**原始报告截图：**\n"
         for ss in existing_screenshots:
-            raw_section += f"![[{ss['file']}|1200]]\n"
+            raw_section += f"![[{ss['file']}|1000]]\n"
 
     raw_section += "- *此为代表性样本，同类实例仅URL/参数不同*"
 
@@ -400,7 +398,7 @@ created: "{datetime.now().strftime('%Y-%m-%d %H:%M')}"
 - [[{vuln_type_name}]] - 漏洞类型详解
 """
 
-    content += instances_section + remaining_section
+    content += remaining_section + instances_section
 
     # 确保输出目录存在
     filepath.parent.mkdir(parents=True, exist_ok=True)

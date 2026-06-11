@@ -11,8 +11,65 @@ import html
 import urllib.parse
 from pathlib import Path
 
-VAULT_DIR = Path(__file__).parent.resolve() / "vlWiki" / "wiki"
+VAULT_DIR = Path("/home/sistec/.codebuddy/skills/vlWiki/vlWiki/wiki")
 PORT = 8080
+
+# 搜索索引：启动时构建，缓存所有页面标题和正文
+_search_index = None
+
+
+def build_search_index():
+    """扫描所有 .md 文件，构建搜索索引"""
+    index = []
+    for md_file in VAULT_DIR.rglob('*.md'):
+        try:
+            with open(md_file, 'r', encoding='utf-8') as f:
+                text = f.read()
+            fm, body = parse_frontmatter(text)
+            title = fm.get('title', md_file.stem)
+            rel = md_file.relative_to(VAULT_DIR).as_posix().replace('.md', '')
+            index.append({
+                'title': str(title),
+                'body': body,
+                'rel': rel,
+                'severity': str(fm.get('severity', '')),
+                'type': str(fm.get('type', '')),
+                'system': str(fm.get('system', '')),
+            })
+        except Exception:
+            pass
+    return index
+
+
+def search_pages(query, limit=30):
+    """搜索页面，返回匹配结果列表"""
+    if not _search_index:
+        return []
+    q = query.lower().strip()
+    if not q:
+        return []
+    results = []
+    for entry in _search_index:
+        score = 0
+        title_lower = entry['title'].lower()
+        body_lower = entry['body'].lower()
+        # 标题精确匹配最高优先
+        if title_lower == q:
+            score = 100
+        elif title_lower.startswith(q):
+            score = 80
+        elif q in title_lower:
+            score = 60
+        # 正文匹配
+        if q in body_lower:
+            score += 20 + min(body_lower.count(q) * 2, 20)
+        # frontmatter 字段匹配
+        if q in entry['severity'].lower() or q in entry['type'].lower() or q in entry['system'].lower():
+            score += 30
+        if score > 0:
+            results.append((score, entry))
+    results.sort(key=lambda x: -x[0])
+    return results[:limit]
 
 
 def convert_inline(text):
@@ -20,10 +77,44 @@ def convert_inline(text):
     text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
     text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
     text = re.sub(r'\*([^*]+)\*', r'<em>\1</em>', text)
-    text = re.sub(r'!\[\[([^\]]+)\]\]',
-                      r'<img src="/assets/screenshots/\1" class="wiki-img" onerror="this.style.display=\'none\'">', text)
-    text = re.sub(r'\[\[([^\]]+)\]\]',
-                      r'<a href="/wiki-link?q=\1" class="wiki-link">\1</a>', text)
+    # 处理图片嵌入 ![[路径|宽度]]
+    def _img_repl(m):
+        raw = m.group(1)
+        if '|' in raw:
+            img_path, width = raw.split('|', 1)
+        else:
+            img_path, width = raw, ''
+        # 处理 ../ 相对路径
+        while img_path.startswith('../'):
+            img_path = img_path[3:]
+        img_path = img_path.lstrip('/')
+        # 统一为 /assets/ 下的路径
+        if not img_path.startswith('assets/'):
+            img_path = 'assets/' + img_path
+        src = '/' + img_path
+        attr = ' width="{0}"'.format(width) if width and width.strip().isdigit() else ''
+        return '<img src="{0}" class="wiki-img"{1} onerror="this.style.display=\'none\'">'.format(src, attr)
+    text = re.sub(r'!\[\[([^\]]+)\]\]', _img_repl, text)
+    # 处理 wikilink [[目标|显示文本]]
+    def _wiki_repl(m):
+        raw = m.group(1)
+        if '|' in raw:
+            link_path, label = raw.split('|', 1)
+        else:
+            link_path, label = raw, raw
+        # 去掉 #fragment 用于检测扩展名
+        clean_path = link_path.split('#')[0]
+        # 检查是否是静态文件链接（有已知扩展名）
+        ext = clean_path.rsplit('.', 1)[-1].lower() if '.' in clean_path else ''
+        if ext in ('pdf', 'png', 'jpg', 'jpeg', 'gif', 'svg'):
+            # 替换 .. 为相对根路径
+            while link_path.startswith('../'):
+                link_path = link_path[3:]
+            link_path = link_path.lstrip('/')
+            return '<a href="/{0}" class="wiki-link">{1}</a>'.format(link_path, label)
+        else:
+            return '<a href="/wiki-link?q={0}" class="wiki-link">{1}</a>'.format(link_path, label)
+    text = re.sub(r'\[\[([^\]]+)\]\]', _wiki_repl, text)
     text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)',
                       r'<a href="\2">\1</a>', text)
     return text
@@ -123,10 +214,31 @@ def parse_frontmatter(text):
     if m:
         fm_text = m.group(1)
         body = m.group(2)
-        for line in fm_text.splitlines():
+        lines = fm_text.splitlines()
+        i = 0
+        while i < len(lines):
+            line = lines[i]
             if ':' in line:
                 k, _, v = line.partition(':')
-                fm[k.strip()] = v.strip().strip('"\'')
+                k = k.strip()
+                v = v.strip().strip('"\'')
+                # 如果值非空，直接存储
+                if v:
+                    fm[k] = v
+                else:
+                    # 空值可能意味着后面有列表项（YAML list）
+                    items = []
+                    j = i + 1
+                    while j < len(lines) and lines[j].strip().startswith('-'):
+                        item = lines[j].strip()[1:].strip().strip('"\'')
+                        items.append(item)
+                        j += 1
+                    if items:
+                        fm[k] = ', '.join(items)
+                    else:
+                        fm[k] = v
+                    i = j - 1  # 跳过已处理的列表行
+            i += 1
     return fm, body
 
 
@@ -202,6 +314,52 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+.search-box {
+    padding: 6px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 4px;
+}
+.search-box input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+}
+.search-box input:focus {
+    border-color: #1a73e8;
+}
+.search-results {
+    max-height: 300px;
+    overflow-y: auto;
+    border-bottom: 1px solid #e0e0e0;
+}
+.search-results a {
+    display: block;
+    padding: 5px 16px;
+    font-size: 12px;
+    color: #333;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+}
+.search-results a:hover {
+    background: #e8f0fe;
+    color: #1a73e8;
+    border-left-color: #1a73e8;
+}
+.search-results .sr-title {
+    font-weight: 600;
+    font-size: 13px;
+}
+.search-results .sr-context {
+    color: #888;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .nav-section h3 {
     padding: 8px 16px 4px;
     font-size: 12px;
@@ -252,11 +410,18 @@ body {
     color: #1a73e8;
     border-left-color: #1a73e8;
 }
+.nav-section li a.active {
+    background: #1a73e8;
+    color: #fff;
+    border-left-color: #1a73e8;
+    font-weight: 600;
+}
 .main {
     flex: 1;
     padding: 24px 32px;
     overflow-y: auto;
-    max-width: 900px;
+    max-width: 1100px;
+    overflow-x: auto;
     background: #ffffff;
 }
 h1 { font-size: 28px; margin-bottom: 16px; color: #1a1a1a; }
@@ -328,7 +493,72 @@ blockquote {
     color: #666;
 }
 hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
-.wiki-img { max-width: 100%; border-radius: 6px; margin: 12px 0; }
+.wiki-img { border-radius: 6px; margin: 12px 0; }
+/* 搜索关键词高亮 */
+.highlight { background: #fff176; padding: 0 2px; border-radius: 2px; color: #333; }
+/* 返回顶部按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 42px;
+    height: 42px;
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+.back-to-top.visible { opacity: 0.85; }
+.back-to-top:hover { opacity: 1; }
+/* 侧边栏切换按钮 */
+.sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 274px;
+    z-index: 999;
+    background: #f8f9fa;
+    color: #1a73e8;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: left 0.3s;
+}
+.sidebar-toggle.collapsed { left: 10px; }
+/* 宽屏时侧边栏收起 */
+body.sidebar-collapsed .sidebar { width: 0; overflow: hidden; padding: 0; border: none; }
+body.sidebar-collapsed .sidebar-toggle { left: 10px; }
+body.sidebar-collapsed .main { max-width: 100%; }
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 998;
+        transition: left 0.3s;
+    }
+    .sidebar.mobile-open { left: 0; }
+    .sidebar-toggle { left: 10px; }
+    .main {
+        max-width: 100%;
+        padding: 40px 16px 24px;
+    }
+    .md-table { font-size: 11px; }
+    .md-table th, .md-table td { padding: 4px 6px; }
+    .wiki-img { max-width: 100%; }
+    .back-to-top { left: 16px; bottom: 20px; }
+}
 """
 
 
@@ -342,36 +572,209 @@ def wrap_template(title, content, nav):
 <style>{1}</style>
 </head>
 <body>
-    <div class="sidebar">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰ 导航</button>
+    <div class="sidebar" id="sidebar">
     <h2><a href="/" style="color:inherit;text-decoration:none;">📚 vlWiki</a></h2>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索漏洞..." oninput="doSearch(this.value)" onfocus="showResults()" />
+        <div class="search-results" id="searchResults" style="display:none"></div>
+    </div>
     {2}
   </div>
-  <div class="main">
+  <div class="main" id="mainContent">
     {3}
   </div>
+  <button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="返回顶部">↑</button>
 </body>
 <script>
+// ===== 侧边栏折叠/展开记忆 =====
 function toggleNav(el) {{
     var ul = el.nextElementSibling;
     var arrow = el.querySelector('.nav-arrow');
+    var section = el.textContent.trim().replace(/^[▶▷]\\s*/, '').split(' ')[0];
     if (ul.classList.contains('open')) {{
         ul.classList.remove('open');
         arrow.classList.remove('open');
+        saveNavState(section, false);
     }} else {{
         ul.classList.add('open');
         arrow.classList.add('open');
+        saveNavState(section, true);
     }}
 }}
-document.querySelectorAll('.nav-toggle').forEach(function(el) {{
-    var href = window.location.pathname;
-    var ul = el.nextElementSibling;
-    var links = ul.querySelectorAll('a');
-    links.forEach(function(a) {{
-        if (a.getAttribute('href') === href || decodeURIComponent(a.getAttribute('href')) === decodeURIComponent(href)) {{
+function saveNavState(section, open) {{
+    var state = JSON.parse(localStorage.getItem('navState') || '{{}}');
+    state[section] = open;
+    localStorage.setItem('navState', JSON.stringify(state));
+}}
+function restoreNavState() {{
+    var state = JSON.parse(localStorage.getItem('navState') || '{{}}');
+    document.querySelectorAll('.nav-toggle').forEach(function(el) {{
+        var section = el.textContent.trim().replace(/^[▶▷]\\s*/, '').split(' ')[0];
+        if (state[section] === true) {{
+            var ul = el.nextElementSibling;
+            var arrow = el.querySelector('.nav-arrow');
             ul.classList.add('open');
-            el.querySelector('.nav-arrow').classList.add('open');
+            arrow.classList.add('open');
         }}
     }});
+}}
+
+// ===== 当前页面高亮 =====
+function highlightCurrentPage() {{
+    var href = window.location.pathname;
+    var links = document.querySelectorAll('.nav-section li a');
+    var best = null;
+    var bestLen = 0;
+    links.forEach(function(a) {{
+        var ahref = a.getAttribute('href') || '';
+        // 精确匹配优先，其次最长前缀匹配
+        if (decodeURIComponent(ahref) === decodeURIComponent(href)) {{
+            best = a; bestLen = 999;
+        }} else if (decodeURIComponent(href).indexOf(decodeURIComponent(ahref)) === 0 && ahref.length > bestLen) {{
+            best = a; bestLen = ahref.length;
+        }}
+    }});
+    if (best) {{
+        best.classList.add('active');
+        // 展开所在分类
+        var section = best.closest('.nav-section');
+        if (section) {{
+            var ul = section.querySelector('ul');
+            var arrow = section.querySelector('.nav-arrow');
+            if (ul && arrow) {{
+                ul.classList.add('open');
+                arrow.classList.add('open');
+            }}
+        }}
+    }}
+}}
+
+// ===== 侧边栏响应式切换 =====
+function toggleSidebar() {{
+    var body = document.body;
+    var sidebar = document.getElementById('sidebar');
+    var toggle = document.querySelector('.sidebar-toggle');
+    var isNarrow = window.innerWidth <= 768;
+    if (isNarrow) {{
+        // 窄屏：overlay模式
+        sidebar.classList.toggle('mobile-open');
+    }} else {{
+        // 宽屏：折叠模式
+        body.classList.toggle('sidebar-collapsed');
+        toggle.classList.toggle('collapsed');
+        var state = body.classList.contains('sidebar-collapsed') ? 'collapsed' : 'expanded';
+        localStorage.setItem('sidebarState', state);
+    }}
+}}
+
+// 宽屏时恢复侧边栏折叠状态
+(function() {{
+    if (window.innerWidth > 768) {{
+        var state = localStorage.getItem('sidebarState');
+        if (state === 'collapsed') {{
+            document.body.classList.add('sidebar-collapsed');
+            document.querySelector('.sidebar-toggle').classList.add('collapsed');
+        }}
+    }}
+}})();
+
+// ===== 返回顶部 =====
+var backToTop = document.getElementById('backToTop');
+var mainContent = document.getElementById('mainContent');
+function updateBackToTop() {{
+    var scrollTop = mainContent.scrollTop || window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (scrollTop > 300) {{
+        backToTop.classList.add('visible');
+    }} else {{
+        backToTop.classList.remove('visible');
+    }}
+}}
+mainContent.addEventListener('scroll', updateBackToTop);
+window.addEventListener('scroll', updateBackToTop);
+// 初始化时也检查一次
+updateBackToTop();
+function scrollToTop() {{
+    mainContent.scrollTo({{ top: 0, behavior: 'smooth' }});
+    window.scrollTo({{ top: 0, behavior: 'smooth' }});
+}}
+
+// ===== 搜索关键词高亮 =====
+function highlightSearchTerm() {{
+    var params = new URLSearchParams(window.location.search);
+    var q = params.get('hl');
+    if (!q) {{
+        // 也检查 referrer 是否来自搜索
+        if (document.referrer.indexOf('/search?q=') === -1) return;
+        var m = document.referrer.match(/[?&]q=([^&]*)/);
+        if (!m) return;
+        q = decodeURIComponent(m[1]);
+    }}
+    if (!q || q.length < 2) return;
+    var words = q.split(/\\s+/).filter(function(w) {{ return w.length >= 2; }});
+    if (!words.length) return;
+    var main = document.getElementById('mainContent');
+    var walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    var html = main.innerHTML;
+    words.forEach(function(word) {{
+        var re = new RegExp('(' + word.replace(/[.*+?^${{}}()|[\\]\\\\]/g, '\\\\$&') + ')', 'gi');
+        html = html.replace(re, '<mark class="highlight">$1</mark>');
+    }});
+    // 避免在高亮标签内嵌套
+    html = html.replace(/<mark class="highlight">([^<]*<mark[^>]*>[^<]*)<\\/mark><\\/mark>/gi, '<mark class="highlight">$1</mark>');
+    if (html !== main.innerHTML) {{
+        main.innerHTML = html;
+    }}
+}}
+
+// ===== 页面初始化 =====
+restoreNavState();
+highlightCurrentPage();
+highlightSearchTerm();
+
+// ===== 搜索功能（保持原有） =====
+var searchTimer = null;
+function doSearch(val) {{
+    clearTimeout(searchTimer);
+    var container = document.getElementById('searchResults');
+    if (!val.trim()) {{
+        container.style.display = 'none';
+        container.innerHTML = '';
+        return;
+    }}
+    searchTimer = setTimeout(function() {{
+        fetch('/search?q=' + encodeURIComponent(val))
+            .then(function(r) {{ return r.text(); }})
+            .then(function(html) {{
+                container.innerHTML = html || '<div style="padding:8px 16px;color:#888;font-size:12px;">无结果</div>';
+                container.style.display = 'block';
+            }});
+    }}, 300);
+}}
+function showResults() {{
+    var container = document.getElementById('searchResults');
+    if (container.innerHTML) container.style.display = 'block';
+}}
+document.addEventListener('click', function(e) {{
+    var box = document.querySelector('.search-box');
+    var container = document.getElementById('searchResults');
+    if (!box.contains(e.target)) {{
+        container.style.display = 'none';
+    }}
+}});
+document.addEventListener('keydown', function(e) {{
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {{
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+    }}
+}});
+// 窄屏点击内容区关闭侧边栏
+document.getElementById('mainContent').addEventListener('click', function() {{
+    if (window.innerWidth <= 768) {{
+        document.getElementById('sidebar').classList.remove('mobile-open');
+    }}
 }});
 </script>
 </html>""".format(html.escape(title), CSS, nav, content)
@@ -381,16 +784,19 @@ class WikiHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
-        path = urllib.parse.unquote(parsed.path)  # 解码百分号编码的中文
+        path = urllib.parse.unquote(parsed.path)
         query = urllib.parse.parse_qs(parsed.query)
 
         if path == '/' or path == '/index.html':
             self.serve_index()
-        elif path.startswith('/assets/'):
+        elif path.startswith('/assets/') or path.startswith('/raw/'):
             self.serve_asset(path)
         elif path.startswith('/wiki-link'):
             q = query.get('q', [''])[0]
             self.serve_wiki_link(q)
+        elif path.startswith('/search'):
+            q = query.get('q', [''])[0]
+            self.serve_search(q)
         else:
             self.serve_page(path.strip('/'))
 
@@ -412,46 +818,72 @@ class WikiHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(500, str(e))
 
     def serve_page(self, path):
-        md_file = resolve_page(path)
-        if not md_file or not md_file.exists():
-            self.send_error(404, "Page not found: {0}".format(path))
-            return
-        with open(md_file, 'r', encoding='utf-8') as f:
-            text = f.read()
-        fm, body = parse_frontmatter(text)
-        page_html = markdown_to_html(body)
-        title = fm.get('title', path)
-        severity = fm.get('severity', '')
-        severity_badge = ''
-        if severity:
-            cls = 'badge-' + severity.replace('危', '')
-            severity_badge = '<span class="badge {0}">{1}</span>'.format(cls, severity)
-        fm_html = ''
-        if fm:
-            fm_items = ''.join(
-                '<div class="fm-item"><span class="fm-key">{0}</span>: <span class="fm-val">{1}</span></div>'.format(k, v)
-                for k, v in fm.items()
-            )
-            fm_html = '<div class="frontmatter">{0}</div>'.format(fm_items)
-        content = '{0}\n<h1>{1} {2}</h1>\n{3}'.format(fm_html, html.escape(title), severity_badge, page_html)
-        nav = build_nav()
-        html_page = wrap_template(title, content, nav)
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html; charset=utf-8')
-        self.end_headers()
-        self.wfile.write(html_page.encode('utf-8'))
+        import traceback as _tb
+        try:
+            md_file = resolve_page(path)
+            if not md_file or not md_file.exists():
+                self.send_error(404, "Page not found: {0}".format(path))
+                return
+            with open(md_file, 'r', encoding='utf-8') as f:
+                text = f.read()
+            fm, body = parse_frontmatter(text)
+            title = fm.get('title', path)
+            body_stripped = body.lstrip()
+            if body_stripped.startswith('# '):
+                first_line = body_stripped.split('\n')[0]
+                h1_title = first_line[2:].strip()
+                if h1_title == title:
+                    body = body_stripped[len(first_line):].lstrip('\n')
+            page_html = markdown_to_html(body)
+            severity = fm.get('severity', '')
+            severity_badge = ''
+            if severity:
+                cls = 'badge-' + severity.replace('危', '')
+                severity_badge = '<span class="badge {0}">{1}</span>'.format(cls, severity)
+            fm_html = ''
+            if fm:
+                fm_items = ''.join(
+                    '<div class="fm-item"><span class="fm-key">{0}</span>: <span class="fm-val">{1}</span></div>'.format(k, v)
+                    for k, v in fm.items()
+                )
+                fm_html = '<div class="frontmatter">{0}</div>'.format(fm_items)
+            vl_id = md_file.stem
+            if vl_id.startswith('VL-'):
+                heading = '{0} {1}'.format(html.escape(vl_id), html.escape(title))
+            else:
+                heading = html.escape(title)
+            content = '{0}\n<h1>{1} {2}</h1>\n{3}'.format(fm_html, heading, severity_badge, page_html)
+            nav = build_nav()
+            html_page = wrap_template(title, content, nav)
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(html_page.encode('utf-8'))
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-type', 'text/plain; charset=utf-8')
+            self.end_headers()
+            self.wfile.write("ERROR: {0}\n{1}".format(e, _tb.format_exc()).encode())
 
     def serve_asset(self, path):
         asset_path = VAULT_DIR / path[len('/'):].replace('/', os.sep)
         if not asset_path.exists():
             self.send_error(404)
             return
-        ext = asset_path.suffix.lower()
-        mime = {'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'gif': 'image/gif', 'svg': 'image/svg+xml'}.get(ext, 'application/octet-stream')
+        ext = asset_path.suffix.lower()[1:]
+        mime = {
+            'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg',
+            'gif': 'image/gif', 'svg': 'image/svg+xml',
+            'pdf': 'application/pdf',
+        }.get(ext, 'application/octet-stream')
         with open(asset_path, 'rb') as f:
             data = f.read()
         self.send_response(200)
         self.send_header('Content-type', mime)
+        if ext == 'pdf':
+            # RFC 5987 编码中文文件名，避免 latin-1 错误
+            encoded_name = urllib.parse.quote(asset_path.name)
+            self.send_header('Content-Disposition', "inline; filename*=UTF-8''{0}".format(encoded_name))
         self.end_headers()
         self.wfile.write(data)
 
@@ -466,6 +898,33 @@ class WikiHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_error(404, "Page not found: {0}".format(q))
 
+    def serve_search(self, q):
+        results = search_pages(q)
+        items = []
+        for score, entry in results:
+            href = '/' + urllib.parse.quote(entry['rel'], safe='/')
+            href += '?hl=' + urllib.parse.quote(q, safe='')
+            title = html.escape(entry['title'])
+            # 提取匹配上下文
+            q_lower = q.lower()
+            body_lower = entry['body'].lower()
+            pos = body_lower.find(q_lower)
+            context = ''
+            if pos >= 0:
+                start = max(0, pos - 20)
+                end = min(len(entry['body']), pos + len(q) + 40)
+                context = html.escape(entry['body'][start:end].replace('\n', ' '))
+                if start > 0:
+                    context = '...' + context
+                if end < len(entry['body']):
+                    context = context + '...'
+            items.append('<a href="{0}"><div class="sr-title">{1}</div><div class="sr-context">{2}</div></a>'.format(href, title, context))
+        json_resp = '\n'.join(items)
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(json_resp.encode('utf-8'))
+
     def log_message(self, format, *args):
         pass
 
@@ -475,6 +934,9 @@ class ThreadedServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 
 def main():
+    global _search_index
+    _search_index = build_search_index()
+    print("搜索索引已构建: {0} 个页面".format(len(_search_index)))
     os.chdir(VAULT_DIR.parent)
     server = ThreadedServer(("0.0.0.0", PORT), WikiHTTPRequestHandler)
     print("vlWiki 查看器已启动")

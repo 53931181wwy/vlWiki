@@ -1,0 +1,301 @@
+{
+  "meta": {
+    "source_file": "3-17.pdf",
+    "source_path": "/home/sistec/.codebuddy/skills/vlWiki/vlWiki/wiki/raw/pdf/3-17.pdf",
+    "parser": "appscan_pdf",
+    "parse_date": "2026-06-11T17:12:27.598388",
+    "report_date": "2026-03-17 10:11:30",
+    "total_instances": 25,
+    "vulnerability_types": 7,
+    "system": "区块链+刑罚执行监督系统",
+    "vul_category": "应用系统漏洞"
+  },
+  "types": [
+    {
+      "type": "NoSQL 注入",
+      "title": "NoSQL 注入 (6个实例)",
+      "severity": "紧急",
+      "instance_count": 6,
+      "cvss_score": "9.4",
+      "cause": "未对用户输入正确执行危险字符清理\n未对用户输入正确执行危险字符清理",
+      "revision": "确保用户输入的类型正确并对其进行正确转义\n常规\n1. 要缓解该问题，将接收到的参数转换为正确的类型（例如字符串）。\n2. 在可能的情况下对接收查询的函数使用对象而不是字符串。否则，对用户输入进行正确地转义。",
+      "risk": "可以查看、变更或删除数据库条目和表格\n该软件使用受外部影响的输入构建全部或部分 NoSQL DB 查询，但无法中和在将查询发送到数据库时可能修改查询的元素。\n如果没有足够的类型检查或对用户可控制的输入进行转义，则生成的查询可能会导致这些输入被解释为查询的一部分而不是普通的用户数据。\n这两个变量（$user 和 $pass）包含了用户在登录表单中输入的用户凭证。如果用户输入“jsmith”作为用户名，并输入“Demo1234”作为密码，那么查询将如下所示：\n例如，假设我们有一个带有登录表单的 HTML 页面，该页面最终使用以下 PHP 代码中的用户输入在数据库上运行以下 MongoDB 查询：\ndb->logins->find(array(\"用户名\"=>$user, \"密码\"=>$pass));\n$user 和 $pass 这两个变量包含用户在登录表单中输入的用户凭证。\n如果用户输入“jsmith”作为用户名，输入“Demo1234”作为密码，则查询将如下所示：\ndb.logins.find（{ username: \"jsmith\", password: \"Demo1234\" } ）\n但是如果用户发送“user[$ne]=1”而不是用户参数，发送“pass[$ne]=1”而不是密码参数，则查询将如下所示（PHP 将用户和密码参数视为关联数组，其中一个元素“$ne”的值为 1）：\ndb.logins.find（{ username: { $ne: 1 } ， 密码：{ $ne: 1 } }）\n由于$ne是NoSQL中的“不等于”条件，此查询将查找登录集合中用户名不等于1且密码不等于1的所有条目，这意味着此查询肯定会返回登录集合中的所有用户。在这种情况下，该漏\n洞将导致攻击者无需有效的用户名和密码即可登录应用程序。",
+      "affected_products": "此问题可能影响不同类型的产品。",
+      "cwe": [
+        "89"
+      ],
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/check"
+          ],
+          "start_page": 9
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ],
+          "start_page": 10
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/get"
+          ],
+          "start_page": 11
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page"
+          ],
+          "start_page": 12
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId"
+          ],
+          "start_page": 13
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/shouye/gzList"
+          ],
+          "start_page": 14
+        }
+      ]
+    },
+    {
+      "type": "API 成批分配",
+      "title": "API 成批分配 (13个实例)",
+      "severity": "高",
+      "instance_count": 13,
+      "cvss_score": "7.3",
+      "cause": "如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。\n如果 API 端点自动将提供数据的客户机转换为内部对象属性，而不考虑这些属性的敏感度和暴露水平，则 API 端点容易受到成批分配攻击。",
+      "revision": "避免使用自动将客户机输入数据绑定到代码变量或内部对象的功能。如果适用，请为输入数据有效内容明确定义并实施模式。",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/get"
+          ],
+          "start_page": 16
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/captcha/check"
+          ],
+          "start_page": 17
+        },
+        {
+          "index": 3,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ],
+          "start_page": 18
+        },
+        {
+          "index": 4,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/shouye/gzList"
+          ],
+          "start_page": 19
+        },
+        {
+          "index": 5,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/zf-zfjbxx/page"
+          ],
+          "start_page": 21
+        },
+        {
+          "index": 6,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jxjs-gz/page"
+          ],
+          "start_page": 24
+        },
+        {
+          "index": 7,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh/page"
+          ],
+          "start_page": 25
+        },
+        {
+          "index": 8,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-mc/page"
+          ],
+          "start_page": 26
+        },
+        {
+          "index": 9,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/zf-kh-jkf/page"
+          ],
+          "start_page": 28
+        },
+        {
+          "index": 10,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jx/page"
+          ],
+          "start_page": 30
+        },
+        {
+          "index": 11,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-jg/listByYjmcIdOrYjId"
+          ],
+          "start_page": 31
+        },
+        {
+          "index": 12,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jxjs/page"
+          ],
+          "start_page": 33
+        },
+        {
+          "index": 13,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page"
+          ],
+          "start_page": 34
+        }
+      ]
+    },
+    {
+      "type": "具有不安全、不正确或缺少 SameSite 属性的 Cookie",
+      "title": "具有不安全、不正确或缺少 SameSite 属性的 Cookie (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "4.7",
+      "cause": "具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie\n具有不正确、不安全或缺少 SameSite 属性的敏感 Cookie",
+      "revision": "查看将 SameSite Cookie 属性配置为推荐值的可能解决方案",
+      "risk": "通过将 Cookie 限制为第一方或同一站点上下文，防止 Cookie 信息泄露\n如果没有额外的保护措施（例如反 CSRF 令牌），攻击可能会扩展到",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/"
+          ],
+          "start_page": 36
+        }
+      ]
+    },
+    {
+      "type": "加密会话（SSL）Cookie 中缺少 Secure 属性",
+      "title": "加密会话（SSL）Cookie 中缺少 Secure 属性 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "6.5",
+      "cause": "Web 应用程序通过 SSL 发送不安全的 cookie\nWeb 应用程序通过 SSL 发送不安全的 cookie",
+      "revision": "向所有敏感的 cookie 添加“Secure”属性\n常规\n基本上，cookie 的唯一必需属性是“name”字段。常见的可选属性如下：“comment”、“domain”、“path”，等等。常见的可选属性如下：“comment”、“domain”、“path”，等等。必须相\n应地设置“secure”属性，才能防止以未加密的方式发送 cookie。\n有关如何设置安全标志的更多信息，请参阅 OWASP“安全属性”备忘单，地址为：\nhttps://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#secure-attribute\nRFC 2965 指出：\n“Secure 属性（不含值）会指导用户代理程序不管何时返回此 cookie，都只用（未指定）安全方法来联络原始服务器，以保护 cookie 中的信息的机密性和真实性。”如需进一步的引用，\n请参阅“HTTP 状态管理机制”RFC 2965，网址为：\nhttp://www.ietf.org/rfc/rfc2965.txt\n，如需使用“HTTP 状态管理机制”的“当前最佳做法”，请参阅\nhttp://tools.ietf.org/html/rfc2964",
+      "risk": "可能会窃取在加密的会话期间发送的用户和会话信息（cookie）\n在应用程序测试过程中，检测到在加密会话过程中，所测试的 Web 应用程序设置了不含“secure”属性的 cookie。由于这个 cookie 不包含“secure”属性，因此，也可能在未加密的会\n话过程中将它发送到站点。任何以明文形式发送到服务器的 cookie、会话令牌或用户凭证之类的信息都可能被窃取，并在稍后用于身份盗窃或用户伪装。\n此外，若干隐私法规指出，用户凭证之类的敏感信息要始终以加密的方式发送到 Web 站点",
+      "affected_products": "该问题可能会影响各种类型的产品",
+      "cwe": [
+        "614",
+        "311",
+        "319"
+      ],
+      "references": "金融隐私权：The Gramm-Leach Bliley Act\nHealth Insurance Portability and Accountability Act（HIPAA）\nSarbanes-Oxley Act\nCalifornia SB1386",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/"
+          ],
+          "start_page": 37
+        }
+      ]
+    },
+    {
+      "type": "支持较老的 TLS 版本",
+      "title": "支持较老的 TLS 版本 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "5.3",
+      "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的\nWeb 服务器或应用程序服务器是以不安全的方式配置的",
+      "revision": "对证书使用不同签名算法。请参阅“修订建议”以获取特定服务器指示信息。\n常规\n重新配置服务器以避免使用弱密码套件。配置更改是特定于服务器的。\n对于 Microsoft Windows XP 和 Microsoft Windows Server 2003，请按照以下说明操作：\nhttp://support.microsoft.com/kb/245030\n对于 Microsoft Windows Vista、Microsoft Windows 7 和 Microsoft Windows Server 2008，请按照以下说明从受支持的密码套件列表中除去被识别为弱的密码套件：\nhttp://msdn.microsoft.com/en-us/library/windows/desktop/bb870930(v=vs.85).aspx\n对于 Apache TomCat 服务器，请按照以下说明操作：\nhttps://www.owasp.org/index.php/Talk:Securing_tomcat#Disabling_weak_ciphers_in_Tomcat\n对于 Apache 服务器，请按照以下说明操作：\nhttps://httpd.apache.org/docs/trunk/ssl/ssl_howto.html",
+      "risk": "可能会窃取或操纵客户会话和 Cookie，它们可能用于假冒合法用户，从而使黑客能够以该用户身份查看或变更用户记录以及执行事务\n服务器支持不提供加密或使用弱加密算法的 TLS 密码套件。因此，攻击者可能能够\n解密客户端和服务器之间的安全通信，或成功对客户端执行“中间人”攻击，使他们能够查看敏感信息以及代表客户端执行操作。\n当前最安全的 TLS 版本是 1.3",
+      "affected_products": "此问题可能影响不同类型的产品。",
+      "cwe": [
+        "327"
+      ],
+      "references": "弃用 TLS 1.0 和 1.1\nTLS 1.3 概述",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/logout"
+          ],
+          "start_page": 37
+        }
+      ]
+    },
+    {
+      "type": "检测到 SHA-1 密码套件",
+      "title": "检测到 SHA-1 密码套件 (1个实例)",
+      "severity": "中",
+      "instance_count": 1,
+      "cvss_score": "5.3",
+      "cause": "Web 服务器或应用程序服务器是以不安全的方式配置的\nWeb 服务器或应用程序服务器是以不安全的方式配置的",
+      "revision": "更改服务器的受支持密码套件\n常规\n安全密码套件最佳实践：\n[1]\n链接：现代兼容性\n[2]\n链接：SSL 和 TLS 部署最佳实践：使用安全密码套件",
+      "risk": "它可能窃取或操纵客户会话和 cookie，这可能用于假冒合法用户，从使攻击者能够查看或更改用户记录，并以该用户的身份执行事务。\n服务器支持 SHA-1 密码套件。\nNIST 在 2011 年淘汰了 SHA-1，但是许多应用程序仍然依赖它。\n直到目前 (2017) 为止，已知只有推论上的攻击是针对 SHA-1，这就是为何许多应用程序仍然依赖它的原因。\n最近，CWI Amsterdam 和 Google Research 团队（[1] 和 [2]）才引入实际的攻击。",
+      "affected_products": "该问题可能会影响各种类型的产品。",
+      "cwe": [
+        "327"
+      ],
+      "references": "[1] SHATTERED\n[2] 完整 SHA-1 的第一个冲突",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/logout"
+          ],
+          "start_page": 38
+        }
+      ]
+    },
+    {
+      "type": "跨站点请求伪造",
+      "title": "跨站点请求伪造 (2个实例)",
+      "severity": "中",
+      "instance_count": 2,
+      "cvss_score": "6.5",
+      "cause": "应用程序使用的认证方法不充分\n之所以出现此漏洞，是因为应用程序允许用户在不验证请求是否是有意发送的情况下执行某些敏感操作。\n攻击者可能导致受害者的浏览器向应用程序中的任意 URL 发出 HTTP 请求。从经过认证的受害者的浏览器发送此请求时，它将包括受害者的会话 Cookie 或认证标头。应用程序将接\n受此请求作为来自经过认证的用户的有效请求。\n如果将 Web 服务器设计为接收来自客户端的请求，但缺乏用于验证该请求是否有意发送的机制，则攻击者可能会欺骗客户端从另一个站点发出无意请求，而应用程序会将该请求视为\n可信请求。可以通过提交表单、加载图像、在 JavaScript 中发送 XMLHttpRequest 等执行此操作。\n例如，此 IMG 标签可以嵌入到攻击者的网页中，并且受害者的浏览器将提交请求检索该图像。此有效请求将由应用程序处理，并且浏览器不会显示损坏的图像。“<img\nsrc=\"https://myapp.com/transfer?acct=VICTIM&amount=10000\" width=0 height=0 border=0>”。由此带来的结果是，使用受害者的会话将受害者账户中的资金转移到攻击者的账户\n中。",
+      "revision": "验证“Referer”头的值，并对每个提交的表单使用 one-time-nonce\n常规\n设置所有会话和认证 Cookie，以包括“SameSite”属性，将“SameSite”属性设置为“Strict”或“Lax”。根据 HTTP 标准，将此属性设置为“Lax”时，确保无法通过“GET”请求执行任何敏感操\n作。\n使用平台或框架提供的内置 CSRF 保护，并确保正确地激活该保护（无论是在配置中还是在代码中）。\n如果平台不提供内置的 CSRF 防御机制，请考虑集成经过充分审查的库以实施保护，例如 OWASP CSRFGuard。\n避免构建自定义的 CSRF 防御实施方式，因为在不允许轻易绕过的情况下，很难正确实现此目标。如果由于缺乏标准库支持而导致您必须这么做，则应该在服务器上生成安全、随机且\n不可预测的令牌（例如 GUID v4），并将该令牌嵌入到每个 HTML 表单中，同时将其与用户会话绑定。收到提交的表单后，验证包含的表单令牌是否与先前绑定至该用户的令牌相匹\n配。也可以将 CSRF 令牌嵌入到指定的 Cookie（“重复提交的 Cookie”）中，或者当服务器收到这些请求以及提交的表单令牌时，最好使用自定义请求标头，这样可以轻松验证它们是否\n匹配（而不是存储在用户的会话中）。\n另一种方法是要求用户针对特定操作重新进行认证，以确保用户的有效确认。请注意，这会严重影响用户体验，因此应有节制地使用此方法，并且仅将其用于特别敏感的操作。\n通过验证“来源”标头（如有），或至少验证“引用站点”标头来验证请求的来源。请丢弃从其他站点发出的敏感请求。",
+      "risk": "攻击者可利用此漏洞在另一个用户的帐户中执行敏感操作，或使用其特权执行敏感操作。\n可能会强制最终用户在当前其已通过认证的 Web 应用程序上执行不必要的操作。这将允许攻击者更改用户记录并以该用户身份执行事务。\n如果用户当前登录到受害者站点，则请求将自动使用该用户的凭证，例如会话 Cookie、IP 地址及其他浏览器认证方法。攻击者使用此方法来伪造受害者的身份，并代表他们提交操\n作。\n此漏洞的严重程度取决于应用程序中受影响的功能。例如，对搜索页面的 CSRF 攻击不如对转账或个人资料更新页面的 CSRF 攻击严重。",
+      "cwe": [
+        "352",
+        "693",
+        "345",
+        "346"
+      ],
+      "references": "OWASP CSRF 速查表\nOWASP CSRFGuard",
+      "instances": [
+        {
+          "index": 1,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/chain/jfkh-gz/page"
+          ],
+          "start_page": 40
+        },
+        {
+          "index": 2,
+          "url": [
+            "https://10.249.2.1:8090/admin-api/system/auth/login"
+          ],
+          "start_page": 41
+        }
+      ]
+    }
+  ]
+}
