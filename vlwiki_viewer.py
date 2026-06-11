@@ -200,7 +200,7 @@ def find_md_file(name):
     p = VAULT_DIR / f"{name}.md"
     if p.exists():
         return p
-    for sub in ["vulnerabilities", "systems", "vulnerability-types", "reports"]:
+    for sub in ["vulnerabilities", "systems", "vulnerability-types", "reports", "knowledge"]:
         p = VAULT_DIR / sub / f"{name}.md"
         if p.exists():
             return p
@@ -270,6 +270,8 @@ def build_nav():
         '系统': sorted(VAULT_DIR.glob('systems/*.md')),
         '漏洞类型': sorted(VAULT_DIR.glob('vulnerability-types/*.md')),
         '报告': sorted(VAULT_DIR.glob('reports/*.md')),
+        '知识库': sorted(VAULT_DIR.glob('knowledge/*.md')),
+        '模板': sorted(VAULT_DIR.glob('templates/*.md')),
     }
     nav_parts = []
     for title, files in sections.items():

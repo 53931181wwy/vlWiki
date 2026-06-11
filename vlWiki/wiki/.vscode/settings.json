@@ -3,6 +3,8 @@
   "foam.files.wikiLinkDefinition.placeholder": true,
   "foam.logging.level": "verbose",
   "foam.openMarkdownLinkBehavior": "default",
+  "foam.files.templatesDir": ".foam/templates",
+  "foam.edit.linkReferenceDefinitions": "withExtensions",
   "files.associations": {
     "**/*.md": "foam"
   }
